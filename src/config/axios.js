@@ -18,6 +18,6 @@ baseSetup.userAxios.interceptors.request.use(config => {
 })
 
 
-export const { userAxios, adminAxios } = baseSetup
+export const { userAxios } = baseSetup
 
 
