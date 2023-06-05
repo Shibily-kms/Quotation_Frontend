@@ -10,25 +10,25 @@ import { FiEdit2 } from 'react-icons/fi';
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-toastify'
 
-function WorkSite() {
+function WaterUsage() {
     const [model, setModel] = useState(null)
     const [pass, setPass] = useState(null)
     const [data, setData] = useState([])
 
     const handleAdd = () => {
-        setModel('ADD NEW SITE')
+        setModel('ADD NEW USAGE')
         setPass(<AddEditData setData={setData} setModel={setModel} />)
     }
 
     const handleEdit = (current) => {
-        setModel('EDIT SITE')
+        setModel('EDIT WATER USAGE')
         setPass(<AddEditData setData={setData} setModel={setModel} current={current} />)
     }
 
     const handleDelete = (current) => {
         let check = window.confirm('Delete This Item ?')
         if (check) {
-            userAxios.delete(`/work-sites?id=${current._id}`).then(() => {
+            userAxios.delete(`/water-usage?id=${current._id}`).then(() => {
                 setData((state) => {
                     return state.filter((obj) => obj._id !== current._id)
                 })
@@ -40,14 +40,14 @@ function WorkSite() {
 
 
     useEffect(() => {
-        userAxios.get('/work-sites').then((response) => {
+        userAxios.get('/water-usage').then((response) => {
             response?.data?.source && setData(response.data.source.data)
         })
     }, [])
 
 
     return (
-        <div className='workSite'>
+        <div className='water-usage'>
             <div>
                 <div className="header-div">
                     <Header />
@@ -55,7 +55,7 @@ function WorkSite() {
                 <div className="test-report-div">
                     <div className="container">
                         <div className="title">
-                            <Title header={'WORK SITES'} />
+                            <Title header={'WATER USAGES'} />
                         </div>
                         <div className="content">
                             <div className="top">
@@ -66,7 +66,7 @@ function WorkSite() {
                                     {data?.[0] ? <>
                                         <tr>
                                             <th>Sl no</th>
-                                            <th>Sites</th>
+                                            <th>Usages</th>
                                             <th>Control</th>
                                         </tr>
                                         {data.map((value, index) => {
@@ -102,4 +102,4 @@ function WorkSite() {
     )
 }
 
-export default WorkSite
+export default WaterUsage

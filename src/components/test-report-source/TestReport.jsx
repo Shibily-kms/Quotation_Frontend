@@ -67,7 +67,7 @@ function TestReport() {
                                         <tr>
                                             <th>Sl no</th>
                                             <th>Source</th>
-                                            <th>Controll</th>
+                                            <th>Control</th>
                                         </tr>
                                         {data.map((value, index) => {
                                             return <tr key={value._id}>
