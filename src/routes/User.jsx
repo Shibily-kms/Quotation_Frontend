@@ -1,9 +1,11 @@
 import React from 'react'
-import { Routes, Route, Navigate, useSearchParams } from 'react-router-dom'
-import Home from '../pages/home/Home'
 import { useEffect } from 'react';
 import { loginUser } from '../redux/features/authSlice'
+import { Routes, Route, Navigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import Home from '../pages/home/Home'
+import Materials from '../pages/materials/Materials';
+import TestReport from '../components/test-report-source/TestReport';
 
 function User() {
     const { user } = useSelector((state) => state.userAuth)
@@ -17,21 +19,20 @@ function User() {
 
     useEffect(() => {
         const id = searchParams.get('id');
-        console.log(id, 'id');
-        if (id) {
-            console.log('yes');
+        if (!id && !user._id) {
+            window.location.href = `http://localhost:3001`
+        } else if (id) {
             dispatch(loginUser(id))
-        } else if (!user?._id) {
-            console.log('no');
-            window.location.href = 'http://localhost:3001'
-        } else {
-            window.location.href = `http://localhost:3000?id=${user._id}`
         }
     }, [])
 
     return (
         <Routes>
             <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/raw-materials' element={<PrivateRoute element={<Materials />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/raw-materials/test-report-source' element={<PrivateRoute element={<TestReport />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/raw-materials/solution-models' element={<PrivateRoute element={<Materials />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/raw-materials/purifier-models' element={<PrivateRoute element={<Materials />} isAuthenticated={isAuthenticated} />} />
         </Routes>
     )
 }

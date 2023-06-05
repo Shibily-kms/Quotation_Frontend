@@ -1,0 +1,85 @@
+@import '../../assets/scss/model.scss';
+@import '../../assets/scss/color.scss';
+
+.test-report-div .container {
+    .content {
+        .top {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+
+            button {
+                @include normalButton();
+                background-color: $green_color;
+                font-size: 13px;
+                display: flex;
+
+                svg {
+                    font-size: 18px;
+                    margin: 0;
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .table-div {
+            width: 100%;
+            overflow: auto;
+
+            #list {
+                border-collapse: collapse;
+                width: 100%;
+                margin-top: 10px;
+
+                td,
+                th {
+                    border: 1px solid #ddd;
+                    padding: 5px 8px;
+                    font-size: 14px;
+                }
+
+                tr {
+                    &:nth-child(even) {
+                        background-color: #f2f2f2;
+                    }
+
+                    &:hover {
+                        background-color: #ddd;
+                    }
+                }
+
+                th {
+                    padding-top: 12px;
+                    padding-bottom: 12px;
+                    text-align: left;
+                    background-color: #272727;
+                    color: white;
+                    text-align: center;
+                }
+
+                td {
+                    div {
+                        display: flex;
+                        justify-content: center;
+
+                        button {
+                            margin: 0 5px;
+                            @include normalButton();
+                            font-size: 18px;
+                            padding: 5px 15px 2px 15px;
+                        }
+
+                        .edit {
+                            background-color: $edit_color;
+                        }
+
+                        .delete {
+                            background: $red_color;
+                            ;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
