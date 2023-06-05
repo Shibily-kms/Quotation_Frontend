@@ -24,9 +24,9 @@ function Materials() {
                         <div className="button-div">
                             <button onClick={() => navigate('/raw-materials/water-usage')}>WATER USAGES</button>
                         </div>
-                            <div className="button-div">
-                                <button onClick={() => navigate('/raw-materials/test-report-source')}>WATER TEST REPORT SOURCE</button>
-                            </div>
+                        <div className="button-div">
+                            <button onClick={() => navigate('/raw-materials/installation-mode')}>INSTALLATION MODES</button>
+                        </div>
                         <div className="button-div">
                             <button onClick={() => navigate('/raw-materials/solution-models')}>SOLUTION MODELS</button>
                         </div>
