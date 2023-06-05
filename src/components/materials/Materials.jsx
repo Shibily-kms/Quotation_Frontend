@@ -19,6 +19,15 @@ function Materials() {
                             <button onClick={() => navigate('/raw-materials/test-report-source')}>WATER TEST REPORT SOURCE</button>
                         </div>
                         <div className="button-div">
+                            <button onClick={() => navigate('/raw-materials/work-site')}>WORK SITE</button>
+                        </div>
+                        <div className="button-div">
+                            <button onClick={() => navigate('/raw-materials/test-report-source')}>WATER TEST REPORT SOURCE</button>
+                        </div>
+                            <div className="button-div">
+                                <button onClick={() => navigate('/raw-materials/test-report-source')}>WATER TEST REPORT SOURCE</button>
+                            </div>
+                        <div className="button-div">
                             <button onClick={() => navigate('/raw-materials/solution-models')}>SOLUTION MODELS</button>
                         </div>
                         <div className="button-div">

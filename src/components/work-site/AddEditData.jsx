@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './addEditData.scss'
+import '../test-report-source/addEditData.scss'
 import { userAxios } from '../../config/axios';
 import { toast } from 'react-toastify'
 
@@ -13,7 +13,7 @@ function AddEditData({ setData, setModel, current }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (current) {
-            userAxios.put('/water-test-report-source', { _id: current._id, item: value }).then((response) => {
+            userAxios.put('/work-sites', { _id: current._id, item: value }).then((response) => {
                 setData((state) => {
                     return state.map((obj) => {
                         if (obj._id === current._id) {
@@ -30,7 +30,7 @@ function AddEditData({ setData, setModel, current }) {
                 toast.error(error.response.data.message)
             })
         } else {
-            userAxios.post('/water-test-report-source', { item: value }).then((response) => {
+            userAxios.post('/work-sites', { item: value }).then((response) => {
                 setData((state) => {
                     return [...state, response.data.newValue]
                 })
@@ -47,7 +47,7 @@ function AddEditData({ setData, setModel, current }) {
             <div className="inputs">
                 <form onSubmit={handleSubmit}>
                     <div className="input-div">
-                        <label htmlFor="input">Source</label>
+                        <label htmlFor="input">SITE NAME</label>
                         <input type="text" name='input' id='input' value={value} required onChange={handleChange} />
                     </div>
                     <div className="button-div">

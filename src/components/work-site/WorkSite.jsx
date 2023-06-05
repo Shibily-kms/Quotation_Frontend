@@ -3,32 +3,32 @@ import Header from '../../components/header/Header'
 import Title from '../title/Title'
 import Model from '../model/Model'
 import AddEditData from './AddEditData'
-import './testReport.scss'
+import '../test-report-source/testReport.scss';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoTrashOutline } from 'react-icons/io5';
 import { FiEdit2 } from 'react-icons/fi';
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-toastify'
 
-function TestReport() {
+function WorkSite() {
     const [model, setModel] = useState(null)
     const [pass, setPass] = useState(null)
     const [data, setData] = useState([])
 
     const handleAdd = () => {
-        setModel('ADD NEW SOURCE')
+        setModel('ADD NEW SITE')
         setPass(<AddEditData setData={setData} setModel={setModel} />)
     }
 
     const handleEdit = (current) => {
-        setModel('EDIT SOURCE')
+        setModel('EDIT SITE')
         setPass(<AddEditData setData={setData} setModel={setModel} current={current} />)
     }
 
     const handleDelete = (current) => {
         let check = window.confirm('Delete This Item ?')
         if (check) {
-            userAxios.delete(`/water-test-report-source?id=${current._id}`).then(() => {
+            userAxios.delete(`/work-sites?id=${current._id}`).then(() => {
                 setData((state) => {
                     return state.filter((obj) => obj._id !== current._id)
                 })
@@ -40,14 +40,14 @@ function TestReport() {
 
 
     useEffect(() => {
-        userAxios.get('/water-test-report-source').then((response) => {
+        userAxios.get('/work-sites').then((response) => {
             response?.data?.source && setData(response.data.source.data)
         })
     }, [])
 
 
     return (
-        <div>
+        <div className='workSite'>
             <div>
                 <div className="header-div">
                     <Header />
@@ -55,7 +55,7 @@ function TestReport() {
                 <div className="test-report-div">
                     <div className="container">
                         <div className="title">
-                            <Title header={'Water test report source'} />
+                            <Title header={'WORK SITES'} />
                         </div>
                         <div className="content">
                             <div className="top">
@@ -102,4 +102,4 @@ function TestReport() {
     )
 }
 
-export default TestReport
+export default WorkSite
