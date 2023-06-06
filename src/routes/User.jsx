@@ -10,6 +10,7 @@ import WorkSite from '../components/work-site/WorkSite';
 import WaterUsage from '../components/water-usage/WaterUsage';
 import InstallationMode from '../components/installation-mode/InstallationMode';
 import SolutionModel from '../components/solution-model/SolutionModel';
+import PurifierComponents from '../components/purifier-components/PurifierComponents';
 
 function User() {
     const { user } = useSelector((state) => state.userAuth)
@@ -39,6 +40,7 @@ function User() {
             <Route path='/raw-materials/water-usage' element={<PrivateRoute element={<WaterUsage />} isAuthenticated={isAuthenticated} />} />
             <Route path='/raw-materials/installation-mode' element={<PrivateRoute element={<InstallationMode />} isAuthenticated={isAuthenticated} />} />
             <Route path='/raw-materials/solution-models' element={<PrivateRoute element={<SolutionModel />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/raw-materials/purifier-components' element={<PrivateRoute element={<PurifierComponents />} isAuthenticated={isAuthenticated} />} />
         </Routes>
     )
 }
