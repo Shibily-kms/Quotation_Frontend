@@ -33,6 +33,9 @@ function Materials() {
                         <div className="button-div">
                             <button onClick={() => navigate('/raw-materials/purifier-components')}>PURIFIER COMPONENTS</button>
                         </div>
+                        <div className="button-div">
+                            <button onClick={() => navigate('/raw-materials/warranty')}>ENTER WARRANTY</button>
+                        </div>
 
                     </div>
                 </div>
