@@ -11,7 +11,6 @@ import WaterUsage from '../components/water-usage/WaterUsage';
 import InstallationMode from '../components/installation-mode/InstallationMode';
 import SolutionModel from '../components/solution-model/SolutionModel';
 import PurifierComponents from '../components/purifier-components/PurifierComponents';
-import Warranty from '../components/warranty/Warranty';
 import Quotation from '../pages/quotation/Quotation';
 import FormPage from '../pages/form/FormPage';
 
@@ -45,7 +44,6 @@ function User() {
             <Route path='/raw-materials/installation-mode' element={<PrivateRoute element={<InstallationMode />} isAuthenticated={isAuthenticated} />} />
             <Route path='/raw-materials/purifier-solution-models' element={<PrivateRoute element={<SolutionModel />} isAuthenticated={isAuthenticated} />} />
             <Route path='/raw-materials/purifier-components' element={<PrivateRoute element={<PurifierComponents />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/warranty' element={<PrivateRoute element={<Warranty />} isAuthenticated={isAuthenticated} />} />
 
             {/* Quotation */}
             <Route path='/quotation' element={<PrivateRoute element={<Quotation />} isAuthenticated={isAuthenticated} />} />
