@@ -12,6 +12,8 @@ import InstallationMode from '../components/installation-mode/InstallationMode';
 import SolutionModel from '../components/solution-model/SolutionModel';
 import PurifierComponents from '../components/purifier-components/PurifierComponents';
 import Warranty from '../components/warranty/Warranty';
+import Quotation from '../pages/quotation/Quotation';
+import FormPage from '../pages/form/FormPage';
 
 function User() {
     const { user } = useSelector((state) => state.userAuth)
@@ -35,14 +37,20 @@ function User() {
     return (
         <Routes>
             <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
+            {/* Metirials */}
             <Route path='/raw-materials' element={<PrivateRoute element={<Materials />} isAuthenticated={isAuthenticated} />} />
             <Route path='/raw-materials/test-report-source' element={<PrivateRoute element={<TestReport />} isAuthenticated={isAuthenticated} />} />
             <Route path='/raw-materials/work-site' element={<PrivateRoute element={<WorkSite />} isAuthenticated={isAuthenticated} />} />
             <Route path='/raw-materials/water-usage' element={<PrivateRoute element={<WaterUsage />} isAuthenticated={isAuthenticated} />} />
             <Route path='/raw-materials/installation-mode' element={<PrivateRoute element={<InstallationMode />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/solution-models' element={<PrivateRoute element={<SolutionModel />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/raw-materials/purifier-solution-models' element={<PrivateRoute element={<SolutionModel />} isAuthenticated={isAuthenticated} />} />
             <Route path='/raw-materials/purifier-components' element={<PrivateRoute element={<PurifierComponents />} isAuthenticated={isAuthenticated} />} />
             <Route path='/raw-materials/warranty' element={<PrivateRoute element={<Warranty />} isAuthenticated={isAuthenticated} />} />
+
+            {/* Quotation */}
+            <Route path='/quotation' element={<PrivateRoute element={<Quotation />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/quotation/:type' element={<PrivateRoute element={<FormPage />} isAuthenticated={isAuthenticated} />} />
+
         </Routes>
     )
 }

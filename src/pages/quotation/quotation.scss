@@ -1,25 +1,13 @@
 @import '../../assets/scss/model.scss';
 
-.first-page-user {
-    position: relative;
-
+.quotation-div {
     .container {
-        
-
         .bottom {
-            width: 100%;
-            box-sizing: border-box;
             margin-top: 20px;
-            .section{
-                width: 100%;
-                box-sizing: border-box;
-                .sub{
-                    color: gray;;
-                }
-            }
+
             .boader {
                 display: grid;
-                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-template-columns: 25% 25% 25% 25%;
                 gap: 12px;
                 box-sizing: border-box;
 
@@ -33,7 +21,6 @@
                     }
                 }
             }
-
         }
     }
 
@@ -42,16 +29,17 @@
         .container {
             .bottom {
                 .boader {
-                    grid-template-columns: 1fr 1fr;
+                    grid-template-columns: 50% 50%;
                 }
             }
         }
     }
+
     @media screen and (max-width:450px) {
         .container {
             .bottom {
                 .boader {
-                    grid-template-columns: 1fr;
+                    grid-template-columns: 100%;
                 }
             }
         }

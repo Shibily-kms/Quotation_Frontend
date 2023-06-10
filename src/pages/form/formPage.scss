@@ -1,0 +1,65 @@
+@import '../../assets/scss/model.scss';
+
+.formPage-div {
+    .container {
+        .bottom {
+            margin-top: 20px;
+
+            .boader {
+                .top {
+                    display: flex;
+                    justify-content: center;
+
+                    .page-number-main-div {
+                        display: flex;
+                        justify-content: center;
+                        gap: 8px;
+                        position: relative;
+
+                        .page-number-div {
+                            background-color: rgb(85, 182, 226);
+                            width: 30px;
+                            height: 30px;
+                            font-size: 18px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 100%;
+                            -webkit-border-radius: 100%;
+                            -moz-border-radius: 100%;
+                            -ms-border-radius: 100%;
+                            -o-border-radius: 100%;
+                            color: white;
+                            z-index: 1;
+                            cursor: pointer;
+                        }
+
+                        .fill {
+                            background-color: rgb(12, 90, 126);
+                        }
+
+                        .line {
+                            width: 100%;
+                            height: 4px;
+                            background-color: rgb(85, 182, 226);
+                            position: absolute;
+                            top: 50%;
+                            transform: translate(0, -50%);
+                            -webkit-transform: translate(0, -50%);
+                            -moz-transform: translate(0, -50%);
+                            -ms-transform: translate(0, -50%);
+                            -o-transform: translate(0, -50%);
+
+                            div {
+                                // width: calc(100%/3 * 1); 
+                                height: 4px;
+                                background-color: rgb(12, 90, 126);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

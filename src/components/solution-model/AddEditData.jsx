@@ -55,7 +55,7 @@ function AddEditData({ setData, setModel, current }) {
                     </div>
                     <div className="input-div">
                         <label htmlFor="price">PRICE</label>
-                        <input type="number" name='price' id='price' value={value?.price} required onChange={handleChange} />
+                        <input type="number" step="0.1" name='price' id='price' value={value?.price} required onChange={handleChange} />
                     </div>
                     <div className="button-div">
                         <button type='submit'>Submit</button>
