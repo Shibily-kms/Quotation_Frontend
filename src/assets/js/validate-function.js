@@ -1,24 +1,24 @@
 function form1Validate(data, type) {
-    if (data.to.pin.length < 6) {
+    if (data.customer.pin.length < 6) {
         return { status: false, message: 'Add 6 pin numbers' }
-    } else if (data.to.mobile.length < 10) {
+    } else if (data.customer.mobile.length < 10) {
         return { status: false, message: 'Add min 10 mobile numbers' }
-    } else if (!data?.testReport?.source || data?.testReport?.source === 'Choose...') {
+    } else if (!data?.test_report?.source || data?.test_report?.source === 'Choose...') {
         return { status: false, message: 'Choose Source' }
     } else if (data?.findings?.length < 1 || !data?.findings) {
         return { status: false, message: 'Add additional findings' }
-    } else if ((type === 'purifier' || type === 'wh-and-perifier') && (!data?.pwsReport?.site || data?.pwsReport?.site === 'Choose...'
-        || !data?.pwsReport?.usage || data?.pwsReport?.usage === 'Choose...'
-        || !data?.pwsReport?.iMode || data?.pwsReport?.iMode === 'Choose...'
-        || !data?.pwsReport?.waterPoint || data?.pwsReport?.waterPoint === 'Choose...'
-        || !data?.pwsReport?.plugPoint || data?.pwsReport?.plugPoint === 'Choose...')
+    } else if ((type === 'purifier' || type === 'wh-and-perifier') && (!data?.pws_report?.site || data?.pws_report?.site === 'Choose...'
+        || !data?.pws_report?.usage || data?.pws_report?.usage === 'Choose...'
+        || !data?.pws_report?.iMode || data?.pws_report?.iMode === 'Choose...'
+        || !data?.pws_report?.water_point || data?.pws_report?.water_point === 'Choose...'
+        || !data?.pws_report?.plug_point || data?.pws_report?.plug_point === 'Choose...')
     ) {
         return { status: false, message: 'Fill PWS Report Feilds' }
-    } else if ((type === 'whole-house' || type === 'wh-and-perifier') && (!data?.vfwsReport?.site || data?.vfwsReport?.site === 'Choose...'
-        || !data?.vfwsReport?.usage || data?.vfwsReport?.usage === 'Choose...'
-        || !data?.vfwsReport?.inlet || data?.vfwsReport?.inlet === 'Choose...'
-        || !data?.vfwsReport?.outlet || data?.vfwsReport?.outlet === 'Choose...'
-        || !data?.vfwsReport?.brInTop || data?.vfwsReport?.brInTop === 'Choose...')
+    } else if ((type === 'whole-house' || type === 'wh-and-perifier') && (!data?.vfws_report?.site || data?.vfws_report?.site === 'Choose...'
+        || !data?.vfws_report?.usage || data?.vfws_report?.usage === 'Choose...'
+        || !data?.vfws_report?.inlet || data?.vfws_report?.inlet === 'Choose...'
+        || !data?.vfws_report?.outlet || data?.vfws_report?.outlet === 'Choose...'
+        || !data?.vfws_report?.bathroom_in_top || data?.vfws_report?.bathroom_in_top === 'Choose...')
     ) {
         return { status: false, message: 'Fill VFWS Report Feilds' }
     } else {
@@ -27,19 +27,19 @@ function form1Validate(data, type) {
 }
 
 function form2Validate(data, type) {
-    if (data?.preferred?.length < 1 || !data?.preferred) {
+    if (data?.preferred_solution?.length < 1 || !data?.preferred_solution) {
         return { status: false, message: 'Select Preferred Solutions' }
-    } else if (data?.custPreferred?.length < 1 || !data?.custPreferred) {
+    } else if (data?.cust_preferred_solution?.length < 1 || !data?.cust_preferred_solution) {
         return { status: false, message: 'Select Custormer Preferred Solutions' }
     }
     if (type === 'purifier' || type === 'wh-and-perifier') {
-        if (data?.purifierComponent?.length < 1 || !data?.purifierComponent) {
+        if (data?.purifier_component?.length < 1 || !data?.purifier_component) {
             return { status: false, message: 'Select Any Purifier Components' }
         }
     } else if (type === 'whole-house' || type === 'wh-and-perifier') {
         if (data?.materials?.length < 1 || !data?.materials) {
             return { status: false, message: 'Select Any Materials' }
-        } else if (data?.vfcComponent?.length < 1 || !data?.vfcComponent) {
+        } else if (data?.vfs_component?.length < 1 || !data?.vfs_component) {
             return { status: false, message: 'Select Any Vessel Component' }
         }
     }

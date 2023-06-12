@@ -8,21 +8,21 @@ import { form2Validate } from '../../assets/js/validate-function'
 
 
 function Form2({ type, data, setData, setPage, setFill }) {
-    const [preferred, setPreferred] = useState(data?.preferred || [])
-    const [custPreferred, setCustPreferred] = useState(data?.custPreferred || [])
+    const [preferred, setPreferred] = useState(data?.preferred_solution || [])
+    const [custPreferred, setCustPreferred] = useState(data?.cust_preferred_solution || [])
     const [materials, setMaterials] = useState(data?.materials || [])
-    const [vfc, setVfc] = useState(data?.vfcComponent || [])
-    const [purifier, setPurifier] = useState(data?.purifierComponent || [])
+    const [vfs, setVfs] = useState(data?.vfs_component || [])
+    const [purifier, setPurifier] = useState(data?.purifier_component || [])
     const [solutions, setSolutions] = useState([])
     const [materialsInput, setMaterialsInput] = useState([])
-    const [vfcInput, setVfcInput] = useState([])
+    const [vfsInput, setVfsInput] = useState([])
     const [purifierInput, setPurifierInput] = useState([])
 
     // Preferred
     useEffect(() => {
         setData({
             ...data,
-            preferred: preferred
+            preferred_solution: preferred
         })
     }, [preferred])
 
@@ -30,7 +30,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
     useEffect(() => {
         setData({
             ...data,
-            custPreferred: custPreferred
+            cust_preferred_solution: custPreferred
         })
     }, [custPreferred])
 
@@ -44,45 +44,51 @@ function Form2({ type, data, setData, setPage, setFill }) {
         }
     }, [materials])
 
-    // vfc
+    // vfs
     useEffect(() => {
         if (type === 'whole-house' || type === 'wh-and-perifier') {
             setData({
                 ...data,
-                vfcComponent: vfc
+                vfs_component: vfs
             })
         }
-    }, [vfc])
+    }, [vfs])
 
     // purifier
     useEffect(() => {
         if (type === 'purifier' || type === 'wh-and-perifier') {
             setData({
                 ...data,
-                purifierComponent: purifier
+                purifier_component: purifier
             })
         }
     }, [purifier])
 
     useEffect(() => {
+        console.log(solutions, 'solutions');
+    }, [solutions])
+
+    useEffect(() => {
         const fetchData = async () => {
             try {
+                let response1 = [], response2 = [];
                 if (type === 'purifier' || type === 'wh-and-perifier') {
-                    const response1 = await userAxios.get('/purifier-solution-model');
-                    setSolutions([...solutions, ...response1.data.items.data]);
+                    response1 = await userAxios.get('/purifier-solution-model');
+                    response1 = response1?.data?.items?.data ? response1?.data?.items?.data : []
                 }
-                // if (type === 'whole-house' || type === 'wh-and-perifier') {
-                //     const response1 = await userAxios.get('/solution-model');
-                //     setSolutions([...solutions, response1.data.items.data]);
-                // }
-                // if (type === 'whole-house' || type === 'wh-and-perifier') {
-                //     const response1 = await userAxios.get('/materials-for-wh');
-                //     setMaterialsInput([...materialsInput, response1.data.items.data]);
-                // }
-                // if (type === 'whole-house' || type === 'wh-and-perifier') {
-                //     const response1 = await userAxios.get('/vfs-components');
-                //     setVfcInput([...vfcInput, response1.data.items.data]);
-                // }
+                if (type === 'whole-house' || type === 'wh-and-perifier') {
+                    response2 = await userAxios.get('/wh-solution-model');
+                    response2 = response2?.data?.items?.data ? response2?.data?.items?.data : []
+                }
+                setSolutions([...response1, ...response2]);
+                if (type === 'whole-house' || type === 'wh-and-perifier') {
+                    const response3 = await userAxios.get('/vfs-materials');
+                    setMaterialsInput([...materialsInput, ...response3.data.items.data]);
+                }
+                if (type === 'whole-house' || type === 'wh-and-perifier') {
+                    const response4 = await userAxios.get('/vfs-component');
+                    setVfsInput([...vfsInput, ...response4.data.items.data]);
+                }
                 if (type === 'purifier' || type === 'wh-and-perifier') {
                     const response5 = await userAxios.get('/purifier-component');
                     setPurifierInput(response5.data.items.data);
@@ -162,7 +168,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                             <div className="header">
                                 <h5>Vessel Filter Components</h5>
                             </div>
-                            <DynamicListTable data={vfc} setData={setVfc} input={vfcInput} multi={true} />
+                            <DynamicListTable data={vfs} setData={setVfs} input={vfsInput} multi={true} />
                         </div>
                     </> : ''}
                     {/* Purifier Components */}
@@ -175,7 +181,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                         </div>
                     </> : ''}
 
-                    {/* Quotation To */}
+                    {/* Warranty */}
                     <div className="section-div">
                         <div className="header">
                             <h5>Warranty</h5>

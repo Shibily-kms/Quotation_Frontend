@@ -10,6 +10,7 @@ function DynamicListTable({ data, setData, input, multi }) {
     const [brandInput, setBrandInput] = useState([])
 
     useEffect(() => {
+        console.log(input,'inputs');
         setInputs(input)
     }, [input])
 
@@ -31,6 +32,7 @@ function DynamicListTable({ data, setData, input, multi }) {
             })
         }
     }
+
 
     const handleSubmit = () => {
 
