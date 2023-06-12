@@ -18,7 +18,7 @@ function AddEditData({ setData, setModel, current }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (current) {
-            userAxios.put('/purifier-component', { nameId: current.nameId, brandId: current.brandId, ...value }).then((response) => {
+            userAxios.put('/vfs-materials', { nameId: current.nameId, brandId: current.brandId, ...value }).then((response) => {
                 setData((state) => {
                     return state.map((obj) => {
                         if (obj.brandId === current.brandId) {
@@ -35,7 +35,7 @@ function AddEditData({ setData, setModel, current }) {
                 toast.error(error.response.data.message)
             })
         } else {
-            userAxios.post('/purifier-component', value).then((response) => {
+            userAxios.post('/vfs-materials', value).then((response) => {
                 setData((state) => {
                     let obj = {
                         nameId: response.data.newValue._id,

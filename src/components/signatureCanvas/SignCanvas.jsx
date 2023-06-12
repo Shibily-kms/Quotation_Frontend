@@ -47,7 +47,7 @@ function SignCanvas({ data, setData, type }) {
         <div className='signCanvas-div'>
             {!data?.sign?.[type] && <p>Sign here</p>}
             {!data?.sign?.[type] && <SignatureCanvas ref={signatureRef} canvasProps={{ className: 'signCanvas' }} />}
-            {data?.sign?.[type] && <img src={image} />}
+            {data?.sign?.[type] && <img src={data?.sign?.[type] || image} />}
             <div className="buttons">
                 <button type='button' onClick={data?.sign?.[type] ? handleShow : handleReset}>Retry</button>
                 <button type='button' onClick={handleSave}>{data?.sign?.[type] ? 'Saved' : 'Save'}</button>

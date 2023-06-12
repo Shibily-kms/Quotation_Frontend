@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../../components/header/Header'
+import Header from '../header/Header'
 import Title from '../title/Title'
 import Model from '../model/Model'
 import AddEditData from './AddEditData'
@@ -10,27 +10,27 @@ import { FiEdit2 } from 'react-icons/fi';
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-toastify'
 
-function PurifierComponents() {
+function SolutionModel() {
     const [model, setModel] = useState(null)
     const [pass, setPass] = useState(null)
     const [data, setData] = useState([])
 
     const handleAdd = () => {
-        setModel('ADD NEW COMPONENTS')
+        setModel('ADD NEW MODEL')
         setPass(<AddEditData setData={setData} setModel={setModel} />)
     }
 
     const handleEdit = (current) => {
-        setModel('EDIT COMPONENTS')
+        setModel('EDIT MODEL')
         setPass(<AddEditData setData={setData} setModel={setModel} current={current} />)
     }
 
     const handleDelete = (current) => {
         let check = window.confirm('Delete This Item ?')
         if (check) {
-            userAxios.delete(`/purifier-component?nameId=${current.nameId}&&brandId=${current.brandId}`).then(() => {
+            userAxios.delete(`/wh-solution-model?id=${current._id}`).then(() => {
                 setData((state) => {
-                    return state.filter((obj) => obj.brandId !== current.brandId)
+                    return state.filter((obj) => obj._id !== current._id)
                 })
             }).catch((error) => {
                 toast.error(error.response.data.message)
@@ -40,19 +40,8 @@ function PurifierComponents() {
 
 
     useEffect(() => {
-        userAxios.get('/purifier-component').then((response) => {
-            response?.data?.items && setData((state) => {
-                let arr = []
-                response.data.items?.data.map((obj) => {
-                    obj?.brands.map((subObj) => {
-                        arr.push({
-                            nameId: obj._id, brandId: subObj._id,
-                            name: obj.item, brand: subObj.brand,
-                        })
-                    })
-                })
-                return arr;
-            })
+        userAxios.get('/wh-solution-model').then((response) => {
+            response?.data?.items && setData(response.data.items.data)
         })
     }, [])
 
@@ -66,7 +55,7 @@ function PurifierComponents() {
                 <div className="test-report-div">
                     <div className="container">
                         <div className="title">
-                            <Title header={'PURIFIER COMPONENTS'} />
+                            <Title header={'WH SOLUTION MODELS'} />
                         </div>
                         <div className="content">
                             <div className="top">
@@ -77,15 +66,15 @@ function PurifierComponents() {
                                     {data?.[0] ? <>
                                         <tr>
                                             <th>Sl no</th>
-                                            <th>Name</th>
-                                            <th>Brand</th>
+                                            <th>Model</th>
+                                            <th>Price</th>
                                             <th>Control</th>
                                         </tr>
                                         {data.map((value, index) => {
-                                            return <tr key={value.brandId}>
+                                            return <tr key={value._id}>
                                                 <td>{index + 1}</td>
-                                                <td>{value.name}</td>
-                                                <td>{value.brand}</td>
+                                                <td>{value.item}</td>
+                                                <td>{value.price}</td>
                                                 <td>
                                                     <div>
                                                         <button title='edit' className="edit" onClick={() => handleEdit(value)}>
@@ -115,5 +104,4 @@ function PurifierComponents() {
     )
 }
 
-
-export default PurifierComponents
+export default SolutionModel

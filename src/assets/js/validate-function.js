@@ -53,9 +53,9 @@ function form3Validate(data, fill) {
     } else if (!data?.sign?.customer || !data?.sign?.authorized) {
         return { status: false, message: 'Add Signature' }
     } else if (!fill.one) {
-        return { status: false, message: 'Completed Section one' }
+        return { status: false, message: 'Section one required' }
     } else if (!fill.two) {
-        return { status: false, message: 'Completed Section two' }
+        return { status: false, message: 'Section two required' }
     } else {
         return { status: true }
     }

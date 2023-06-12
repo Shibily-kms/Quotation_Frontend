@@ -62,7 +62,7 @@ function Materials() {
                                 <button onClick={() => navigate('/raw-materials/wh-solution-models')}>SOLUTION MODELS</button>
                             </div>
                             <div className="button-div">
-                                <button onClick={() => navigate('/raw-materials/vfs-meterials')}>VFS MATERIALS</button>
+                                <button onClick={() => navigate('/raw-materials/vfs-materials')}>VFS MATERIALS</button>
                             </div>
                             <div className="button-div">
                                 <button onClick={() => navigate('/raw-materials/vfs-components')}>VFS COMPONENTS</button>

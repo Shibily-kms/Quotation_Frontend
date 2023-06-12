@@ -68,7 +68,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
         const fetchData = async () => {
             try {
                 if (type === 'purifier' || type === 'wh-and-perifier') {
-                    const response1 = await userAxios.get('/solution-model');
+                    const response1 = await userAxios.get('/purifier-solution-model');
                     setSolutions([...solutions, ...response1.data.items.data]);
                 }
                 // if (type === 'whole-house' || type === 'wh-and-perifier') {

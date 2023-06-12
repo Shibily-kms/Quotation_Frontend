@@ -69,7 +69,9 @@ function DynamicListTable({ data, setData, input, multi }) {
                             <option value={null}>{inputs?.[0] ? 'Choose...' : 'Loading...'}</option>
                             {inputs?.[0] ? <>
                                 {inputs.map((value) => {
-                                    if (!value?.use) {
+                                    if (!value?.use && value?.brands.length > 0) {
+                                        return <option key={value.item} value={value.item}>{value.item}</option>
+                                    } else if (!value?.use && value?.price) {
                                         return <option key={value.item} value={value.item}>{value.item}</option>
                                     }
                                 })}

@@ -16,7 +16,7 @@ function AddEditData({ setData, setModel, current }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (current) {
-            userAxios.put('/solution-model', { _id: current._id, ...value }).then((response) => {
+            userAxios.put('/purifier-solution-model', { _id: current._id, ...value }).then((response) => {
                 setData((state) => {
                     return state.map((obj) => {
                         if (obj._id === current._id) {
@@ -33,7 +33,7 @@ function AddEditData({ setData, setModel, current }) {
                 toast.error(error.response.data.message)
             })
         } else {
-            userAxios.post('/solution-model', value).then((response) => {
+            userAxios.post('/purifier-solution-model', value).then((response) => {
                 setData((state) => {
                     return [...state, response.data.newValue]
                 })

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../../components/header/Header'
+import Header from '../header/Header'
 import Title from '../title/Title'
 import Model from '../model/Model'
 import AddEditData from './AddEditData'
@@ -10,7 +10,8 @@ import { FiEdit2 } from 'react-icons/fi';
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-toastify'
 
-function PurifierComponents() {
+function VfsComponents
+() {
     const [model, setModel] = useState(null)
     const [pass, setPass] = useState(null)
     const [data, setData] = useState([])
@@ -28,7 +29,7 @@ function PurifierComponents() {
     const handleDelete = (current) => {
         let check = window.confirm('Delete This Item ?')
         if (check) {
-            userAxios.delete(`/purifier-component?nameId=${current.nameId}&&brandId=${current.brandId}`).then(() => {
+            userAxios.delete(`/vfs-component?nameId=${current.nameId}&&brandId=${current.brandId}`).then(() => {
                 setData((state) => {
                     return state.filter((obj) => obj.brandId !== current.brandId)
                 })
@@ -40,7 +41,7 @@ function PurifierComponents() {
 
 
     useEffect(() => {
-        userAxios.get('/purifier-component').then((response) => {
+        userAxios.get('/vfs-component').then((response) => {
             response?.data?.items && setData((state) => {
                 let arr = []
                 response.data.items?.data.map((obj) => {
@@ -66,7 +67,7 @@ function PurifierComponents() {
                 <div className="test-report-div">
                     <div className="container">
                         <div className="title">
-                            <Title header={'PURIFIER COMPONENTS'} />
+                            <Title header={'VFS COMPONENTES'} />
                         </div>
                         <div className="content">
                             <div className="top">
@@ -116,4 +117,4 @@ function PurifierComponents() {
 }
 
 
-export default PurifierComponents
+export default VfsComponents

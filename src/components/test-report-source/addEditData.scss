@@ -7,6 +7,11 @@
             margin-bottom: 15px;
             position: relative;
 
+            .readonly{
+                cursor: not-allowed;
+                background-color: gainsboro;
+            }
+
             input,
             select {
                 width: 100%;
