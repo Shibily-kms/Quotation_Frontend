@@ -65,10 +65,6 @@ function Form2({ type, data, setData, setPage, setFill }) {
     }, [purifier])
 
     useEffect(() => {
-        console.log(solutions, 'solutions');
-    }, [solutions])
-
-    useEffect(() => {
         const fetchData = async () => {
             try {
                 let response1 = [], response2 = [];

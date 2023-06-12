@@ -21,9 +21,6 @@ function FormPage() {
         setLine(100 / 3 * page + "%")
     }, [page])
 
-    useEffect(() => {
-        console.log(data, 'Now!');
-    }, [data])
 
     return (
         <div>
