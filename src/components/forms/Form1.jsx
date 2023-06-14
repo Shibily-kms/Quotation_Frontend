@@ -215,7 +215,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                 <label htmlFor="PH">PH</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='iron' name='fa' value={data?.test_report?.fa} required onChange={handleTestReport} />
+                                <input type="number" step="0.1" id='iron' name='fe' value={data?.test_report?.fe} required onChange={handleTestReport} />
                                 <label htmlFor="iron">Iron (ppm)</label>
                             </div>
                             <div className="nor-input-div">

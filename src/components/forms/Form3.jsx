@@ -5,9 +5,11 @@ import { userAxios } from '../../config/axios'
 import { toast } from 'react-toastify'
 import SignCanvas from '../signatureCanvas/SignCanvas';
 import { form3Validate } from '../../assets/js/validate-function';
+import { useNavigate } from 'react-router-dom';
 
 function Form3({ type, data, setData, setPage, fill, setFill }) {
     const [tac, setTac] = useState(data?.tac || [])
+    const navigate = useNavigate()
 
     useEffect(() => {
         setData({
@@ -32,7 +34,7 @@ function Form3({ type, data, setData, setPage, fill, setFill }) {
                 return { ...state, three: true }
             })
             userAxios.post('/quotation', data).then((response) => {
-                toast.info('Submited')
+                navigate('/quotation', { state: response.data.quotation })
             }).catch((error) => {
                 toast.error(error.response.data.message)
             })
