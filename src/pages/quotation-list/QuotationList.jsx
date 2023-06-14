@@ -30,6 +30,19 @@ function QuatationList() {
         })
     }, [])
 
+    const handleDelete = (slNo) => {
+        let check = window.confirm('Are you delete quotation ?')
+        if(check){
+            userAxios.delete(`/quotation?slno=${slNo}`).then((response) => {
+                if (response) {
+                    setData((prev) => {
+                        return prev.filter((obj) => obj.quotation_srl_no !== slNo)
+                    })
+                }
+            })
+        }
+    }
+
 
     return (
         <div className='solution-model'>
@@ -43,7 +56,7 @@ function QuatationList() {
                             <Title header={'Quotation List'} />
                         </div>
                         <div className="content">
-                     
+
                             <div className="table-div">
                                 <table id="list">
                                     {data?.[0] ? <>
@@ -62,7 +75,7 @@ function QuatationList() {
                                                     <div>
                                                         <button title='view' className="view pdf" onClick={() => downloadPDF(value, index)}>
                                                             {loading === index ? <BsThreeDots /> : <FiDownload />}  </button>
-                                                        <button title='remove' className="delete" /*onClick={() => handleDelete(value)}*/>
+                                                        <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
                                                             <IoTrashOutline /></button>
                                                     </div>
                                                 </td>
