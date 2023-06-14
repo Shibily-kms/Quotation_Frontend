@@ -12,7 +12,7 @@ const initialState = {
 export const loginUser = createAsyncThunk('user/login', async (id, thunkAPI) => {
 
     try {
-        return await userAxios.get(`/user-data/${id}`)
+        return await userAxios.get(`/user-verify/${id}`)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
@@ -43,6 +43,7 @@ export const userAuthSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
+                console.log('heree');
                 localStorage.setItem(
                     '_tkn_stf', action.payload.data.user.token
                 );
@@ -52,6 +53,7 @@ export const userAuthSlice = createSlice({
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
+                console.log('heeee');
                 window.location.href = 'http://localhost:3001/'
             });
     },
