@@ -27,7 +27,7 @@ function Quotation() {
                                 <button onClick={() => navigate('/quotation/whole-house')}>WHOLE HOUSE FILTER</button>
                             </div>
                             <div className="button-div">
-                                <button onClick={() => navigate('/quotation/wh-and-perifier')}>WH & PURIFIER</button>
+                                <button onClick={() => navigate('/quotation/wh-and-purifier')}>WH & PURIFIER</button>
                             </div>
                         </div>
                     </div>

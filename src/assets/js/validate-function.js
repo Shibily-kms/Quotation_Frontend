@@ -7,14 +7,14 @@ function form1Validate(data, type) {
         return { status: false, message: 'Choose Source' }
     } else if (data?.findings?.length < 1 || !data?.findings) {
         return { status: false, message: 'Add additional findings' }
-    } else if ((type === 'purifier' || type === 'wh-and-perifier') && (!data?.pws_report?.site || data?.pws_report?.site === 'Choose...'
+    } else if ((type === 'purifier' || type === 'wh-and-purifier') && (!data?.pws_report?.site || data?.pws_report?.site === 'Choose...'
         || !data?.pws_report?.usage || data?.pws_report?.usage === 'Choose...'
         || !data?.pws_report?.iMode || data?.pws_report?.iMode === 'Choose...'
         || !data?.pws_report?.water_point || data?.pws_report?.water_point === 'Choose...'
         || !data?.pws_report?.plug_point || data?.pws_report?.plug_point === 'Choose...')
     ) {
         return { status: false, message: 'Fill PWS Report Feilds' }
-    } else if ((type === 'whole-house' || type === 'wh-and-perifier') && (!data?.vfws_report?.site || data?.vfws_report?.site === 'Choose...'
+    } else if ((type === 'whole-house' || type === 'wh-and-purifier') && (!data?.vfws_report?.site || data?.vfws_report?.site === 'Choose...'
         || !data?.vfws_report?.usage || data?.vfws_report?.usage === 'Choose...'
         || !data?.vfws_report?.inlet || data?.vfws_report?.inlet === 'Choose...'
         || !data?.vfws_report?.outlet || data?.vfws_report?.outlet === 'Choose...'
@@ -32,11 +32,11 @@ function form2Validate(data, type) {
     } else if (data?.cust_preferred_solution?.length < 1 || !data?.cust_preferred_solution) {
         return { status: false, message: 'Select Custormer Preferred Solutions' }
     }
-    if (type === 'purifier' || type === 'wh-and-perifier') {
+    if (type === 'purifier' || type === 'wh-and-purifier') {
         if (data?.purifier_component?.length < 1 || !data?.purifier_component) {
             return { status: false, message: 'Select Any Purifier Components' }
         }
-    } else if (type === 'whole-house' || type === 'wh-and-perifier') {
+    } else if (type === 'whole-house' || type === 'wh-and-purifier') {
         if (data?.materials?.length < 1 || !data?.materials) {
             return { status: false, message: 'Select Any Materials' }
         } else if (data?.vfs_component?.length < 1 || !data?.vfs_component) {

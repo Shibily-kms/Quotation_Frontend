@@ -10,6 +10,7 @@ const baseSetup = {
     })
 }
 
+
 // Add an interceptor to userAxios
 baseSetup.userAxios.interceptors.request.use(config => {
     let userToken = localStorage.getItem('_tkn_stf')

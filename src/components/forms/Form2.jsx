@@ -36,7 +36,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
 
     // materials
     useEffect(() => {
-        if (type === 'whole-house' || type === 'wh-and-perifier') {
+        if (type === 'whole-house' || type === 'wh-and-purifier') {
             setData({
                 ...data,
                 materials: materials
@@ -46,7 +46,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
 
     // vfs
     useEffect(() => {
-        if (type === 'whole-house' || type === 'wh-and-perifier') {
+        if (type === 'whole-house' || type === 'wh-and-purifier') {
             setData({
                 ...data,
                 vfs_component: vfs
@@ -56,7 +56,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
 
     // purifier
     useEffect(() => {
-        if (type === 'purifier' || type === 'wh-and-perifier') {
+        if (type === 'purifier' || type === 'wh-and-purifier') {
             setData({
                 ...data,
                 purifier_component: purifier
@@ -68,24 +68,24 @@ function Form2({ type, data, setData, setPage, setFill }) {
         const fetchData = async () => {
             try {
                 let response1 = [], response2 = [];
-                if (type === 'purifier' || type === 'wh-and-perifier') {
+                if (type === 'purifier' || type === 'wh-and-purifier') {
                     response1 = await userAxios.get('/purifier-solution-model');
                     response1 = response1?.data?.items?.data ? response1?.data?.items?.data : []
                 }
-                if (type === 'whole-house' || type === 'wh-and-perifier') {
+                if (type === 'whole-house' || type === 'wh-and-purifier') {
                     response2 = await userAxios.get('/wh-solution-model');
                     response2 = response2?.data?.items?.data ? response2?.data?.items?.data : []
                 }
                 setSolutions([...response1, ...response2]);
-                if (type === 'whole-house' || type === 'wh-and-perifier') {
+                if (type === 'whole-house' || type === 'wh-and-purifier') {
                     const response3 = await userAxios.get('/vfs-materials');
                     setMaterialsInput([...materialsInput, ...response3.data.items.data]);
                 }
-                if (type === 'whole-house' || type === 'wh-and-perifier') {
+                if (type === 'whole-house' || type === 'wh-and-purifier') {
                     const response4 = await userAxios.get('/vfs-component');
                     setVfsInput([...vfsInput, ...response4.data.items.data]);
                 }
-                if (type === 'purifier' || type === 'wh-and-perifier') {
+                if (type === 'purifier' || type === 'wh-and-purifier') {
                     const response5 = await userAxios.get('/purifier-component');
                     setPurifierInput(response5.data.items.data);
                 }
@@ -150,7 +150,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                     </div>
 
                     {/* Material for VFS */}
-                    {type === 'whole-house' || type === 'wh-and-perifier' ? <>
+                    {type === 'whole-house' || type === 'wh-and-purifier' ? <>
                         <div className="section-div">
                             <div className="header">
                                 <h5>Materials In Vessel Filter</h5>
@@ -159,7 +159,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                         </div>
                     </> : ''}
                     {/* VFS Components*/}
-                    {type === 'whole-house' || type === 'wh-and-perifier' ? <>
+                    {type === 'whole-house' || type === 'wh-and-purifier' ? <>
                         <div className="section-div">
                             <div className="header">
                                 <h5>Vessel Filter Components</h5>
@@ -168,7 +168,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                         </div>
                     </> : ''}
                     {/* Purifier Components */}
-                    {type === 'purifier' || type === 'wh-and-perifier' ? <>
+                    {type === 'purifier' || type === 'wh-and-purifier' ? <>
                         <div className="section-div">
                             <div className="header">
                                 <h5>Purifier Components</h5>
@@ -183,13 +183,13 @@ function Form2({ type, data, setData, setPage, setFill }) {
                             <h5>Warranty</h5>
                         </div>
                         <div className="forms">
-                            {type === 'purifier' || type === 'wh-and-perifier' ? <>
+                            {type === 'purifier' || type === 'wh-and-purifier' ? <>
                                 <div className="nor-input-div">
                                     <input type="text" id='pws' name='pws' value={data?.warranty?.pws} required onChange={handleWarranty} />
                                     <label htmlFor="pws">Purifier System</label>
                                 </div>
                             </> : ''}
-                            {type === 'whole-house' || type === 'wh-and-perifier' ? <>
+                            {type === 'whole-house' || type === 'wh-and-purifier' ? <>
                                 <div className="nor-input-div">
                                     <input type="text" id='vfws' name='vfws' value={data?.warranty?.vfws} required onChange={handleWarranty} />
                                     <label htmlFor="vfws">Vessel Filtration System</label>

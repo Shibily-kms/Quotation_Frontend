@@ -75,7 +75,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
     }
     const handlePWSReport = (e) => {
 
-        if (type === 'wh-and-perifier' && e.target.name === 'site') {
+        if (type === 'wh-and-purifier' && e.target.name === 'site') {
             setData({
                 ...data,
                 vfws_report: {
@@ -98,7 +98,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
         }
     }
     const handleVFWSReport = (e) => {
-        if (type === 'wh-and-perifier' && e.target.name === 'site') {
+        if (type === 'wh-and-purifier' && e.target.name === 'site') {
             setData({
                 ...data,
                 pws_report: {
@@ -237,7 +237,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                     </div>
 
                     {/* PWS Report */}
-                    {type === 'purifier' || type === 'wh-and-perifier' ?
+                    {type === 'purifier' || type === 'wh-and-purifier' ?
                         <>
                             <div className="section-div">
                                 <div className="header">
@@ -311,7 +311,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                         </> : ''}
 
                     {/* VFWS Report */}
-                    {type === 'whole-house' || type === 'wh-and-perifier' ?
+                    {type === 'whole-house' || type === 'wh-and-purifier' ?
                         <>
                             <div className="section-div">
                                 <div className="header">

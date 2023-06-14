@@ -17,6 +17,7 @@ import QuotationList from '../pages/quotation-list/QuotationList';
 import WhSolutionModel from '../components/wh-solution-model/SolutionModel'
 import VfsComponents from '../components/vfs-components/VfsComponents'
 import VfsMaterials from '../components/vfs-materials/VfsMaterials'
+import BuildPdf from '../components/build-pdf/BuildPdf'
 
 function User() {
     const { user } = useSelector((state) => state.userAuth)
@@ -58,6 +59,7 @@ function User() {
 
             {/* Qutation List */}
             <Route path='/quotations-list' element={<PrivateRoute element={<QuotationList />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/quotations-list/pdf' element={<PrivateRoute element={<BuildPdf />} isAuthenticated={isAuthenticated} />} />
 
         </Routes>
     )

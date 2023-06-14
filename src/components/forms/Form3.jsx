@@ -55,13 +55,21 @@ function Form3({ type, data, setData, setPage, fill, setFill }) {
                         </div>
                         <DynamicTextList data={tac} setData={setTac} />
                         <div className="forms" style={{ marginTop: '15px' }}>
+                            {type === 'purifier' || type === 'wh-and-purifier' ?
+                                <div className="nor-input-div">
+                                    <input type="number" step="0.1" id='purifier_max_usage' name='purifier_max_usage' value={data?.purifier_max_usage} required onChange={handleChange} />
+                                    <label htmlFor="purifier_max_usage">Purifier Daily Usage (Liters / Day)</label>
+                                </div>
+                                : ''}
+                            {type === 'whole-house' || type === 'wh-and-purifier' ?
+                                <div className="nor-input-div">
+                                    <input type="number" step="0.1" id='vfws_max_usage' name='vfws_max_usage' value={data?.vfws_max_usage} required onChange={handleChange} />
+                                    <label htmlFor="vfws_max_usage">VFWS Daily Usage (Liters / Day)</label>
+                                </div>
+                                : ""}
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='dailyUsageLitter' name='dailyUsageLitter' value={data?.dailyUsageLitter} required onChange={handleChange} />
-                                <label htmlFor="dailyUsageLitter">Daily Usage (Liters / Day)</label>
-                            </div>
-                            <div className="nor-input-div">
-                                <input type="date" id='exDate' name='exprDate' value={data?.exprDate} required onChange={handleChange} />
-                                <label htmlFor="exDate">Quatation Expiry Date</label>
+                                <input type="date" id='expr_date' name='expr_date' value={data?.expr_date} required onChange={handleChange} />
+                                <label htmlFor="expr_date">Quatation Expiry Date</label>
                             </div>
                         </div>
                     </div>
