@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 12,
-    textAlign:'justify'
+    textAlign:'justify',
+    lineHeight:'1.5px'
   },
 });
 
