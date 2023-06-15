@@ -3,8 +3,7 @@ import './dynamic-list-table.scss'
 import { createRandomId } from '../../assets/js/help-functions'
 import { BsTrash3 } from 'react-icons/bs'
 
-function DynamicListTable({ data, setData, input, multi }) {
-
+function DynamicListTable({ data, setData, input, multi, type }) {
     const [inputs, setInputs] = useState([])
     const [choose, setChoose] = useState({})
     const [brandInput, setBrandInput] = useState([])
@@ -17,7 +16,7 @@ function DynamicListTable({ data, setData, input, multi }) {
 
         let choosed = null
 
-        if ([e.target.name] == 'item') {
+        if (e.target.name === 'item') {
             choosed = inputs.filter((obj) => obj.item === e.target.value)
             multi && setBrandInput(choosed[0].brands)
         }
@@ -66,8 +65,8 @@ function DynamicListTable({ data, setData, input, multi }) {
             <div className="dynamic-form-div">
                 <form action="">
                     <div className="nor-input-div">
-                        <select id="item" name="item" required onChange={handleChange} >
-                            <option value={null}>{inputs?.[0] ? 'Choose...' : 'Loading...'}</option>
+                        <select id={`item${inputs?.[0]?.item + type}`} name="item" required onChange={handleChange} >
+                            <option value={''}>{inputs?.[0] ? 'Choose...' : 'Loading...'}</option>
                             {inputs?.[0] ? <>
                                 {inputs.map((value) => {
                                     if (!value?.use && value?.brands.length > 0) {
@@ -75,22 +74,23 @@ function DynamicListTable({ data, setData, input, multi }) {
                                     } else if (!value?.use && value?.price) {
                                         return <option key={value.item} value={value.item}>{value.item}</option>
                                     }
+                                    return null;
                                 })}
                             </> : ''}
                         </select>
-                        <label htmlFor="item">{multi ? 'Name' : "Model Name"}</label>
+                        <label htmlFor={`item${inputs?.[0]?.item + type}`}>{multi ? 'Name' : "Model Name"}</label>
                     </div>
 
                     {multi && <div className="nor-input-div">
-                        <select id="brand" name="brand" required onChange={handleChange} >
-                            <option value={null}>Choose...</option>
+                        <select id={`brand${brandInput?.[0]?.brand}`} name="brand" required onChange={handleChange} >
+                            <option value={''}>Choose...</option>
                             {brandInput?.[0] ? <>
                                 {brandInput.map((value) => {
                                     return <option key={value.brand} value={value.brand}>{value.brand}</option>
                                 })}
                             </> : ''}
                         </select>
-                        <label htmlFor="brand">Brand</label>
+                        <label htmlFor={`brand${brandInput?.[0]?.brand}`}>Brand</label>
                     </div>}
 
 

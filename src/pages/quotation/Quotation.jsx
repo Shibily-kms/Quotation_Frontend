@@ -19,6 +19,7 @@ function Quotation() {
         if (location?.state) {
             setData(location.state)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const downloadPDF = async () => {

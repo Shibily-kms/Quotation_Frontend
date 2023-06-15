@@ -20,6 +20,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
             ...data,
             findings: findings
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [findings])
 
     useEffect(() => {
@@ -49,6 +50,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
         };
 
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // Handles
@@ -196,7 +198,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                         <div className="forms">
                             <div className="nor-input-div">
                                 <select id="source" name="source" required onChange={handleTestReport} >
-                                    <option value={null}>{source[0] ? 'Choose...' : 'Loading...'}</option>
+                                    <option value={''}>{source[0] ? 'Choose...' : 'Loading...'}</option>
                                     {source?.[0] ? <>
                                         {source.map((value) => {
                                             return <option key={value.id} selected={value.item === data?.test_report?.source ? true : false}
@@ -247,7 +249,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                     {/* Site */}
                                     <div className="nor-input-div">
                                         <select id="site" name="site" required onChange={handlePWSReport} >
-                                            <option value={null}>{site[0] ? 'Choose...' : 'Loading...'}</option>
+                                            <option value={''}>{site[0] ? 'Choose...' : 'Loading...'}</option>
                                             {site?.[0] ? <>
                                                 {site.map((value) => {
                                                     return <option key={value.id} selected={value.item === data?.pws_report?.site ? true : false}
@@ -260,7 +262,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                     {/* Usage */}
                                     <div className="nor-input-div">
                                         <select id="usage" name="usage" required onChange={handlePWSReport} >
-                                            <option value={null}>{usage[0] ? 'Choose...' : 'Loading...'}</option>
+                                            <option value={''}>{usage[0] ? 'Choose...' : 'Loading...'}</option>
                                             {usage?.[0] ? <>
                                                 {usage.map((value) => {
                                                     return <option key={value.id} selected={value.item === data?.pws_report?.usage ? true : false}
@@ -273,7 +275,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                     {/* I Mode */}
                                     <div className="nor-input-div">
                                         <select id="iMode" name="iMode" required onChange={handlePWSReport} >
-                                            <option value={null}>{iMode[0] ? 'Choose...' : 'Loading...'}</option>
+                                            <option value={''}>{iMode[0] ? 'Choose...' : 'Loading...'}</option>
                                             {iMode?.[0] ? <>
                                                 {iMode.map((value) => {
                                                     return <option key={value.id} selected={value.item === data?.pws_report?.iMode ? true : false}
@@ -286,7 +288,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                     {/* Water Point */}
                                     <div className="nor-input-div">
                                         <select id="waterPoint" name="water_point" required onChange={handlePWSReport} >
-                                            <option value={null}>Choose...</option>
+                                            <option value={''}>Choose...</option>
                                             <option selected={'true' === data?.pws_report?.water_point ? true : false}
                                                 value={true}>Yes</option>
                                             <option selected={'false' === data?.pws_report?.water_point ? true : false}
@@ -297,7 +299,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                     {/* Usage */}
                                     <div className="nor-input-div">
                                         <select id="plugPoint" name="plug_point" required onChange={handlePWSReport} >
-                                            <option value={null}>Choose...</option>
+                                            <option value={''}>Choose...</option>
                                             <option selected={'true' === data?.pws_report?.plug_point ? true : false}
                                                 value={true}>Yes</option>
                                             <option selected={'false' === data?.pws_report?.plug_point ? true : false}
@@ -321,7 +323,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                     {/* Site */}
                                     <div className="nor-input-div">
                                         <select id="site" name="site" required onChange={handleVFWSReport} >
-                                            <option value={null}>{site[0] ? 'Choose...' : 'Loading...'}</option>
+                                            <option value={''}>{site[0] ? 'Choose...' : 'Loading...'}</option>
                                             {site?.[0] ? <>
                                                 {site.map((value) => {
                                                     return <option key={value.id} selected={value.item === data?.vfws_report?.site ? true : false}
@@ -334,7 +336,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                     {/* Usage */}
                                     <div className="nor-input-div">
                                         <select id="usage" name="usage" required onChange={handleVFWSReport} >
-                                            <option value={null}>{usage[0] ? 'Choose...' : 'Loading...'}</option>
+                                            <option value={''}>{usage[0] ? 'Choose...' : 'Loading...'}</option>
                                             {usage?.[0] ? <>
                                                 {usage.map((value) => {
                                                     return <option key={value.id} selected={value.item === data?.vfws_report?.usage ? true : false}
@@ -364,7 +366,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                     {/* Inlet */}
                                     <div className="nor-input-div">
                                         <select id="inlet" name="inlet" required onChange={handleVFWSReport} >
-                                            <option value={null}>Choose...</option>
+                                            <option value={''}>Choose...</option>
                                             {["0.5", "0.75", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3", "3.25",
                                                 "3.5", "3.75", "4", "4.25", "4.5", "4.75", "5", "5.25", "5.5", "5.75", "6"]
                                                 .map((optn) => {
@@ -377,7 +379,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                     {/* Inlet */}
                                     <div className="nor-input-div">
                                         <select id="outlet" name="outlet" required onChange={handleVFWSReport} >
-                                            <option value={null}>Choose...</option>
+                                            <option value={''}>Choose...</option>
                                             {["0.5", "0.75", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3", "3.25",
                                                 "3.5", "3.75", "4", "4.25", "4.5", "4.75", "5", "5.25", "5.5", "5.75", "6"]
                                                 .map((optn) => {
@@ -390,7 +392,7 @@ function Form1({ type, data, setData, setPage, setFill }) {
                                     {/* Bathroom InTop */}
                                     <div className="nor-input-div">
                                         <select id="BRInTop" name="bathroom_in_top" required onChange={handleVFWSReport} >
-                                            <option value={null}>Choose...</option>
+                                            <option value={''}>Choose...</option>
                                             {[
                                                 "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
                                             ].map((optn) => {

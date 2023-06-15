@@ -42,7 +42,7 @@ const TableModel = ({ data }) => {
             {data.map((obj, index) => (
                 <View style={styles.tableRow} key={index}>
                     {Object.entries(obj).map((item, idx) => (
-                        <Text key={idx} style={index == '0' ? [styles.tableCell, styles.tableHeader] : styles.tableCell}>
+                        <Text key={idx} style={index === 0 ? [styles.tableCell, styles.tableHeader] : styles.tableCell}>
                             {item[1]}</Text>
                     ))}
                 </View>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import './form.scss'
-import { YYYYMMDDFormat } from '../../assets/js/help-functions'
 import DynamicListTable from '../../components/dynamic-list-table/DynamicListTable'
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-toastify'
@@ -24,6 +23,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
             ...data,
             preferred_solution: preferred
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [preferred])
 
     // custPreferred
@@ -32,6 +32,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
             ...data,
             cust_preferred_solution: custPreferred
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [custPreferred])
 
     // materials
@@ -42,6 +43,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                 materials: materials
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [materials])
 
     // vfs
@@ -52,6 +54,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                 vfs_component: vfs
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vfs])
 
     // purifier
@@ -62,6 +65,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                 purifier_component: purifier
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [purifier])
 
     useEffect(() => {
@@ -97,6 +101,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
         };
 
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // Handles
@@ -138,7 +143,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                         <div className="header">
                             <h5>Preferred Solutions</h5>
                         </div>
-                        <DynamicListTable data={preferred} setData={setPreferred} input={solutions} multi={false} />
+                        <DynamicListTable data={preferred} setData={setPreferred} input={solutions} multi={false} type={'preferred'}/>
                     </div>
 
                     {/* Customer Selected */}
@@ -146,7 +151,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                         <div className="header">
                             <h5>Customer Selected Solutions</h5>
                         </div>
-                        <DynamicListTable data={custPreferred} setData={setCustPreferred} input={solutions} multi={false} />
+                        <DynamicListTable data={custPreferred} setData={setCustPreferred} input={solutions} multi={false} type={'customer'}/>
                     </div>
 
                     {/* Material for VFS */}

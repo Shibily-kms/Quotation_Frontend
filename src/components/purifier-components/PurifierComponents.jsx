@@ -43,8 +43,8 @@ function PurifierComponents() {
         userAxios.get('/purifier-component').then((response) => {
             response?.data?.items && setData((state) => {
                 let arr = []
-                response.data.items?.data.map((obj) => {
-                    obj?.brands.map((subObj) => {
+                response.data.items?.data.forEach((obj) => {
+                    obj?.brands.forEach((subObj) => {
                         arr.push({
                             nameId: obj._id, brandId: subObj._id,
                             name: obj.item, brand: subObj.brand,

@@ -16,6 +16,7 @@ function Form3({ type, data, setData, setPage, fill, setFill }) {
             ...data,
             tac: tac
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tac])
 
     const handleChange = (e) => {

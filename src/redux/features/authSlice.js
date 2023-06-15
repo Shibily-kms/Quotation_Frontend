@@ -43,7 +43,6 @@ export const userAuthSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
-                console.log('heree');
                 localStorage.setItem(
                     '_tkn_stf', action.payload.data.user.token
                 );
@@ -53,7 +52,6 @@ export const userAuthSlice = createSlice({
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                console.log('heeee');
                 window.location.href = 'http://localhost:3001/'
             });
     },

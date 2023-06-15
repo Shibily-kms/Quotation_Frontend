@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { loginUser } from '../redux/features/authSlice'
-import { Routes, Route, Navigate, useSearchParams } from 'react-router-dom'
+import { Routes, Route, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Home from '../pages/home/Home'
 import Materials from '../pages/materials/Materials';
@@ -36,6 +36,7 @@ function User() {
         } else if (id) {
             dispatch(loginUser(id))
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

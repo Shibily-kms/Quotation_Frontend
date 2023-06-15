@@ -19,6 +19,7 @@ function FormPage() {
     useEffect(() => {
         searchParams.set('page', page);
         setLine(100 / 3 * page + "%")
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page])
 
 

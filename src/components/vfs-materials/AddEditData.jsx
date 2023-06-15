@@ -7,7 +7,7 @@ function AddEditData({ setData, setModel, current }) {
     const [value, setValue] = useState({ name: current?.name || null, brand: current?.brand || null })
 
     const handleChange = (e) => {
-        if (!(current && e.target.name == 'name')) {
+        if (!(current && e.target.name === 'name')) {
             setValue({
                 ...value,
                 [e.target.name]: e.target.value

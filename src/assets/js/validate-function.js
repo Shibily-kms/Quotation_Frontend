@@ -3,22 +3,18 @@ function form1Validate(data, type) {
         return { status: false, message: 'Add 6 pin numbers' }
     } else if (data.customer.mobile.length < 10) {
         return { status: false, message: 'Add min 10 mobile numbers' }
-    } else if (!data?.test_report?.source || data?.test_report?.source === 'Choose...') {
+    } else if (!data?.test_report?.source) {
         return { status: false, message: 'Choose Source' }
     } else if (data?.findings?.length < 1 || !data?.findings) {
         return { status: false, message: 'Add additional findings' }
-    } else if ((type === 'purifier' || type === 'wh-and-purifier') && (!data?.pws_report?.site || data?.pws_report?.site === 'Choose...'
-        || !data?.pws_report?.usage || data?.pws_report?.usage === 'Choose...'
-        || !data?.pws_report?.iMode || data?.pws_report?.iMode === 'Choose...'
-        || !data?.pws_report?.water_point || data?.pws_report?.water_point === 'Choose...'
-        || !data?.pws_report?.plug_point || data?.pws_report?.plug_point === 'Choose...')
+    } else if ((type === 'purifier' || type === 'wh-and-purifier') && (!data?.pws_report?.site
+        || !data?.pws_report?.usage || !data?.pws_report?.iMode
+        || !data?.pws_report?.water_point || !data?.pws_report?.plug_point)
     ) {
         return { status: false, message: 'Fill PWS Report Feilds' }
-    } else if ((type === 'whole-house' || type === 'wh-and-purifier') && (!data?.vfws_report?.site || data?.vfws_report?.site === 'Choose...'
-        || !data?.vfws_report?.usage || data?.vfws_report?.usage === 'Choose...'
-        || !data?.vfws_report?.inlet || data?.vfws_report?.inlet === 'Choose...'
-        || !data?.vfws_report?.outlet || data?.vfws_report?.outlet === 'Choose...'
-        || !data?.vfws_report?.bathroom_in_top || data?.vfws_report?.bathroom_in_top === 'Choose...')
+    } else if ((type === 'whole-house' || type === 'wh-and-purifier') && (!data?.vfws_report?.site
+        || !data?.vfws_report?.usage || !data?.vfws_report?.inlet
+        || !data?.vfws_report?.outlet || !data?.vfws_report?.bathroom_in_top)
     ) {
         return { status: false, message: 'Fill VFWS Report Feilds' }
     } else {

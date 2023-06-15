@@ -25,14 +25,14 @@ function createContent(data) {
     })
 
     // Findings
-    data.findings.map((obj) => {
+    data.findings.forEach((obj) => {
         content.findings.push(obj.text)
     })
 
     // Preferred
     let amount = 0;
     content.preferred.push({ a: 'MODEL NAME', b: 'RATE' })
-    data.preferred_solution.map((obj) => {
+    data.preferred_solution.forEach((obj) => {
         content.preferred.push({ a: obj.item, b: obj.price })
         amount = amount + obj.price
     })
@@ -41,7 +41,7 @@ function createContent(data) {
     // Preferred
     let amount2 = 0;
     content.customerSeleted.push({ a: 'MODEL NAME', b: 'RATE' })
-    data.cust_preferred_solution.map((obj) => {
+    data.cust_preferred_solution.forEach((obj) => {
         content.customerSeleted.push({ a: obj.item, b: obj.price })
         amount2 = amount2 + obj.price
     })
@@ -61,7 +61,7 @@ function createContent(data) {
     }
     content.tac.push(`The company shall not be held responsible for any additional problems arising from the customer's failure to follow the company's suggestions and recommendations.`)
     content.tac.push(`This quotation is valid until ${data?.expr_date}. After this date, the prices and terms mentioned herein may be subject to change.`)
-    data.tac.map((obj) => {
+    data.tac.forEach((obj) => {
         content.tac.push(obj.text)
     })
 
@@ -88,7 +88,7 @@ function createContent(data) {
 
         // Components
         content.prComponents.push({ a: 'NAME', b: 'BRAND' })
-        data?.purifier_component.map((obj) => {
+        data?.purifier_component.forEach((obj) => {
             content.prComponents.push({ a: obj.item, b: obj.brand })
         })
     }
@@ -122,13 +122,13 @@ function createContent(data) {
 
         // Materials
         content.materials.push({ a: 'NAME', b: 'BRAND' })
-        data?.materials.map((obj) => {
+        data?.materials.forEach((obj) => {
             content.materials.push({ a: obj.item, b: obj.brand })
         })
 
         // Components
         content.whComponents.push({ a: 'NAME', b: 'BRAND' })
-        data?.vfs_component.map((obj) => {
+        data?.vfs_component.forEach((obj) => {
             content.whComponents.push({ a: obj.item, b: obj.brand })
         })
     }
