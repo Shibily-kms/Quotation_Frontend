@@ -14,11 +14,11 @@ function DynamicListTable({ data, setData, input, multi, type }) {
 
     const handleChange = (e) => {
 
-        let choosed = null
+        let chooses = null
 
         if (e.target.name === 'item') {
-            choosed = inputs.filter((obj) => obj.item === e.target.value)
-            multi && setBrandInput(choosed[0].brands)
+            chooses = inputs.filter((obj) => obj.item === e.target.value)
+            multi && setBrandInput(chooses[0].brands)
         }
 
         if (multi) {
@@ -26,7 +26,7 @@ function DynamicListTable({ data, setData, input, multi, type }) {
         } else {
             setChoose({
                 item: e.target.value,
-                price: choosed[0].price
+                price: chooses[0].price
             })
         }
     }

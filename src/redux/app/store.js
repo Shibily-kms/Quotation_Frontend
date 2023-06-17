@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userAuthSlice from '../features/authSlice'
+import quotationSlice from '../features/quotationSlice';
 
 
 const persistConfig = {
@@ -10,10 +11,9 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-   
     // user
     userAuth: userAuthSlice,
-
+    inputData: quotationSlice
 });
 
 

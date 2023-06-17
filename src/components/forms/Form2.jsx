@@ -4,14 +4,18 @@ import DynamicListTable from '../../components/dynamic-list-table/DynamicListTab
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-toastify'
 import { form2Validate } from '../../assets/js/validate-function'
+import { setQuotationInput, setFill } from '../../redux/features/quotationSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 
-function Form2({ type, data, setData, setPage, setFill }) {
-    const [preferred, setPreferred] = useState(data?.preferred_solution || [])
-    const [custPreferred, setCustPreferred] = useState(data?.cust_preferred_solution || [])
-    const [materials, setMaterials] = useState(data?.materials || [])
-    const [vfs, setVfs] = useState(data?.vfs_component || [])
-    const [purifier, setPurifier] = useState(data?.purifier_component || [])
+function Form2({ type, setPage }) {
+    const dispatch = useDispatch()
+    const { quotation } = useSelector((state) => state.inputData)
+    const [preferred, setPreferred] = useState(quotation?.preferred_solution || [])
+    const [custPreferred, setCustPreferred] = useState(quotation?.cust_preferred_solution || [])
+    const [materials, setMaterials] = useState(quotation?.materials || [])
+    const [vfs, setVfs] = useState(quotation?.vfs_component || [])
+    const [purifier, setPurifier] = useState(quotation?.purifier_component || [])
     const [solutions, setSolutions] = useState([])
     const [materialsInput, setMaterialsInput] = useState([])
     const [vfsInput, setVfsInput] = useState([])
@@ -19,29 +23,26 @@ function Form2({ type, data, setData, setPage, setFill }) {
 
     // Preferred
     useEffect(() => {
-        setData({
-            ...data,
+        dispatch(setQuotationInput({
             preferred_solution: preferred
-        })
+        }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [preferred])
 
     // custPreferred
     useEffect(() => {
-        setData({
-            ...data,
+        dispatch(setQuotationInput({
             cust_preferred_solution: custPreferred
-        })
+        }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [custPreferred])
 
     // materials
     useEffect(() => {
         if (type === 'whole-house' || type === 'wh-and-purifier') {
-            setData({
-                ...data,
+            dispatch(setQuotationInput({
                 materials: materials
-            })
+            }))
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [materials])
@@ -49,10 +50,9 @@ function Form2({ type, data, setData, setPage, setFill }) {
     // vfs
     useEffect(() => {
         if (type === 'whole-house' || type === 'wh-and-purifier') {
-            setData({
-                ...data,
+            dispatch(setQuotationInput({
                 vfs_component: vfs
-            })
+            }))
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vfs])
@@ -60,10 +60,9 @@ function Form2({ type, data, setData, setPage, setFill }) {
     // purifier
     useEffect(() => {
         if (type === 'purifier' || type === 'wh-and-purifier') {
-            setData({
-                ...data,
+            dispatch(setQuotationInput({
                 purifier_component: purifier
-            })
+            }))
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [purifier])
@@ -107,25 +106,23 @@ function Form2({ type, data, setData, setPage, setFill }) {
     // Handles
 
     const handleWarranty = (e) => {
-        setData({
-            ...data,
+        dispatch(setFill({ two: false }))
+        dispatch(setQuotationInput({
             warranty: {
-                ...data.warranty,
+                ...quotation.warranty,
                 [e.target.name]: e.target.value
             }
-        })
+        }))
     }
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const validate = form2Validate(data, type)
+        const validate = form2Validate(quotation, type)
 
         if (validate.status) {
             setPage(3)
-            setFill((state) => {
-                return { ...state, two: true }
-            })
+            dispatch(setFill({ two: true }))
         } else {
             toast.error(validate.message)
         }
@@ -143,7 +140,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                         <div className="header">
                             <h5>Preferred Solutions</h5>
                         </div>
-                        <DynamicListTable data={preferred} setData={setPreferred} input={solutions} multi={false} type={'preferred'}/>
+                        <DynamicListTable data={preferred} setData={setPreferred} input={solutions} multi={false} type={'preferred'} />
                     </div>
 
                     {/* Customer Selected */}
@@ -151,7 +148,7 @@ function Form2({ type, data, setData, setPage, setFill }) {
                         <div className="header">
                             <h5>Customer Selected Solutions</h5>
                         </div>
-                        <DynamicListTable data={custPreferred} setData={setCustPreferred} input={solutions} multi={false} type={'customer'}/>
+                        <DynamicListTable data={custPreferred} setData={setCustPreferred} input={solutions} multi={false} type={'customer'} />
                     </div>
 
                     {/* Material for VFS */}
@@ -190,13 +187,13 @@ function Form2({ type, data, setData, setPage, setFill }) {
                         <div className="forms">
                             {type === 'purifier' || type === 'wh-and-purifier' ? <>
                                 <div className="nor-input-div">
-                                    <input type="text" id='pws' name='pws' value={data?.warranty?.pws} required onChange={handleWarranty} />
+                                    <input type="text" id='pws' name='pws' value={quotation?.warranty?.pws} required onChange={handleWarranty} />
                                     <label htmlFor="pws">Purifier System</label>
                                 </div>
                             </> : ''}
                             {type === 'whole-house' || type === 'wh-and-purifier' ? <>
                                 <div className="nor-input-div">
-                                    <input type="text" id='vfws' name='vfws' value={data?.warranty?.vfws} required onChange={handleWarranty} />
+                                    <input type="text" id='vfws' name='vfws' value={quotation?.warranty?.vfws} required onChange={handleWarranty} />
                                     <label htmlFor="vfws">Vessel Filtration System</label>
                                 </div>
                             </> : ''}

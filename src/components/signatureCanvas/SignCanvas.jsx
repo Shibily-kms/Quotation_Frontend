@@ -2,8 +2,12 @@ import React, { useRef, useState } from 'react'
 import SignatureCanvas from 'react-signature-canvas';
 import { toast } from 'react-toastify'
 import './sign-canvas.scss'
+import { setQuotationInput } from '../../redux/features/quotationSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
-function SignCanvas({ data, setData, type }) {
+function SignCanvas({ type }) {
+    const dispatch = useDispatch()
+    const { quotation } = useSelector((state) => state.inputData)
     const signatureRef = useRef(null);
     const [image, setImage] = useState('')
 
@@ -12,15 +16,12 @@ function SignCanvas({ data, setData, type }) {
     };
 
     const handleShow = () => {
-        setData((prev) => {
-            return {
-                ...prev,
-                sign: {
-                    ...prev?.sign,
-                    [type]: null
-                }
+        dispatch(setQuotationInput({
+            sign: {
+                ...quotation?.sign,
+                [type]: null
             }
-        })
+        }))
     }
 
     const handleSave = () => {
@@ -31,26 +32,23 @@ function SignCanvas({ data, setData, type }) {
 
         const dataUrl = signatureRef.current.toDataURL(); // Get the image data URL
         setImage(dataUrl)
-        setData((prev) => {
-            return {
-                ...prev,
-                sign: {
-                    ...prev?.sign,
-                    [type]: dataUrl
-                }
+        dispatch(setQuotationInput({
+            sign: {
+                ...quotation?.sign,
+                [type]: dataUrl
             }
-        })
+        }))
     };
 
 
     return (
         <div className='signCanvas-div'>
-            {!data?.sign?.[type] && <p>Sign here</p>}
-            {!data?.sign?.[type] && <SignatureCanvas ref={signatureRef} canvasProps={{ className: 'signCanvas' }} />}
-            {data?.sign?.[type] && <img alt='signature' src={data?.sign?.[type] || image} />}
+            {!quotation?.sign?.[type] && <p>Sign here</p>}
+            {!quotation?.sign?.[type] && <SignatureCanvas ref={signatureRef} canvasProps={{ className: 'signCanvas' }} />}
+            {quotation?.sign?.[type] && <img alt='signature' src={quotation?.sign?.[type] || image} />}
             <div className="buttons">
-                <button type='button' onClick={data?.sign?.[type] ? handleShow : handleReset}>Retry</button>
-                <button type='button' onClick={handleSave}>{data?.sign?.[type] ? 'Saved' : 'Save'}</button>
+                <button type='button' onClick={quotation?.sign?.[type] ? handleShow : handleReset}>Retry</button>
+                <button type='button' onClick={handleSave}>{quotation?.sign?.[type] ? 'Saved' : 'Save'}</button>
             </div>
         </div>
 

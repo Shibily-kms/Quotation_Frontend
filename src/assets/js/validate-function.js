@@ -23,6 +23,7 @@ function form1Validate(data, type) {
 }
 
 function form2Validate(data, type) {
+   
     if (data?.preferred_solution?.length < 1 || !data?.preferred_solution) {
         return { status: false, message: 'Select Preferred Solutions' }
     } else if (data?.cust_preferred_solution?.length < 1 || !data?.cust_preferred_solution) {
@@ -32,7 +33,8 @@ function form2Validate(data, type) {
         if (data?.purifier_component?.length < 1 || !data?.purifier_component) {
             return { status: false, message: 'Select Any Purifier Components' }
         }
-    } else if (type === 'whole-house' || type === 'wh-and-purifier') {
+    }
+    if (type === 'whole-house' || type === 'wh-and-purifier') {
         if (data?.materials?.length < 1 || !data?.materials) {
             return { status: false, message: 'Select Any Materials' }
         } else if (data?.vfs_component?.length < 1 || !data?.vfs_component) {

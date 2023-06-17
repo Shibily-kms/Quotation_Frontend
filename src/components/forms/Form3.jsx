@@ -6,35 +6,37 @@ import { toast } from 'react-toastify'
 import SignCanvas from '../signatureCanvas/SignCanvas';
 import { form3Validate } from '../../assets/js/validate-function';
 import { useNavigate } from 'react-router-dom';
+import { setQuotationInput, reset, setFill } from '../../redux/features/quotationSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
-function Form3({ type, data, setData, setPage, fill, setFill }) {
-    const [tac, setTac] = useState(data?.tac || [])
+function Form3({ type, setPage }) {
+    const dispatch = useDispatch()
+    const { quotation, fill } = useSelector((state) => state.inputData)
+    const [tac, setTac] = useState(quotation?.tac || [])
     const navigate = useNavigate()
 
     useEffect(() => {
-        setData({
-            ...data,
+        dispatch(setQuotationInput({
             tac: tac
-        })
+        }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tac])
 
     const handleChange = (e) => {
-        setData({
-            ...data,
+        dispatch(setFill({ three: false }))
+        dispatch(setQuotationInput({
             [e.target.name]: e.target.value
-        })
+        }))
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const validate = form3Validate(data, fill)
+        const validate = form3Validate(quotation, fill)
 
         if (validate.status) {
-            setFill((state) => {
-                return { ...state, three: true }
-            })
-            userAxios.post('/quotation', data).then((response) => {
+            dispatch(setFill({ three: true }))
+            userAxios.post('/quotation', quotation).then((response) => {
+                dispatch(reset())
                 navigate('/quotation', { state: response.data.quotation })
             }).catch((error) => {
                 toast.error(error.response.data.message)
@@ -60,19 +62,19 @@ function Form3({ type, data, setData, setPage, fill, setFill }) {
                         <div className="forms" style={{ marginTop: '15px' }}>
                             {type === 'purifier' || type === 'wh-and-purifier' ?
                                 <div className="nor-input-div">
-                                    <input type="number" step="0.1" id='purifier_max_usage' name='purifier_max_usage' value={data?.purifier_max_usage} required onChange={handleChange} />
+                                    <input type="number" step="0.1" id='purifier_max_usage' name='purifier_max_usage' value={quotation?.purifier_max_usage} required onChange={handleChange} />
                                     <label htmlFor="purifier_max_usage">Purifier Daily Usage (Liters / Day)</label>
                                 </div>
                                 : ''}
                             {type === 'whole-house' || type === 'wh-and-purifier' ?
                                 <div className="nor-input-div">
-                                    <input type="number" step="0.1" id='vfws_max_usage' name='vfws_max_usage' value={data?.vfws_max_usage} required onChange={handleChange} />
+                                    <input type="number" step="0.1" id='vfws_max_usage' name='vfws_max_usage' value={quotation?.vfws_max_usage} required onChange={handleChange} />
                                     <label htmlFor="vfws_max_usage">VFWS Daily Usage (Liters / Day)</label>
                                 </div>
                                 : ""}
                             <div className="nor-input-div">
-                                <input type="date" id='expr_date' name='expr_date' value={data?.expr_date} required onChange={handleChange} />
-                                <label htmlFor="expr_date">Quatation Expiry Date</label>
+                                <input type="date" id='expr_date' name='expr_date' value={quotation?.expr_date} required onChange={handleChange} />
+                                <label htmlFor="expr_date">Quotation Expiry Date</label>
                             </div>
                         </div>
                     </div>
@@ -85,13 +87,13 @@ function Form3({ type, data, setData, setPage, fill, setFill }) {
                         <div className="forms">
                             <div className="sign-canvas-div">
                                 <div className="canvas-div">
-                                    <SignCanvas data={data} setData={setData} type={'customer'} />
+                                    <SignCanvas type={'customer'} />
                                 </div>
                                 <label htmlFor="">Customer Signature</label>
                             </div>
                             <div className="sign-canvas-div">
                                 <div className="canvas-div">
-                                    <SignCanvas data={data} setData={setData} type={'authorized'} />
+                                    <SignCanvas type={'authorized'} />
                                 </div>
                                 <label htmlFor="">Authorized Signature</label>
                             </div>
