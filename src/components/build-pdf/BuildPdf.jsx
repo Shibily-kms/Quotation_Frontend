@@ -8,7 +8,6 @@ import TableModel from './components/TableModel';
 import ListModel from './components/ListModel';
 import './fonts/Fonts'
 import { createContent } from '../../assets/js/pdf-data-helper'
-import imageAPI from '../../config/imageAPI'
 
 const styles = StyleSheet.create({
     w_body: {
@@ -45,7 +44,6 @@ const styles = StyleSheet.create({
 
 const BuildPdf = ({ data }) => {
     const content = createContent(data)
-
     return (
         <Document>
             <PageWrapper >
@@ -131,11 +129,11 @@ const BuildPdf = ({ data }) => {
                     {/* Signature */}
                     <View style={styles.w_body}>
                         <View style={styles.w_child}>
-                            <Image style={styles.signature} src={`${imageAPI}/signature/${data.quotation_srl_no}customer.png`} />
+                            <Image style={styles.signature} src={data?.sign?.customer?.url} />
                             <Text>Customer signature</Text>
                         </View>
                         <View style={styles.w_child}>
-                            <Image style={styles.signature} src={`${imageAPI}/signature/${data.quotation_srl_no}authorized.png`} />
+                            <Image style={styles.signature} src={data?.sign?.authorized?.url} />
                             <Text>Authorized signature</Text>
                         </View>
                     </View>

@@ -14,6 +14,7 @@ function Form3({ type, setPage }) {
     const { quotation, fill } = useSelector((state) => state.inputData)
     const [tac, setTac] = useState(quotation?.tac || [])
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         dispatch(setQuotationInput({
@@ -31,6 +32,7 @@ function Form3({ type, setPage }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true)
         const validate = form3Validate(quotation, fill)
 
         if (validate.status) {
@@ -38,11 +40,14 @@ function Form3({ type, setPage }) {
             userAxios.post('/quotation', quotation).then((response) => {
                 dispatch(reset())
                 navigate('/quotation', { state: response.data.quotation })
+                setLoading(false)
             }).catch((error) => {
                 toast.error(error.response.data.message)
+                setLoading(false)
             })
 
         } else {
+            setLoading(false)
             toast.error(validate.message)
         }
     }
@@ -103,7 +108,11 @@ function Form3({ type, setPage }) {
 
                     <div className="button-div">
                         <button type='button' onClick={() => setPage(2)} className='skip'>Previous</button>
-                        <button type='submit' className='submit' >Submit</button>
+                        {loading ?
+                            <button type='button' className='submit' >Submitting...</button>
+                            :
+                            <button type='submit' className='submit' >Submit</button>
+                        }
                     </div>
                 </form>
             </div>

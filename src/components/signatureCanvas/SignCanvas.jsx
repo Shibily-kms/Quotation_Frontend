@@ -19,7 +19,7 @@ function SignCanvas({ type }) {
         dispatch(setQuotationInput({
             sign: {
                 ...quotation?.sign,
-                [type]: null
+                [type]: { url: null }
             }
         }))
     }
@@ -35,7 +35,7 @@ function SignCanvas({ type }) {
         dispatch(setQuotationInput({
             sign: {
                 ...quotation?.sign,
-                [type]: dataUrl
+                [type]: { url: dataUrl }
             }
         }))
     };
@@ -43,12 +43,12 @@ function SignCanvas({ type }) {
 
     return (
         <div className='signCanvas-div'>
-            {!quotation?.sign?.[type] && <p>Sign here</p>}
-            {!quotation?.sign?.[type] && <SignatureCanvas ref={signatureRef} canvasProps={{ className: 'signCanvas' }} />}
-            {quotation?.sign?.[type] && <img alt='signature' src={quotation?.sign?.[type] || image} />}
+            {!quotation?.sign?.[type]?.url && <p>Sign here</p>}
+            {!quotation?.sign?.[type]?.url && <SignatureCanvas ref={signatureRef} canvasProps={{ className: 'signCanvas' }} />}
+            {quotation?.sign?.[type]?.url && <img alt='signature' src={quotation?.sign?.[type]?.url || image} />}
             <div className="buttons">
-                <button type='button' onClick={quotation?.sign?.[type] ? handleShow : handleReset}>Retry</button>
-                <button type='button' onClick={handleSave}>{quotation?.sign?.[type] ? 'Saved' : 'Save'}</button>
+                <button type='button' onClick={quotation?.sign?.[type]?.url ? handleShow : handleReset}>Retry</button>
+                <button type='button' onClick={handleSave}>{quotation?.sign?.[type]?.url ? 'Saved' : 'Save'}</button>
             </div>
         </div>
 
