@@ -3,7 +3,8 @@ import axios from 'axios'
 
 const baseSetup = {
     userAxios: axios.create({
-        baseURL: 'http://localhost:8001/',
+        baseURL: 'https://api.sales.alliancewatersolutions.com/',
+        // baseURL: 'http://localhost:8001/',
         headers: {
             'Content-Type': 'application/json'
         }
