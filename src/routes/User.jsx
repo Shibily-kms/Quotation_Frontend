@@ -60,7 +60,7 @@ function User() {
 
             {/* Qutation List */}
             <Route path='/quotations-list' element={<PrivateRoute element={<QuotationList />} isAuthenticated={isAuthenticated} />} />
-           
+
 
         </Routes>
     )
