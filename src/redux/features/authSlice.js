@@ -53,7 +53,6 @@ export const userAuthSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 window.location.href = 'https://www.staff.alliancewatersolutions.com/'
-                // window.location.href = 'http://localhost:3001/'
             });
     },
 })

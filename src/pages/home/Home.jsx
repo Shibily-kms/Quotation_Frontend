@@ -12,7 +12,6 @@ function Home() {
     const id = searchParams.get('id');
     if (!id && user._id) {
       window.location.href = `https://www.sales.alliancewatersolutions.com?id=${user._id}`
-      // window.location.href = `http://localhost:3000?id=${user._id}`
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
