@@ -32,8 +32,7 @@ function User() {
     useEffect(() => {
         const id = searchParams.get('id');
         if (!id && !user?._id) {
-            window.location.href = `https://www.staff.alliancewatersolutions.com/`
-            // window.location.href = `http://localhost:3001/`
+            window.location.href = `http://localhost:3001/`
         } else if (id) {
             dispatch(loginUser(id))
         }
@@ -61,7 +60,7 @@ function User() {
 
             {/* Qutation List */}
             <Route path='/quotations-list' element={<PrivateRoute element={<QuotationList />} isAuthenticated={isAuthenticated} />} />
-           
+
 
         </Routes>
     )

@@ -10,8 +10,7 @@ function Header() {
 
     const handleLogOut = () => {
         dispatch(logOut())
-        window.location.href = 'https://www.staff.alliancewatersolutions.com/'
-        // window.location.href = 'http://localhost:3001/'
+        window.location.href = 'http://localhost:3001/'
     }
 
     return (

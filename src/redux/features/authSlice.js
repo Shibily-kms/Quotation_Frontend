@@ -52,8 +52,7 @@ export const userAuthSlice = createSlice({
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                window.location.href = 'https://www.staff.alliancewatersolutions.com/'
-                // window.location.href = 'http://localhost:3001/'
+                window.location.href = 'http://localhost:3001/'
             });
     },
 })
