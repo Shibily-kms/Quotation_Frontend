@@ -33,21 +33,27 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderStyle: 'solid',
     },
+    tableFooter: {
+        fontWeight: 700,
+        textAlign: 'center'
+    }
 });
-const TableModel = ({ data }) => {
-
+const TableModel = ({ data,  total }) => {
     return (
 
-        <View style={styles.table}>
-            {data.map((obj, index) => (
-                <View style={styles.tableRow} key={index}>
-                    {Object.entries(obj).map((item, idx) => (
-                        <Text key={idx} style={index === 0 ? [styles.tableCell, styles.tableHeader] : styles.tableCell}>
-                            {item[1]}</Text>
-                    ))}
-                </View>
-            ))}
-        </View>
+        <View style={styles.table} >
+            {
+                data.map((obj, index) => (
+                    <View style={styles.tableRow} key={index}>
+                        {Object.entries(obj).map((item, idx) => (
+                            <Text key={idx} style={index === 0 ? [styles.tableCell, styles.tableHeader] :
+                                index === (data.length - 1) && total ? [styles.tableCell, styles.tableFooter] : styles.tableCell}>
+                                {item[1]}</Text>
+                        ))}
+                    </View>
+                ))
+            }
+        </View >
 
     );
 };

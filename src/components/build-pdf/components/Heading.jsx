@@ -7,12 +7,12 @@ function Heading({ text }) {
         heading: {
             fontSize: '13px',
             fontWeight: 700,
-            marginTop:'15px',
-            marginBottom:'5px'
+            marginTop: '15px',
+            marginBottom: '5px'
         }
     })
     return (
-        <Text style={styles.heading}>{text}</Text>
+        <Text style={styles.heading} >{text}</Text>
     )
 }
 

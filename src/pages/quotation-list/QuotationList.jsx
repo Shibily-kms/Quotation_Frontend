@@ -9,7 +9,7 @@ import { saveAs } from 'file-saver';
 import { pdf } from '@react-pdf/renderer';
 import BuildPdf from '../../components/build-pdf/BuildPdf';
 
-function QuatationList() {
+function QuotationList() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState('')
 
@@ -32,7 +32,7 @@ function QuatationList() {
 
     const handleDelete = (slNo) => {
         let check = window.confirm('Are you delete quotation ?')
-        if(check){
+        if (check) {
             userAxios.delete(`/quotation?slno=${slNo}`).then((response) => {
                 if (response) {
                     setData((prev) => {
@@ -73,7 +73,7 @@ function QuatationList() {
                                                 <td>{value.quotation_srl_no}</td>
                                                 <td>
                                                     <div>
-                                                        <button title='view' className="view pdf" onClick={() => downloadPDF(value, index)}>
+                                                        <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value, index)}>
                                                             {loading === index ? <BsThreeDots /> : <FiDownload />}  </button>
                                                         <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
                                                             <IoTrashOutline /></button>
@@ -98,4 +98,4 @@ function QuatationList() {
 }
 
 
-export default QuatationList
+export default QuotationList
