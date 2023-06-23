@@ -36,6 +36,7 @@ input[type="date"] {
     -moz-appearance: none;
     border: none;
     background: none;
+    min-height: 7px;
 }
 
 
@@ -46,4 +47,4 @@ select {
     -moz-appearance: none;
     border: none;
     background: none;
-  }
+}
