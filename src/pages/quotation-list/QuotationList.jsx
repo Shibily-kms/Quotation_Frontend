@@ -19,7 +19,16 @@ function QuotationList() {
 
         const pdfDoc = (<BuildPdf data={data} />)
         const pdfBlob = await pdf(pdfDoc).toBlob();
-        saveAs(pdfBlob, `${data.quotation_srl_no}.pdf`);
+        // saveAs(pdfBlob, `${data.quotation_srl_no}.pdf`);
+
+        //? Create a temporary URL for the PDF blob
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        
+        //? Open the PDF in a new tab
+        window.open(pdfUrl, '_blank');
+
+        //? Clean up the temporary URL
+        // URL.revokeObjectURL(pdfUrl);
 
         setLoading('')
     }
