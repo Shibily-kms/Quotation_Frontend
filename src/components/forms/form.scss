@@ -42,7 +42,7 @@
                     }
 
                     label {
-                       
+
                         position: absolute;
                         color: rgb(85, 85, 85);
                         transition: 0.1s ease-in-out;
@@ -99,6 +99,7 @@
                             font-size: 12px;
                             font-weight: 500;
                             width: fit-content;
+                            max-width: 85%;
                             padding: 0px 5px;
                         }
                     }
@@ -118,10 +119,13 @@
                         background-color: white;
                         width: 85%;
                         padding: 3px 0;
+                        display: inline-block;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
                     }
                 }
             }
-
 
             @media screen and (max-width:800px) {
                 .forms {

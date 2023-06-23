@@ -26,3 +26,24 @@
     padding-left: 5%;
     padding-right: 5%;
 }
+
+
+// input
+input[type="date"] {
+    /* Reset default styles */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    background: none;
+}
+
+
+select {
+    /* Reset default styles */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    background: none;
+  }
