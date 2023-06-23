@@ -24,16 +24,11 @@ function QuotationList() {
         //? Create a temporary URL for the PDF blob
         const pdfUrl = URL.createObjectURL(pdfBlob);
 
-        // ?Prompt the user to open the PDF
-        const confirmation = window.confirm('Open the PDF in a new tab.');
-
-        if (confirmation) {
-            // Open the PDF in a new tab
-            window.open(pdfUrl, '_blank');
-        }
-
-        //? Clean up the temporary URL
-        // URL.revokeObjectURL(pdfUrl);
+        // Create a link element and trigger the download
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = `${data.quotation_srl_no}.pdf`;
+        link.click();
 
         setLoading('')
     }

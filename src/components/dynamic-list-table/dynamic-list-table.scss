@@ -48,7 +48,8 @@
                         left: 10px;
                         font-size: 12px;
                         font-weight: 500;
-                        width: fit-content;
+                        width: max-content;
+                        max-width: 85%;
                         padding: 0px 5px;
                     }
                 }
@@ -68,6 +69,10 @@
                     background-color: white;
                     width: 85%;
                     padding: 3px 0;
+                    display: inline-block;
+                    overflow: hidden;
+                    white-space: nowrap;
+
                 }
             }
 
@@ -98,7 +103,7 @@
         -ms-border-radius: 10px;
         -o-border-radius: 10px;
 
-        p{
+        p {
             font-size: 13px;
             text-align: center;
             color: gray;
@@ -122,7 +127,8 @@
             }
         }
     }
-    .mob{
+
+    .mob {
         display: block;
     }
 }
@@ -138,8 +144,18 @@
         .text-div {
             order: 1;
         }
-        .mob{
+
+        .mob {
             display: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 767px) and (orientation: landscape) {
+    .dynamic-form-div {
+        .label {
+            font-size: 13px;
+            /* Adjust the font size as needed */
         }
     }
 }

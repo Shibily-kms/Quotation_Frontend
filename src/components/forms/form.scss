@@ -55,7 +55,11 @@
                         left: 10px;
                         font-size: 12px;
                         font-weight: 500;
-                        width: fit-content;
+                        width: max-content;
+                        display: inline-block;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        max-width: 85%;
                         padding: 0px 5px;
                     }
                 }
@@ -122,7 +126,6 @@
                         display: inline-block;
                         overflow: hidden;
                         white-space: nowrap;
-                        text-overflow: ellipsis;
                     }
                 }
             }
@@ -132,17 +135,25 @@
                     grid-template-columns: 1fr;
                 }
             }
+
+            @media only screen and (max-width: 767px) and (orientation: landscape) {
+                .label {
+                    font-size: 13px;
+                    /* Adjust the font size as needed */
+                }
+            }
         }
 
         .button-div {
             margin-top: 10px;
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
+            
 
             button {
                 @include normalButton();
                 min-width: 100px;
+                margin: 0 5px;
             }
 
             .skip {

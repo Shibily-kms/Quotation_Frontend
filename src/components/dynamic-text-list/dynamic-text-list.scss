@@ -52,7 +52,8 @@
                         left: 10px;
                         font-size: 12px;
                         font-weight: 500;
-                        width: fit-content;
+                        width: max-content;
+                        max-width: 85%;
                         padding: 0px 5px;
                     }
                 }
@@ -72,6 +73,9 @@
                     background-color: white;
                     width: 85%;
                     padding: 3px 0;
+                    display: inline-block;
+                    overflow: hidden;
+                    white-space: nowrap;
                 }
             }
 
@@ -153,6 +157,7 @@
         .text-div {
             order: 1;
         }
+
         .mob {
             display: none;
         }
