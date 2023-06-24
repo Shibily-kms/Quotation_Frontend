@@ -55,7 +55,7 @@
                         left: 10px;
                         font-size: 12px;
                         font-weight: 500;
-                        width: max-content;
+                        width: auto;
                         display: inline-block;
                         overflow: hidden;
                         white-space: nowrap;
@@ -102,9 +102,10 @@
                             left: 10px;
                             font-size: 12px;
                             font-weight: 500;
-                            width: max-content;
                             max-width: 85%;
                             padding: 0px 5px;
+                            width: auto;
+
                         }
                     }
 
@@ -148,7 +149,7 @@
             margin-top: 10px;
             display: flex;
             justify-content: flex-end;
-            
+
 
             button {
                 @include normalButton();

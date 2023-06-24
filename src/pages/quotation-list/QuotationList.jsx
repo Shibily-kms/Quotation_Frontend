@@ -17,18 +17,54 @@ function QuotationList() {
 
         setLoading(index)
 
-        const pdfDoc = (<BuildPdf data={data} />)
-        const pdfBlob = await pdf(pdfDoc).toBlob();
-        // saveAs(pdfBlob, `${data.quotation_srl_no}.pdf`);
+        setLoading(index);
 
-        //? Create a temporary URL for the PDF blob
+        const pdfDoc = (<BuildPdf data={data} />);
+        const pdfBlob = await pdf(pdfDoc).toBlob();
+
+        // Create a temporary URL for the PDF blob
         const pdfUrl = URL.createObjectURL(pdfBlob);
 
-        // Create a link element and trigger the download
+        // Create an anchor element
         const link = document.createElement('a');
         link.href = pdfUrl;
-        link.download = `${data.quotation_srl_no}.pdf`;
-        link.click();
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+
+        // Trigger the download programmatically
+        if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+            // For iPhone/iPad devices, use the 'click' event instead of 'download'
+            const clickEvent = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: false
+            });
+            link.dispatchEvent(clickEvent);
+            // } else if (navigator.userAgent.match(/Android/i)) {
+            //     console.log("Android");
+            //     // For Android devices, use the 'navigator.share()' API to trigger download
+            //     if (navigator.share) {
+            //         try {
+            //             await navigator.share({
+            //                 title: 'Download PDF',
+            //                 url: pdfUrl
+            //             });
+            //         } catch (error) {
+            //             // Handle any error that may occur during sharing
+            //             console.error('Sharing failed:', error);
+            //             // Fallback for older Android versions without share() support
+            //             window.open(pdfUrl, '_blank');
+            //         }
+            //     } else {
+            //         // Fallback for older Android versions without share() support
+            //         window.open(pdfUrl, '_blank');
+            //     }
+        } else {
+            // For other devices, set the 'download' attribute and click the link
+            link.download = `${data.quotation_srl_no}.pdf`;
+            link.click();
+        }
+
 
         setLoading('')
     }
