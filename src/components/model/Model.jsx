@@ -7,7 +7,7 @@ import { IoCloseCircleOutline } from 'react-icons/io5';
 function Model({ model, setModel, element }) {
     return (
         <div className="model" >
-            <div className="boader">
+            <div className="boarder">
                 <div className="shadow" onClick={() => setModel(null)}></div>
                 <div className="box">
                     <div className="header">

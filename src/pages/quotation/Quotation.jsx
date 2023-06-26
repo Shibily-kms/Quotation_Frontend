@@ -62,7 +62,7 @@ function Quotation() {
                             <Title title={'Quotations'} />
                         </div>
                         <div className="bottom">
-                            <div className="boader">
+                            <div className="boarder">
                                 <div className="button-div">
                                     <button onClick={() => navigate('/quotation/purifier')}>PURIFIER</button>
                                 </div>

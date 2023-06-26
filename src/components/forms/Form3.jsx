@@ -37,12 +37,17 @@ function Form3({ type, setPage }) {
 
         if (validate.status) {
             dispatch(setFill({ three: true }))
+
             userAxios.post('/quotation', quotation).then((response) => {
                 dispatch(reset())
                 navigate('/quotation', { state: response.data.quotation })
                 setLoading(false)
             }).catch((error) => {
-                toast.error(error.response.data.message)
+                if (error?.response) {
+                    toast.error(error.response?.data?.message)
+                } else {
+                    toast.error('Must have internet')
+                }
                 setLoading(false)
             })
 
@@ -73,8 +78,8 @@ function Form3({ type, setPage }) {
                                 : ''}
                             {type === 'whole-house' || type === 'wh-and-purifier' ?
                                 <div className="nor-input-div">
-                                    <input type="number" step="0.1" id='vfws_max_usage' name='vfws_max_usage' value={quotation?.vfws_max_usage} required onChange={handleChange} />
-                                    <label htmlFor="vfws_max_usage">VFWS Daily Usage (Liters / Day)</label>
+                                    <input type="number" step="0.1" id='vfs_max_usage' name='vfs_max_usage' value={quotation?.vfs_max_usage} required onChange={handleChange} />
+                                    <label htmlFor="vfs_max_usage">VFS Daily Usage (Liters / Day)</label>
                                 </div>
                                 : ""}
                             <div className="nor-input-div">
@@ -95,12 +100,6 @@ function Form3({ type, setPage }) {
                                     <SignCanvas type={'customer'} />
                                 </div>
                                 <label htmlFor="">Customer Signature</label>
-                            </div>
-                            <div className="sign-canvas-div">
-                                <div className="canvas-div">
-                                    <SignCanvas type={'authorized'} />
-                                </div>
-                                <label htmlFor="">Authorized Signature</label>
                             </div>
                         </div>
                     </div>

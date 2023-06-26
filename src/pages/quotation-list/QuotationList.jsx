@@ -41,7 +41,6 @@ function QuotationList() {
             });
             link.dispatchEvent(clickEvent);
             // } else if (navigator.userAgent.match(/Android/i)) {
-            //     console.log("Android");
             //     // For Android devices, use the 'navigator.share()' API to trigger download
             //     if (navigator.share) {
             //         try {
@@ -106,16 +105,20 @@ function QuotationList() {
                                 <table id="list">
                                     {data?.[0] ? <>
                                         <tr>
-                                            <th>Sl no</th>
+                                            <th>Idx No</th>
+                                            <th>Name</th>
+                                            <th>Enquiry Srl No</th>
+                                            <th>Qtn Srl No</th>
                                             <th>Type</th>
-                                            <th>Srl No</th>
                                             <th>Control</th>
                                         </tr>
                                         {data.map((value, index) => {
                                             return <tr key={value._id}>
                                                 <td>{index + 1}</td>
-                                                <td>{value.type}</td>
+                                                <td>{value.customer.name}</td>
+                                                <td>{value.enquiry_srl_no}</td>
                                                 <td>{value.quotation_srl_no}</td>
+                                                <td>{value.type}</td>
                                                 <td>
                                                     <div>
                                                         <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value, index)}>

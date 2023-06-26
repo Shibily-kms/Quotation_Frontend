@@ -55,9 +55,9 @@ function createContent(data) {
     if (data?.type === 'purifier') {
         content.tac.push(`To ensure optimal performance and minimize maintenance requirements, it is recommended that the purifier is used for a maximum daily usage of ${data?.purifier_max_usage} liters per day.`)
     } else if (data?.type === 'whole-house') {
-        content.tac.push(`To ensure optimal performance and minimize maintenance requirements, it is recommended that the vessel water filtration system can handle a maximum daily usage of up to ${data?.vfws_max_usage} liters per day.`)
+        content.tac.push(`To ensure optimal performance and minimize maintenance requirements, it is recommended that the vessel water filtration system can handle a maximum daily usage of up to ${data?.vfs_max_usage} liters per day.`)
     } else {
-        content.tac.push(`To ensure optimal performance and minimize maintenance requirements, it is recommended that the purifier is used for a maximum daily usage of ${data?.purifier_max_usage} liters per day. The whole house filter, on the other hand, can handle a maximum daily usage of up to ${data?.vfws_max_usage} liters per day.`)
+        content.tac.push(`To ensure optimal performance and minimize maintenance requirements, it is recommended that the purifier is used for a maximum daily usage of ${data?.purifier_max_usage} liters per day. The whole house filter, on the other hand, can handle a maximum daily usage of up to ${data?.vfs_max_usage} liters per day.`)
     }
     content.tac.push(`The company shall not be held responsible for any additional problems arising from the customer's failure to follow the company's suggestions and recommendations.`)
     content.tac.push(`This quotation is valid until ${data?.expr_date}. After this date, the prices and terms mentioned herein may be subject to change.`)
@@ -101,18 +101,18 @@ function createContent(data) {
         let arr1 = [], arr2 = []
         arr1.push({ a: 'SITE', b: 'USAGE', c: 'TANK CAPASITY', d: 'MOTOR DETAILS', e: 'FLOOR DETAILS' })
         arr1.push({
-            a: data?.vfws_report?.site,
-            b: data?.vfws_report?.usage,
-            c: `${data?.vfws_report?.tank_capasity} (L)`,
-            d: data?.vfws_report?.motor_details,
-            e: data?.vfws_report?.floor_details
+            a: data?.vfs_report?.site,
+            b: data?.vfs_report?.usage,
+            c: `${data?.vfs_report?.tank_capasity} (L)`,
+            d: data?.vfs_report?.motor_details,
+            e: data?.vfs_report?.floor_details
         })
         arr2.push({ a: 'FLOOR HEIGHT', b: 'INLET', c: 'OUTLET', d: 'BATHROOMS ON TOP', })
         arr2.push({
-            a: data?.vfws_report?.floor_hight,
-            b: `${data?.vfws_report?.inlet} inch`,
-            c: `${data?.vfws_report?.outlet} inch`,
-            d: data?.vfws_report?.bathroom_in_top
+            a: data?.vfs_report?.floor_hight,
+            b: `${data?.vfs_report?.inlet} inch`,
+            c: `${data?.vfs_report?.outlet} inch`,
+            d: data?.vfs_report?.bathroom_in_top
         })
         content.siteReportWH.push(arr1)
         content.siteReportWH.push(arr2)

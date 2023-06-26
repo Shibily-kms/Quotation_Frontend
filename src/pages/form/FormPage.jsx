@@ -14,7 +14,6 @@ function FormPage() {
     const { fill } = useSelector((state) => state.inputData)
     const [searchParams] = useSearchParams();
     const [page, setPage] = useState(1)
-    // const [fill, setFill] = useState({ one: false, two: false, three: false })
     const { type } = useParams()
     const [line, setLine] = useState('0%')
 
@@ -50,7 +49,7 @@ function FormPage() {
                         <Title title={`${type} Form`} />
                     </div>
                     <div className="bottom">
-                        <div className="boader">
+                        <div className="boarder">
                             <div className="top">
                                 <div className='page-number-main-div'>
                                     <div className="line" ><div style={{ width: line }}></div ></div>

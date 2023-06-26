@@ -69,7 +69,7 @@ function DynamicListTable({ data, setData, input, multi, type }) {
                             <option value={''}>{inputs?.[0] ? 'Choose...' : 'Loading...'}</option>
                             {inputs?.[0] ? <>
                                 {inputs.map((value) => {
-                                    if (!value?.use && value?.brands.length > 0) {
+                                    if (!value?.use && value?.brands?.length > 0) {
                                         return <option key={value.item} value={value.item}>{value.item}</option>
                                     } else if (!value?.use && value?.price) {
                                         return <option key={value.item} value={value.item}>{value.item}</option>
@@ -82,7 +82,7 @@ function DynamicListTable({ data, setData, input, multi, type }) {
                     </div>
 
                     {multi && <div className="nor-input-div">
-                        <select id={`brand${brandInput?.[0]?.brand}`} name="brand" required onChange={handleChange} >
+                        <select id={`brand${brandInput?.[0]?.brand + type}`} name="brand" required onChange={handleChange} >
                             <option value={''}>Choose...</option>
                             {brandInput?.[0] ? <>
                                 {brandInput.map((value) => {
@@ -90,7 +90,7 @@ function DynamicListTable({ data, setData, input, multi, type }) {
                                 })}
                             </> : ''}
                         </select>
-                        <label htmlFor={`brand${brandInput?.[0]?.brand}`}>Brand</label>
+                        <label htmlFor={`brand${brandInput?.[0]?.brand + type}`}>Brand</label>
                     </div>}
 
 

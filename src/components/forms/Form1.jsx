@@ -32,6 +32,7 @@ function Form1({ type, setPage }) {
                         type,
                         visit_date: quotation?.visit_date ? quotation.visit_date : YYYYMMDDFormat(new Date())
                     }))
+                    dispatch(setFill({ one: false, two: false, tree: false }))
                 }
 
                 const response1 = await userAxios.get('/water-test-report-source');
@@ -56,9 +57,9 @@ function Form1({ type, setPage }) {
     }, [])
 
     // Handles
-    const handlevisit_date = (e) => {
+    const handleChange = (e) => {
         dispatch(setFill({ one: false }))
-        dispatch(setQuotationInput({ visit_date: e.target.value }))
+        dispatch(setQuotationInput({ [e.target.name]: e.target.value }))
     }
     const handleQuotationTo = (e) => {
         dispatch(setFill({ one: false }))
@@ -82,8 +83,8 @@ function Form1({ type, setPage }) {
         dispatch(setFill({ one: false }))
         if (type === 'wh-and-purifier' && e.target.name === 'site') {
             dispatch(setQuotationInput({
-                vfws_report: {
-                    ...quotation.vfws_report,
+                vfs_report: {
+                    ...quotation.vfs_report,
                     [e.target.name]: e.target.value
                 },
                 pws_report: {
@@ -100,7 +101,7 @@ function Form1({ type, setPage }) {
             }))
         }
     }
-    const handleVFWSReport = (e) => {
+    const handleVFSReport = (e) => {
         dispatch(setFill({ one: false }))
         if (type === 'wh-and-purifier' && e.target.name === 'site') {
             dispatch(setQuotationInput({
@@ -108,15 +109,15 @@ function Form1({ type, setPage }) {
                     ...quotation.pws_report,
                     [e.target.name]: e.target.value
                 },
-                vfws_report: {
-                    ...quotation.vfws_report,
+                vfs_report: {
+                    ...quotation.vfs_report,
                     [e.target.name]: e.target.value
                 }
             }))
         } else {
             dispatch(setQuotationInput({
-                vfws_report: {
-                    ...quotation.vfws_report,
+                vfs_report: {
+                    ...quotation.vfs_report,
                     [e.target.name]: e.target.value
                 }
             }))
@@ -145,8 +146,12 @@ function Form1({ type, setPage }) {
                     <div className="section-div">
                         <div className="forms">
                             <div className="nor-input-div">
-                                <input type="date" id='visit' name='visit_date' onChange={handlevisit_date} value={quotation?.visit_date} required />
+                                <input type="date" id='visit' name='visit_date' onChange={handleChange} value={quotation?.visit_date} required />
                                 <label htmlFor="visit">Visit Date</label>
+                            </div>
+                            <div className="nor-input-div">
+                                <input type="text" id='Enquiry' name='enquiry_srl_no' onChange={handleChange} value={quotation?.enquiry_srl_no} required />
+                                <label htmlFor="Enquiry">Enquiry Srl No</label>
                             </div>
                         </div>
                     </div>
@@ -310,21 +315,21 @@ function Form1({ type, setPage }) {
                             </div>
                         </> : ''}
 
-                    {/* VFWS Report */}
+                    {/* VFS Report */}
                     {type === 'whole-house' || type === 'wh-and-purifier' ?
                         <>
                             <div className="section-div">
                                 <div className="header">
-                                    <h5>Vessel Filter - Work Site Report  (VFWS Report)</h5>
+                                    <h5>Vessel Filter - Work Site Report  (VFS Report)</h5>
                                 </div>
                                 <div className="forms">
                                     {/* Site */}
                                     <div className="nor-input-div">
-                                        <select id="site" name="site" required onChange={handleVFWSReport} >
+                                        <select id="site" name="site" required onChange={handleVFSReport} >
                                             <option value={''}>{site[0] ? 'Choose...' : 'Loading...'}</option>
                                             {site?.[0] ? <>
                                                 {site.map((value) => {
-                                                    return <option key={value.id} selected={value.item === quotation?.vfws_report?.site ? true : false}
+                                                    return <option key={value.id} selected={value.item === quotation?.vfs_report?.site ? true : false}
                                                         value={value.item}>{value.item}</option>
                                                 })}
                                             </> : ''}
@@ -333,11 +338,11 @@ function Form1({ type, setPage }) {
                                     </div>
                                     {/* Usage */}
                                     <div className="nor-input-div">
-                                        <select id="usage2" name="usage" required onChange={handleVFWSReport} >
+                                        <select id="usage2" name="usage" required onChange={handleVFSReport} >
                                             <option value={''}>{usage[0] ? 'Choose...' : 'Loading...'}</option>
                                             {usage?.[0] ? <>
                                                 {usage.map((value) => {
-                                                    return <option key={value.id} selected={value.item === quotation?.vfws_report?.usage ? true : false}
+                                                    return <option key={value.id} selected={value.item === quotation?.vfs_report?.usage ? true : false}
                                                         value={value.item}>{value.item}</option>
                                                 })}
                                             </> : ''}
@@ -345,30 +350,30 @@ function Form1({ type, setPage }) {
                                         <label htmlFor="usage2">Usage</label>
                                     </div>
                                     <div className="nor-input-div">
-                                        <input type="number" step="0.1" id='tankCapasity' name='tank_capasity' value={quotation?.vfws_report?.tank_capasity} required onChange={handleVFWSReport} />
+                                        <input type="number" step="0.1" id='tankCapasity' name='tank_capasity' value={quotation?.vfs_report?.tank_capasity} required onChange={handleVFSReport} />
                                         <label htmlFor="tankCapasity">Tank Capasity (L)</label>
                                     </div>
                                     <div className="nor-input-div">
-                                        <input type="text" id='motor' name='motor_details' value={quotation?.vfws_report?.motor_details} required onChange={handleVFWSReport} />
+                                        <input type="text" id='motor' name='motor_details' value={quotation?.vfs_report?.motor_details} required onChange={handleVFSReport} />
                                         <label htmlFor="motor">Motor Details</label>
                                     </div>
                                     <div className="nor-input-div">
-                                        <input type="text" id='floor' name='floor_details' value={quotation?.vfws_report?.floor_details} required onChange={handleVFWSReport} />
+                                        <input type="text" id='floor' name='floor_details' value={quotation?.vfs_report?.floor_details} required onChange={handleVFSReport} />
                                         <label htmlFor="floor">Floor Details</label>
                                     </div>
                                     <div className="nor-input-div">
-                                        <input type="number" step="0.1" id='floorHeight' name='floor_hight' value={quotation?.vfws_report?.floor_hight} required onChange={handleVFWSReport} />
+                                        <input type="number" step="0.1" id='floorHeight' name='floor_hight' value={quotation?.vfs_report?.floor_hight} required onChange={handleVFSReport} />
                                         <label htmlFor="floorHeight">Floor Height</label>
                                     </div>
 
                                     {/* Inlet */}
                                     <div className="nor-input-div">
-                                        <select id="inlet" name="inlet" required onChange={handleVFWSReport} >
+                                        <select id="inlet" name="inlet" required onChange={handleVFSReport} >
                                             <option value={''}>Choose...</option>
                                             {["0.5", "0.75", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3", "3.25",
                                                 "3.5", "3.75", "4", "4.25", "4.5", "4.75", "5", "5.25", "5.5", "5.75", "6"]
                                                 .map((optn) => {
-                                                    return <option selected={optn === quotation?.vfws_report?.inlet ? true : false}
+                                                    return <option selected={optn === quotation?.vfs_report?.inlet ? true : false}
                                                         value={optn}>{optn} Inch</option>
                                                 })}
                                         </select>
@@ -376,12 +381,12 @@ function Form1({ type, setPage }) {
                                     </div>
                                     {/* Inlet */}
                                     <div className="nor-input-div">
-                                        <select id="outlet" name="outlet" required onChange={handleVFWSReport} >
+                                        <select id="outlet" name="outlet" required onChange={handleVFSReport} >
                                             <option value={''}>Choose...</option>
                                             {["0.5", "0.75", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3", "3.25",
                                                 "3.5", "3.75", "4", "4.25", "4.5", "4.75", "5", "5.25", "5.5", "5.75", "6"]
                                                 .map((optn) => {
-                                                    return <option selected={optn === quotation?.vfws_report?.outlet ? true : false}
+                                                    return <option selected={optn === quotation?.vfs_report?.outlet ? true : false}
                                                         value={optn}>{optn} Inch</option>
                                                 })}
                                         </select>
@@ -389,12 +394,12 @@ function Form1({ type, setPage }) {
                                     </div>
                                     {/* Bathroom InTop */}
                                     <div className="nor-input-div">
-                                        <select id="BRInTop" name="bathroom_in_top" required onChange={handleVFWSReport} >
+                                        <select id="BRInTop" name="bathroom_in_top" required onChange={handleVFSReport} >
                                             <option value={''}>Choose...</option>
                                             {[
                                                 "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
                                             ].map((optn) => {
-                                                return <option selected={optn === quotation?.vfws_report?.bathroom_in_top ? true : false}
+                                                return <option selected={optn === quotation?.vfs_report?.bathroom_in_top ? true : false}
                                                     value={optn}>{optn}</option>
                                             })}
                                         </select>

@@ -157,7 +157,7 @@ function Form2({ type, setPage }) {
                             <div className="header">
                                 <h5>Materials In Vessel Filter</h5>
                             </div>
-                            <DynamicListTable data={materials} setData={setMaterials} input={materialsInput} multi={true} />
+                            <DynamicListTable data={materials} setData={setMaterials} input={materialsInput} multi={true} type={'material'}/>
                         </div>
                     </> : ''}
                     {/* VFS Components*/}
@@ -166,7 +166,7 @@ function Form2({ type, setPage }) {
                             <div className="header">
                                 <h5>Vessel Filter Components</h5>
                             </div>
-                            <DynamicListTable data={vfs} setData={setVfs} input={vfsInput} multi={true} />
+                            <DynamicListTable data={vfs} setData={setVfs} input={vfsInput} multi={true} type={'vfs'}/>
                         </div>
                     </> : ''}
                     {/* Purifier Components */}
@@ -175,7 +175,7 @@ function Form2({ type, setPage }) {
                             <div className="header">
                                 <h5>Purifier Components</h5>
                             </div>
-                            <DynamicListTable data={purifier} setData={setPurifier} input={purifierInput} multi={true} />
+                            <DynamicListTable data={purifier} setData={setPurifier} input={purifierInput} multi={true} type={'purifier'}/>
                         </div>
                     </> : ''}
 
@@ -193,8 +193,8 @@ function Form2({ type, setPage }) {
                             </> : ''}
                             {type === 'whole-house' || type === 'wh-and-purifier' ? <>
                                 <div className="nor-input-div">
-                                    <input type="text" id='vfws' name='vfws' value={quotation?.warranty?.vfws} required onChange={handleWarranty} />
-                                    <label htmlFor="vfws">Vessel Filtration System</label>
+                                    <input type="text" id='vfs' name='vfs' value={quotation?.warranty?.vfs} required onChange={handleWarranty} />
+                                    <label htmlFor="vfs">Vessel Filtration System</label>
                                 </div>
                             </> : ''}
 

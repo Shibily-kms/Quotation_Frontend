@@ -103,7 +103,7 @@ const BuildPdf = ({ data }) => {
                             {data.type === 'purifier' || data.type === 'wh-and-purifier' ? <Text>RO Purifier</Text> : ''}
                         </View>
                         <View style={styles.w_child}>
-                            {data.type === 'whole-house' || data.type === 'wh-and-purifier' ? <Text>{data.warranty?.vfws}</Text> : ''}
+                            {data.type === 'whole-house' || data.type === 'wh-and-purifier' ? <Text>{data.warranty?.vfs}</Text> : ''}
                             {data.type === 'purifier' || data.type === 'wh-and-purifier' ? <Text>{data.warranty?.pws}</Text> : ''}
                         </View>
                     </View>

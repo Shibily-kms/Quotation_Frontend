@@ -15,7 +15,7 @@ function Header() {
 
     return (
         <div className='header'>
-            <div className="boader">
+            <div className="boarder">
                 <div className="left">
                     <h3>Company</h3>
                 </div>
