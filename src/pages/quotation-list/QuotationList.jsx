@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../components/header/Header'
 import Title from '../../components/title/Title';
 import { IoTrashOutline } from 'react-icons/io5';
-import { FiDownload } from 'react-icons/fi';
+import { FiDownload, FiEdit2 } from 'react-icons/fi';
 import { BsThreeDots } from 'react-icons/bs';
 import { userAxios } from '../../config/axios'
 import { saveAs } from 'file-saver';
 import { pdf } from '@react-pdf/renderer';
 import BuildPdf from '../../components/build-pdf/BuildPdf';
+import { useNavigate } from 'react-router-dom'
 
 function QuotationList() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [download, setDownload] = useState('')
+    const navigate = useNavigate()
 
     const downloadPDF = async (data, index) => {
 
@@ -90,6 +92,11 @@ function QuotationList() {
         }
     }
 
+    const handleEdit = (formData) => {
+        if (formData.type) {
+            navigate(`/quotation/${formData.type}`, { state: formData })
+        }
+    }
 
     return (
         <div className='solution-model'>
@@ -126,6 +133,8 @@ function QuotationList() {
                                                     <div>
                                                         <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value, index)}>
                                                             {download === index ? <BsThreeDots /> : <FiDownload />}  </button>
+                                                        <button title='Edit' className="edit" onClick={() => handleEdit(value)}>
+                                                            <FiEdit2 />  </button>
                                                         <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
                                                             <IoTrashOutline /></button>
                                                     </div>

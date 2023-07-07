@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './form.scss'
-import { YYYYMMDDFormat } from '../../assets/js/help-functions'
 import DynamicTextList from '../dynamic-text-list/DynamicTextList'
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-toastify'
 import { form1Validate } from '../../assets/js/validate-function'
-import { setQuotationInput, setInitial, setFill } from '../../redux/features/quotationSlice'
+import { setQuotationInput, setFill } from '../../redux/features/quotationSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 
@@ -20,20 +19,14 @@ function Form1({ type, setPage }) {
 
 
     useEffect(() => {
-        dispatch(setQuotationInput({ findings: findings }))
+        console.log(findings, quotation?.findings, 'findings');
+        dispatch(setQuotationInput({ findings }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [findings])
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (quotation?.type !== type) {
-                    dispatch(setInitial({
-                        type,
-                        visit_date: YYYYMMDDFormat(new Date())
-                    }))
-                    dispatch(setFill({ one: false, two: false, three: false }))
-                }
 
                 const response1 = await userAxios.get('/water-test-report-source');
                 setSource(response1.data.source.data);
@@ -126,7 +119,7 @@ function Form1({ type, setPage }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         let validate = null
         if (fill.validation) {
             validate = form1Validate(quotation, type)
@@ -155,7 +148,7 @@ function Form1({ type, setPage }) {
                                 <label htmlFor="visit">Visit Date</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="text" id='Enquiry' name='enquiry_srl_no' onChange={handleChange} value={quotation?.enquiry_srl_no} placeholder='Enquiry Serial Number'  />
+                                <input type="text" id='Enquiry' name='enquiry_srl_no' onChange={handleChange} value={quotation?.enquiry_srl_no} placeholder='Enquiry Serial Number' />
                                 <label htmlFor="Enquiry">Enquiry Srl No</label>
                             </div>
                         </div>
@@ -209,7 +202,7 @@ function Form1({ type, setPage }) {
                                     <option value={''}>{source[0] ? 'Choose...' : 'Loading...'}</option>
                                     {source?.[0] ? <>
                                         {source.map((value) => {
-                                            return <option key={value.id} selected={value.item === quotation?.test_report?.source ? true : false}
+                                            return <option key={value.id || value._id} selected={value.item === quotation?.test_report?.source ? true : false}
                                                 value={value.item}>{value.item}</option>
                                         })}
                                     </> : ''}
@@ -260,7 +253,7 @@ function Form1({ type, setPage }) {
                                             <option value={''}>{site[0] ? 'Choose...' : 'Loading...'}</option>
                                             {site?.[0] ? <>
                                                 {site.map((value) => {
-                                                    return <option key={value.id} selected={value.item === quotation?.pws_report?.site ? true : false}
+                                                    return <option key={value.id || value._id} selected={value.item === quotation?.pws_report?.site ? true : false}
                                                         value={value.item}>{value.item}</option>
                                                 })}
                                             </> : ''}
@@ -273,7 +266,7 @@ function Form1({ type, setPage }) {
                                             <option value={''}>{usage[0] ? 'Choose...' : 'Loading...'}</option>
                                             {usage?.[0] ? <>
                                                 {usage.map((value) => {
-                                                    return <option key={value.id} selected={value.item === quotation?.pws_report?.usage ? true : false}
+                                                    return <option key={value.id || value._id} selected={value.item === quotation?.pws_report?.usage ? true : false}
                                                         value={value.item}>{value.item}</option>
                                                 })}
                                             </> : ''}
@@ -286,7 +279,7 @@ function Form1({ type, setPage }) {
                                             <option value={''}>{iMode[0] ? 'Choose...' : 'Loading...'}</option>
                                             {iMode?.[0] ? <>
                                                 {iMode.map((value) => {
-                                                    return <option key={value.id} selected={value.item === quotation?.pws_report?.iMode ? true : false}
+                                                    return <option key={value.id || value._id} selected={value.item === quotation?.pws_report?.iMode ? true : false}
                                                         value={value.item}>{value.item}</option>
                                                 })}
                                             </> : ''}
@@ -297,9 +290,9 @@ function Form1({ type, setPage }) {
                                     <div className="nor-input-div">
                                         <select id="waterPoint" name="water_point" required={fill.validation ? true : false} onChange={handlePWSReport} >
                                             <option value={''}>Choose...</option>
-                                            <option selected={'true' === quotation?.pws_report?.water_point ? true : false}
+                                            <option selected={true == quotation?.pws_report?.water_point ? true : false}
                                                 value={true}>Yes</option>
-                                            <option selected={'false' === quotation?.pws_report?.water_point ? true : false}
+                                            <option selected={false == quotation?.pws_report?.water_point ? true : false}
                                                 value={false}>No</option>
                                         </select>
                                         <label htmlFor="waterPoint">Water Point</label>
@@ -308,9 +301,9 @@ function Form1({ type, setPage }) {
                                     <div className="nor-input-div">
                                         <select id="plugPoint" name="plug_point" required={fill.validation ? true : false} onChange={handlePWSReport} >
                                             <option value={''}>Choose...</option>
-                                            <option selected={'true' === quotation?.pws_report?.plug_point ? true : false}
+                                            <option selected={true == quotation?.pws_report?.plug_point ? true : false}
                                                 value={true}>Yes</option>
-                                            <option selected={'false' === quotation?.pws_report?.plug_point ? true : false}
+                                            <option selected={false == quotation?.pws_report?.plug_point ? true : false}
                                                 value={false}>No</option>
                                         </select>
                                         <label htmlFor="plugPoint">Plug Point</label>
@@ -334,7 +327,7 @@ function Form1({ type, setPage }) {
                                             <option value={''}>{site[0] ? 'Choose...' : 'Loading...'}</option>
                                             {site?.[0] ? <>
                                                 {site.map((value) => {
-                                                    return <option key={value.id} selected={value.item === quotation?.vfs_report?.site ? true : false}
+                                                    return <option key={value.id || value._id} selected={value.item === quotation?.vfs_report?.site ? true : false}
                                                         value={value.item}>{value.item}</option>
                                                 })}
                                             </> : ''}
@@ -347,7 +340,7 @@ function Form1({ type, setPage }) {
                                             <option value={''}>{usage[0] ? 'Choose...' : 'Loading...'}</option>
                                             {usage?.[0] ? <>
                                                 {usage.map((value) => {
-                                                    return <option key={value.id} selected={value.item === quotation?.vfs_report?.usage ? true : false}
+                                                    return <option key={value || value._id} selected={value.item === quotation?.vfs_report?.usage ? true : false}
                                                         value={value.item}>{value.item}</option>
                                                 })}
                                             </> : ''}
@@ -378,7 +371,7 @@ function Form1({ type, setPage }) {
                                             {["16", "24", "32", "40", "48", "56", "64", "72", "80", "88", "96", "104",
                                                 "112", "120", "128", "136", "144", "152", "160", "168", "176", "184", "192"]
                                                 .map((optn) => {
-                                                    return <option selected={optn === quotation?.vfs_report?.inlet ? true : false}
+                                                    return <option selected={optn == quotation?.vfs_report?.inlet ? true : false}
                                                         value={optn}>{optn} mm</option>
                                                 })}
                                         </select>
@@ -391,7 +384,7 @@ function Form1({ type, setPage }) {
                                             {["16", "24", "32", "40", "48", "56", "64", "72", "80", "88", "96", "104",
                                                 "112", "120", "128", "136", "144", "152", "160", "168", "176", "184", "192"]
                                                 .map((optn) => {
-                                                    return <option selected={optn === quotation?.vfs_report?.outlet ? true : false}
+                                                    return <option selected={optn == quotation?.vfs_report?.outlet ? true : false}
                                                         value={optn}>{optn} mm</option>
                                                 })}
                                         </select>
@@ -404,7 +397,7 @@ function Form1({ type, setPage }) {
                                             {[
                                                 "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
                                             ].map((optn) => {
-                                                return <option selected={optn === quotation?.vfs_report?.bathroom_in_top ? true : false}
+                                                return <option selected={optn == quotation?.vfs_report?.bathroom_in_top ? true : false}
                                                     value={optn}>{optn}</option>
                                             })}
                                         </select>

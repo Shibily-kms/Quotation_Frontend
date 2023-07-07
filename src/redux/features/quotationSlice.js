@@ -13,7 +13,7 @@ export const quotationSlice = createSlice({
             state.quotation = {}
             state.fill = { one: false, two: false, three: false, validation: true }
         },
-        setInitial: (state, action) => {
+        setInitial: (state, action) => { //For Quotation
             state.quotation = {
                 ...action.payload
             }

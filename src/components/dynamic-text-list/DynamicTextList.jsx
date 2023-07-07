@@ -20,8 +20,10 @@ function DynamicTextList({ data, setData }) {
     }
 
     const removeList = (id) => {
+        console.log(id);
         setData((state) => state.filter((value) => {
-            return value.id !== id
+            console.log((value.id || value._id) != id);
+            return (value.id || value._id) != id
         }))
     }
 
@@ -41,11 +43,11 @@ function DynamicTextList({ data, setData }) {
             {data?.[0] ?
                 <div className="text-div">
                     <ol>
-                        {data.map((value,index) => {
+                        {data.map((value, index) => {
                             return <li key={index}>
                                 <div className="list">
                                     <div>{value.text}</div>
-                                    <div><span onClick={() => removeList(value.id)}><BsTrash3 /></span></div>
+                                    <div><span onClick={() => removeList(value.id || value._id)}><BsTrash3 /></span></div>
                                 </div>
                             </li>
                         })}

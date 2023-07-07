@@ -33,7 +33,7 @@ function Form3({ type, setPage }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true)
-        
+
         let validate = null
         if (fill.validation) {
             validate = form3Validate(quotation, fill)
@@ -43,19 +43,33 @@ function Form3({ type, setPage }) {
 
         if (validate.status) {
             dispatch(setFill({ three: true }))
-
-            userAxios.post('/quotation', quotation).then((response) => {
-                dispatch(reset())
-                navigate('/quotation', { state: response.data.quotation })
-                setLoading(false)
-            }).catch((error) => {
-                if (error?.response) {
-                    toast.error(error.response?.data?.message)
-                } else {
-                    toast.error('Server Down!!!')
-                }
-                setLoading(false)
-            })
+            if (quotation?.index) {
+                userAxios.put('/quotation', quotation).then((response) => {
+                    dispatch(reset())
+                    navigate('/quotations-list')
+                    setLoading(false)
+                }).catch((error) => {
+                    if (error?.response) {
+                        toast.error(error.response?.data?.message)
+                    } else {
+                        toast.error('Server Down!!!')
+                    }
+                    setLoading(false)
+                })
+            } else {
+                userAxios.post('/quotation', quotation).then((response) => {
+                    dispatch(reset())
+                    navigate('/quotation', { state: response.data.quotation })
+                    setLoading(false)
+                }).catch((error) => {
+                    if (error?.response) {
+                        toast.error(error.response?.data?.message)
+                    } else {
+                        toast.error('Server Down!!!')
+                    }
+                    setLoading(false)
+                })
+            }
 
         } else {
             setLoading(false)
@@ -114,9 +128,9 @@ function Form3({ type, setPage }) {
                     <div className="button-div">
                         <button type='button' onClick={() => setPage(2)} className='skip'>Previous</button>
                         {loading ?
-                            <button type='button' className='submit' >Submitting...</button>
+                            <button type='button' className='submit' >{quotation?.index ? 'Updating...' : "Submitting..."}</button>
                             :
-                            <button type='submit' className='submit' >Submit</button>
+                            <button type='submit' className='submit' >{quotation?.index ? 'Update' : "Submit"}</button>
                         }
                     </div>
                 </form>

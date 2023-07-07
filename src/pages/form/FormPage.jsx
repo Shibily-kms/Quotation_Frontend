@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/header/Header'
 import Title from '../../components/title/Title'
-import { useSearchParams, useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import './formPage.scss'
 import { FaCheck } from 'react-icons/fa'
 import Form1 from '../../components/forms/Form1'
 import Form2 from '../../components/forms/Form2'
 import Form3 from '../../components/forms/Form3'
 import { useSelector, useDispatch } from 'react-redux'
-import { setFill } from '../../redux/features/quotationSlice'
+import { setFill, setInitial, reset } from '../../redux/features/quotationSlice'
+import { YYYYMMDDFormat } from '../../assets/js/help-functions'
 
 
 function FormPage() {
-    const { fill } = useSelector((state) => state.inputData)
-    const [searchParams] = useSearchParams();
+    const { fill, quotation } = useSelector((state) => state.inputData)
+    const location = useLocation();
     const [page, setPage] = useState(1)
     const { type } = useParams()
     const [line, setLine] = useState('0%')
@@ -28,7 +29,6 @@ function FormPage() {
     }
 
     useEffect(() => {
-        searchParams.set('page', page);
         setLine(100 / 3 * page + "%")
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page])
@@ -40,6 +40,19 @@ function FormPage() {
             setPage(2)
         } else {
             setPage(1)
+        }
+
+        if (location?.state?.type) {
+            dispatch(setInitial(location.state))
+        } else if (quotation?.type !== type || quotation._id) {
+            dispatch(setInitial({
+                type,
+                visit_date: YYYYMMDDFormat(new Date())
+            }))
+        }
+
+        return () => {
+            dispatch(reset())
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
