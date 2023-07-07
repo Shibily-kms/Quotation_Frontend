@@ -7,7 +7,8 @@ import { FaCheck } from 'react-icons/fa'
 import Form1 from '../../components/forms/Form1'
 import Form2 from '../../components/forms/Form2'
 import Form3 from '../../components/forms/Form3'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setFill } from '../../redux/features/quotationSlice'
 
 
 function FormPage() {
@@ -16,13 +17,22 @@ function FormPage() {
     const [page, setPage] = useState(1)
     const { type } = useParams()
     const [line, setLine] = useState('0%')
+    const dispatch = useDispatch()
+
+    const handleValidationStatus = (e) => {
+        if (e.target.checked) {
+            dispatch(setFill({ validation: false }))
+        } else {
+            dispatch(setFill({ validation: true }))
+        }
+    }
 
     useEffect(() => {
         searchParams.set('page', page);
         setLine(100 / 3 * page + "%")
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page])
-    
+
     useEffect(() => {
         if (fill?.one && fill?.two) {
             setPage(3)
@@ -33,8 +43,6 @@ function FormPage() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-
 
 
     return (
@@ -64,6 +72,10 @@ function FormPage() {
                                     <div className={page === 3 || fill?.three ? "page-number-div fill" : "page-number-div "} onClick={() => setPage(3)}>
                                         <h5>{fill?.three ? <FaCheck /> : "3"}</h5>
                                     </div>
+                                </div>
+                                <div className="hide-validation">
+                                    <input type="checkbox" id='validation' checked={fill.validation ? false : true} onChange={handleValidationStatus} />
+                                    <label htmlFor='validation' >Disable form validation</label>
                                 </div>
                             </div>
                             <div className="content">

@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 function Form1({ type, setPage }) {
     const dispatch = useDispatch()
-    const { quotation } = useSelector((state) => state.inputData)
+    const { quotation, fill } = useSelector((state) => state.inputData)
     const [findings, setFindings] = useState(quotation?.findings || [])
     const [source, setSource] = useState([])
     const [site, setSite] = useState([])
@@ -30,9 +30,9 @@ function Form1({ type, setPage }) {
                 if (quotation?.type !== type) {
                     dispatch(setInitial({
                         type,
-                        visit_date: quotation?.visit_date ? quotation.visit_date : YYYYMMDDFormat(new Date())
+                        visit_date: YYYYMMDDFormat(new Date())
                     }))
-                    dispatch(setFill({ one: false, two: false, tree: false }))
+                    dispatch(setFill({ one: false, two: false, three: false }))
                 }
 
                 const response1 = await userAxios.get('/water-test-report-source');
@@ -126,8 +126,13 @@ function Form1({ type, setPage }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const validate = form1Validate(quotation, type)
-
+        
+        let validate = null
+        if (fill.validation) {
+            validate = form1Validate(quotation, type)
+        } else {
+            validate = { status: true }
+        }
 
         if (validate.status) {
             setPage(2)
@@ -146,11 +151,11 @@ function Form1({ type, setPage }) {
                     <div className="section-div">
                         <div className="forms">
                             <div className="nor-input-div">
-                                <input type="date" id='visit' name='visit_date' onChange={handleChange} value={quotation?.visit_date} required />
+                                <input type="date" id='visit' name='visit_date' onChange={handleChange} value={quotation?.visit_date} required={fill.validation ? true : false} />
                                 <label htmlFor="visit">Visit Date</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="text" id='Enquiry' name='enquiry_srl_no' onChange={handleChange} value={quotation?.enquiry_srl_no} required />
+                                <input type="text" id='Enquiry' name='enquiry_srl_no' onChange={handleChange} value={quotation?.enquiry_srl_no} placeholder='Enquiry Serial Number'  />
                                 <label htmlFor="Enquiry">Enquiry Srl No</label>
                             </div>
                         </div>
@@ -163,31 +168,31 @@ function Form1({ type, setPage }) {
                         </div>
                         <div className="forms">
                             <div className="nor-input-div">
-                                <input type="text" id='name' name='name' value={quotation?.customer?.name} required onChange={handleQuotationTo} />
+                                <input type="text" id='name' name='name' value={quotation?.customer?.name} required={fill.validation ? true : false} onChange={handleQuotationTo} />
                                 <label htmlFor="name">Name</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="text" id='address' name='address' value={quotation?.customer?.address} required onChange={handleQuotationTo} />
+                                <input type="text" id='address' name='address' value={quotation?.customer?.address} required={fill.validation ? true : false} onChange={handleQuotationTo} />
                                 <label htmlFor="address">Address</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="text" id='place' name='place' value={quotation?.customer?.place} required onChange={handleQuotationTo} />
+                                <input type="text" id='place' name='place' value={quotation?.customer?.place} required={fill.validation ? true : false} onChange={handleQuotationTo} />
                                 <label htmlFor="place">Place</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="text" id='post' name='post' value={quotation?.customer?.post} required onChange={handleQuotationTo} />
+                                <input type="text" id='post' name='post' value={quotation?.customer?.post} required={fill.validation ? true : false} onChange={handleQuotationTo} />
                                 <label htmlFor="post">Post Office</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='pin' name='pin' required value={quotation?.customer?.pin} onChange={handleQuotationTo} minLength={6} maxLength={6} />
+                                <input type="number" step="0.1" id='pin' name='pin' required={fill.validation ? true : false} value={quotation?.customer?.pin} onChange={handleQuotationTo} minLength={6} maxLength={6} />
                                 <label htmlFor="pin">Pin Code </label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="text" id='dt' name='dt' value={quotation?.customer?.dt} required onChange={handleQuotationTo} />
+                                <input type="text" id='dt' name='dt' value={quotation?.customer?.dt} required={fill.validation ? true : false} onChange={handleQuotationTo} />
                                 <label htmlFor="dt">District</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='mobile' name='mobile' value={quotation?.customer?.mobile} required onChange={handleQuotationTo} minLength={10} />
+                                <input type="number" step="0.1" id='mobile' name='mobile' value={quotation?.customer?.mobile} required={fill.validation ? true : false} onChange={handleQuotationTo} minLength={10} />
                                 <label htmlFor="mobile">Contact No</label>
                             </div>
                         </div>
@@ -200,7 +205,7 @@ function Form1({ type, setPage }) {
                         </div>
                         <div className="forms">
                             <div className="nor-input-div">
-                                <select id="source" name="source" required onChange={handleTestReport} >
+                                <select id="source" name="source" required={fill.validation ? true : false} onChange={handleTestReport} >
                                     <option value={''}>{source[0] ? 'Choose...' : 'Loading...'}</option>
                                     {source?.[0] ? <>
                                         {source.map((value) => {
@@ -212,20 +217,20 @@ function Form1({ type, setPage }) {
                                 <label htmlFor="source">Source</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='TDS' name='tds' value={quotation?.test_report?.tds} required onChange={handleTestReport} />
-                                <label htmlFor="TDS">TDS (ppm)</label>
+                                <input type="number" step="0.1" id='TDS' name='tds' value={quotation?.test_report?.tds} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <label htmlFor="TDS">TDS (mg/L)</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='PH' name='ph' value={quotation?.test_report?.ph} required onChange={handleTestReport} />
-                                <label htmlFor="PH">PH</label>
+                                <input type="number" step="0.1" id='PH' name='ph' value={quotation?.test_report?.ph} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <label htmlFor="PH">PH (mg/L)</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='iron' name='fe' value={quotation?.test_report?.fe} required onChange={handleTestReport} />
-                                <label htmlFor="iron">Iron (ppm)</label>
+                                <input type="number" step="0.1" id='iron' name='fe' value={quotation?.test_report?.fe} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <label htmlFor="iron">Iron (mg/L)</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='calcium' name='ca' value={quotation?.test_report?.ca} required onChange={handleTestReport} />
-                                <label htmlFor="calcium">Calcium </label>
+                                <input type="number" step="0.1" id='calcium' name='ca' value={quotation?.test_report?.ca} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <label htmlFor="calcium">Calcium (mg/L)</label>
                             </div>
 
                         </div>
@@ -251,7 +256,7 @@ function Form1({ type, setPage }) {
                                 <div className="forms">
                                     {/* Site */}
                                     <div className="nor-input-div">
-                                        <select id="site" name="site" required onChange={handlePWSReport} >
+                                        <select id="site" name="site" required={fill.validation ? true : false} onChange={handlePWSReport} >
                                             <option value={''}>{site[0] ? 'Choose...' : 'Loading...'}</option>
                                             {site?.[0] ? <>
                                                 {site.map((value) => {
@@ -264,7 +269,7 @@ function Form1({ type, setPage }) {
                                     </div>
                                     {/* Usage */}
                                     <div className="nor-input-div">
-                                        <select id="usage1" name="usage" required onChange={handlePWSReport} >
+                                        <select id="usage1" name="usage" required={fill.validation ? true : false} onChange={handlePWSReport} >
                                             <option value={''}>{usage[0] ? 'Choose...' : 'Loading...'}</option>
                                             {usage?.[0] ? <>
                                                 {usage.map((value) => {
@@ -277,7 +282,7 @@ function Form1({ type, setPage }) {
                                     </div>
                                     {/* I Mode */}
                                     <div className="nor-input-div">
-                                        <select id="iMode" name="iMode" required onChange={handlePWSReport} >
+                                        <select id="iMode" name="iMode" required={fill.validation ? true : false} onChange={handlePWSReport} >
                                             <option value={''}>{iMode[0] ? 'Choose...' : 'Loading...'}</option>
                                             {iMode?.[0] ? <>
                                                 {iMode.map((value) => {
@@ -290,7 +295,7 @@ function Form1({ type, setPage }) {
                                     </div>
                                     {/* Water Point */}
                                     <div className="nor-input-div">
-                                        <select id="waterPoint" name="water_point" required onChange={handlePWSReport} >
+                                        <select id="waterPoint" name="water_point" required={fill.validation ? true : false} onChange={handlePWSReport} >
                                             <option value={''}>Choose...</option>
                                             <option selected={'true' === quotation?.pws_report?.water_point ? true : false}
                                                 value={true}>Yes</option>
@@ -301,7 +306,7 @@ function Form1({ type, setPage }) {
                                     </div>
                                     {/* Usage */}
                                     <div className="nor-input-div">
-                                        <select id="plugPoint" name="plug_point" required onChange={handlePWSReport} >
+                                        <select id="plugPoint" name="plug_point" required={fill.validation ? true : false} onChange={handlePWSReport} >
                                             <option value={''}>Choose...</option>
                                             <option selected={'true' === quotation?.pws_report?.plug_point ? true : false}
                                                 value={true}>Yes</option>
@@ -325,7 +330,7 @@ function Form1({ type, setPage }) {
                                 <div className="forms">
                                     {/* Site */}
                                     <div className="nor-input-div">
-                                        <select id="site" name="site" required onChange={handleVFSReport} >
+                                        <select id="site" name="site" required={fill.validation ? true : false} onChange={handleVFSReport} >
                                             <option value={''}>{site[0] ? 'Choose...' : 'Loading...'}</option>
                                             {site?.[0] ? <>
                                                 {site.map((value) => {
@@ -338,7 +343,7 @@ function Form1({ type, setPage }) {
                                     </div>
                                     {/* Usage */}
                                     <div className="nor-input-div">
-                                        <select id="usage2" name="usage" required onChange={handleVFSReport} >
+                                        <select id="usage2" name="usage" required={fill.validation ? true : false} onChange={handleVFSReport} >
                                             <option value={''}>{usage[0] ? 'Choose...' : 'Loading...'}</option>
                                             {usage?.[0] ? <>
                                                 {usage.map((value) => {
@@ -350,51 +355,51 @@ function Form1({ type, setPage }) {
                                         <label htmlFor="usage2">Usage</label>
                                     </div>
                                     <div className="nor-input-div">
-                                        <input type="number" step="0.1" id='tankCapasity' name='tank_capasity' value={quotation?.vfs_report?.tank_capasity} required onChange={handleVFSReport} />
+                                        <input type="number" step="0.1" id='tankCapasity' name='tank_capasity' value={quotation?.vfs_report?.tank_capasity} required={fill.validation ? true : false} onChange={handleVFSReport} />
                                         <label htmlFor="tankCapasity">Tank Capasity (L)</label>
                                     </div>
                                     <div className="nor-input-div">
-                                        <input type="text" id='motor' name='motor_details' value={quotation?.vfs_report?.motor_details} required onChange={handleVFSReport} />
+                                        <input type="text" id='motor' name='motor_details' value={quotation?.vfs_report?.motor_details} required={fill.validation ? true : false} onChange={handleVFSReport} />
                                         <label htmlFor="motor">Motor Details</label>
                                     </div>
                                     <div className="nor-input-div">
-                                        <input type="text" id='floor' name='floor_details' value={quotation?.vfs_report?.floor_details} required onChange={handleVFSReport} />
+                                        <input type="text" id='floor' name='floor_details' value={quotation?.vfs_report?.floor_details} required={fill.validation ? true : false} onChange={handleVFSReport} />
                                         <label htmlFor="floor">Floor Details</label>
                                     </div>
                                     <div className="nor-input-div">
-                                        <input type="number" step="0.1" id='floorHeight' name='floor_hight' value={quotation?.vfs_report?.floor_hight} required onChange={handleVFSReport} />
-                                        <label htmlFor="floorHeight">Floor Height</label>
+                                        <input type="number" step="0.1" id='floorHeight' name='floor_hight' value={quotation?.vfs_report?.floor_hight} required={fill.validation ? true : false} onChange={handleVFSReport} />
+                                        <label htmlFor="floorHeight">Floor Height (Feet)</label>
                                     </div>
 
                                     {/* Inlet */}
                                     <div className="nor-input-div">
-                                        <select id="inlet" name="inlet" required onChange={handleVFSReport} >
+                                        <select id="inlet" name="inlet" required={fill.validation ? true : false} onChange={handleVFSReport} >
                                             <option value={''}>Choose...</option>
-                                            {["0.5", "0.75", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3", "3.25",
-                                                "3.5", "3.75", "4", "4.25", "4.5", "4.75", "5", "5.25", "5.5", "5.75", "6"]
+                                            {["16", "24", "32", "40", "48", "56", "64", "72", "80", "88", "96", "104",
+                                                "112", "120", "128", "136", "144", "152", "160", "168", "176", "184", "192"]
                                                 .map((optn) => {
                                                     return <option selected={optn === quotation?.vfs_report?.inlet ? true : false}
-                                                        value={optn}>{optn} Inch</option>
+                                                        value={optn}>{optn} mm</option>
                                                 })}
                                         </select>
                                         <label htmlFor="inlet">Inlet</label>
                                     </div>
                                     {/* Inlet */}
                                     <div className="nor-input-div">
-                                        <select id="outlet" name="outlet" required onChange={handleVFSReport} >
+                                        <select id="outlet" name="outlet" required={fill.validation ? true : false} onChange={handleVFSReport} >
                                             <option value={''}>Choose...</option>
-                                            {["0.5", "0.75", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3", "3.25",
-                                                "3.5", "3.75", "4", "4.25", "4.5", "4.75", "5", "5.25", "5.5", "5.75", "6"]
+                                            {["16", "24", "32", "40", "48", "56", "64", "72", "80", "88", "96", "104",
+                                                "112", "120", "128", "136", "144", "152", "160", "168", "176", "184", "192"]
                                                 .map((optn) => {
                                                     return <option selected={optn === quotation?.vfs_report?.outlet ? true : false}
-                                                        value={optn}>{optn} Inch</option>
+                                                        value={optn}>{optn} mm</option>
                                                 })}
                                         </select>
                                         <label htmlFor="outlet">Outlet</label>
                                     </div>
                                     {/* Bathroom InTop */}
                                     <div className="nor-input-div">
-                                        <select id="BRInTop" name="bathroom_in_top" required onChange={handleVFSReport} >
+                                        <select id="BRInTop" name="bathroom_in_top" required={fill.validation ? true : false} onChange={handleVFSReport} >
                                             <option value={''}>Choose...</option>
                                             {[
                                                 "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"

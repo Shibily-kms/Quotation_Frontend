@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     quotation: {},
-    fill: { one: false, two: false, three: false }
+    fill: { one: false, two: false, three: false, validation: true }
 }
 
 export const quotationSlice = createSlice({
@@ -11,7 +11,7 @@ export const quotationSlice = createSlice({
     reducers: {
         reset: (state) => {
             state.quotation = {}
-            state.fill = { one: false, two: false, three: false }
+            state.fill = { one: false, two: false, three: false, validation: true }
         },
         setInitial: (state, action) => {
             state.quotation = {

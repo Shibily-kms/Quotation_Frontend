@@ -9,11 +9,14 @@
                 .top {
                     display: flex;
                     justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
 
                     .page-number-main-div {
                         display: flex;
                         justify-content: center;
                         position: relative;
+                        width: fit-content;
 
                         .page-number-div {
                             background-color: rgb(85, 182, 226);
@@ -55,6 +58,21 @@
                                 height: 4px;
                                 background-color: rgb(12, 90, 126);
                             }
+                        }
+                    }
+
+                    .hide-validation {
+                        background-color: rgb(230, 230, 230);
+                        padding: 7px 15px;
+                        border-radius: 10px;
+                        -webkit-border-radius: 10px;
+                        -moz-border-radius: 10px;
+                        -ms-border-radius: 10px;
+                        -o-border-radius: 10px;
+                        margin: 10px 0;
+                        label{
+                            font-size: 13px;
+                            margin-left: 10px;
                         }
                     }
 

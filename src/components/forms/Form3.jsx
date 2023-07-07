@@ -33,7 +33,13 @@ function Form3({ type, setPage }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true)
-        const validate = form3Validate(quotation, fill)
+        
+        let validate = null
+        if (fill.validation) {
+            validate = form3Validate(quotation, fill)
+        } else {
+            validate = { status: true }
+        }
 
         if (validate.status) {
             dispatch(setFill({ three: true }))
@@ -46,7 +52,7 @@ function Form3({ type, setPage }) {
                 if (error?.response) {
                     toast.error(error.response?.data?.message)
                 } else {
-                    toast.error('Must have internet')
+                    toast.error('Server Down!!!')
                 }
                 setLoading(false)
             })
@@ -72,18 +78,18 @@ function Form3({ type, setPage }) {
                         <div className="forms" style={{ marginTop: '15px' }}>
                             {type === 'purifier' || type === 'wh-and-purifier' ?
                                 <div className="nor-input-div">
-                                    <input type="number" step="0.1" id='purifier_max_usage' name='purifier_max_usage' value={quotation?.purifier_max_usage} required onChange={handleChange} />
+                                    <input type="number" step="0.1" id='purifier_max_usage' name='purifier_max_usage' value={quotation?.purifier_max_usage} required={fill.validation ? true : false} onChange={handleChange} />
                                     <label htmlFor="purifier_max_usage">Purifier Daily Usage (Liters / Day)</label>
                                 </div>
                                 : ''}
                             {type === 'whole-house' || type === 'wh-and-purifier' ?
                                 <div className="nor-input-div">
-                                    <input type="number" step="0.1" id='vfs_max_usage' name='vfs_max_usage' value={quotation?.vfs_max_usage} required onChange={handleChange} />
+                                    <input type="number" step="0.1" id='vfs_max_usage' name='vfs_max_usage' value={quotation?.vfs_max_usage} required={fill.validation ? true : false} onChange={handleChange} />
                                     <label htmlFor="vfs_max_usage">VFS Daily Usage (Liters / Day)</label>
                                 </div>
                                 : ""}
                             <div className="nor-input-div">
-                                <input type="date" id='expr_date' name='expr_date' value={quotation?.expr_date} required onChange={handleChange} />
+                                <input type="date" id='expr_date' name='expr_date' value={quotation?.expr_date} required={fill.validation ? true : false} onChange={handleChange} />
                                 <label htmlFor="expr_date">Quotation Expiry Date</label>
                             </div>
                         </div>

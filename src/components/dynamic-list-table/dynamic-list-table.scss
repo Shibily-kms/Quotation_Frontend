@@ -123,6 +123,17 @@
                             cursor: pointer;
                         }
                     }
+                    .total-input{
+                        border: none;
+                        outline: none;
+                        font-weight: bold;
+                        width: 90px;
+                        min-width: 90px;
+                        max-width: 150px;
+                    }
+                }
+                .total{
+                    font-weight: bold;
                 }
             }
         }

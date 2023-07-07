@@ -11,13 +11,14 @@ import BuildPdf from '../../components/build-pdf/BuildPdf';
 
 function QuotationList() {
     const [data, setData] = useState([])
-    const [loading, setLoading] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [download, setDownload] = useState('')
 
     const downloadPDF = async (data, index) => {
 
-        setLoading(index)
+        setDownload(index)
 
-        setLoading(index);
+        setDownload(index);
 
         const pdfDoc = (<BuildPdf data={data} />);
         const pdfBlob = await pdf(pdfDoc).toBlob();
@@ -65,12 +66,14 @@ function QuotationList() {
         }
 
 
-        setLoading('')
+        setDownload('')
     }
 
     useEffect(() => {
+        setLoading(true)
         userAxios.get('/quotation').then((response) => {
             setData(response.data.quotations)
+            setLoading(false)
         })
     }, [])
 
@@ -122,7 +125,7 @@ function QuotationList() {
                                                 <td>
                                                     <div>
                                                         <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value, index)}>
-                                                            {loading === index ? <BsThreeDots /> : <FiDownload />}  </button>
+                                                            {download === index ? <BsThreeDots /> : <FiDownload />}  </button>
                                                         <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
                                                             <IoTrashOutline /></button>
                                                     </div>
@@ -132,7 +135,7 @@ function QuotationList() {
                                     </>
                                         : <>
                                             <tr>
-                                                <td style={{ textAlign: 'center' }}>no data</td>
+                                                <td style={{ textAlign: 'center' }}>{loading ? "Loading..." : 'No data'}</td>
                                             </tr>
                                         </>}
                                 </table>

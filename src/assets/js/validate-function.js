@@ -22,28 +22,7 @@ function form1Validate(data, type) {
     }
 }
 
-function form2Validate(data, type) {
-   
-    if (data?.preferred_solution?.length < 1 || !data?.preferred_solution) {
-        return { status: false, message: 'Select Preferred Solutions' }
-    } else if (data?.cust_preferred_solution?.length < 1 || !data?.cust_preferred_solution) {
-        return { status: false, message: 'Select Customer Preferred Solutions' }
-    }
-    if (type === 'purifier' || type === 'wh-and-purifier') {
-        if (data?.purifier_component?.length < 1 || !data?.purifier_component) {
-            return { status: false, message: 'Select Any Purifier Components' }
-        }
-    }
-    if (type === 'whole-house' || type === 'wh-and-purifier') {
-        if (data?.materials?.length < 1 || !data?.materials) {
-            return { status: false, message: 'Select Any Materials' }
-        } else if (data?.vfs_component?.length < 1 || !data?.vfs_component) {
-            return { status: false, message: 'Select Any Vessel Component' }
-        }
-    }
-    return { status: true }
 
-}
 
 function form3Validate(data, fill) {
     if (data?.tac?.length < 1 || !data?.tac) {
@@ -59,4 +38,4 @@ function form3Validate(data, fill) {
     }
 }
 
-export { form1Validate, form2Validate, form3Validate }
+export { form1Validate, form3Validate }

@@ -17,10 +17,10 @@ function Header() {
         <div className='header'>
             <div className="boarder">
                 <div className="left">
-                    <h3>Company</h3>
+                    <h3>Sales Quotation</h3>
                 </div>
                 <div className="right">
-                    <button onClick={handleLogOut}><RiLogoutCircleLine /> LogOut In Sales</button>
+                    <button onClick={handleLogOut}><RiLogoutCircleLine /> Quit</button>
                 </div>
             </div>
         </div>
