@@ -2,22 +2,25 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../components/header/Header'
 import Title from '../../components/title/Title';
 import { IoTrashOutline } from 'react-icons/io5';
-import { FiDownload } from 'react-icons/fi';
+import { FiDownload, FiEdit2 } from 'react-icons/fi';
 import { BsThreeDots } from 'react-icons/bs';
 import { userAxios } from '../../config/axios'
 import { saveAs } from 'file-saver';
 import { pdf } from '@react-pdf/renderer';
 import BuildPdf from '../../components/build-pdf/BuildPdf';
+import { useNavigate } from 'react-router-dom'
 
 function QuotationList() {
     const [data, setData] = useState([])
-    const [loading, setLoading] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [download, setDownload] = useState('')
+    const navigate = useNavigate()
 
     const downloadPDF = async (data, index) => {
 
-        setLoading(index)
+        setDownload(index)
 
-        setLoading(index);
+        setDownload(index);
 
         const pdfDoc = (<BuildPdf data={data} />);
         const pdfBlob = await pdf(pdfDoc).toBlob();
@@ -41,7 +44,6 @@ function QuotationList() {
             });
             link.dispatchEvent(clickEvent);
             // } else if (navigator.userAgent.match(/Android/i)) {
-            //     console.log("Android");
             //     // For Android devices, use the 'navigator.share()' API to trigger download
             //     if (navigator.share) {
             //         try {
@@ -66,12 +68,14 @@ function QuotationList() {
         }
 
 
-        setLoading('')
+        setDownload('')
     }
 
     useEffect(() => {
+        setLoading(true)
         userAxios.get('/quotation').then((response) => {
             setData(response.data.quotations)
+            setLoading(false)
         })
     }, [])
 
@@ -88,6 +92,11 @@ function QuotationList() {
         }
     }
 
+    const handleEdit = (formData) => {
+        if (formData.type) {
+            navigate(`/quotation/${formData.type}`, { state: formData })
+        }
+    }
 
     return (
         <div className='solution-model'>
@@ -106,20 +115,26 @@ function QuotationList() {
                                 <table id="list">
                                     {data?.[0] ? <>
                                         <tr>
-                                            <th>Sl no</th>
+                                            <th>Idx No</th>
+                                            <th>Name</th>
+                                            <th>Enquiry Srl No</th>
+                                            <th>Qtn Srl No</th>
                                             <th>Type</th>
-                                            <th>Srl No</th>
                                             <th>Control</th>
                                         </tr>
                                         {data.map((value, index) => {
                                             return <tr key={value._id}>
                                                 <td>{index + 1}</td>
-                                                <td>{value.type}</td>
+                                                <td>{value.customer.name}</td>
+                                                <td>{value.enquiry_srl_no}</td>
                                                 <td>{value.quotation_srl_no}</td>
+                                                <td>{value.type}</td>
                                                 <td>
                                                     <div>
                                                         <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value, index)}>
-                                                            {loading === index ? <BsThreeDots /> : <FiDownload />}  </button>
+                                                            {download === index ? <BsThreeDots /> : <FiDownload />}  </button>
+                                                        <button title='Edit' className="edit" onClick={() => handleEdit(value)}>
+                                                            <FiEdit2 />  </button>
                                                         <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
                                                             <IoTrashOutline /></button>
                                                     </div>
@@ -129,7 +144,7 @@ function QuotationList() {
                                     </>
                                         : <>
                                             <tr>
-                                                <td style={{ textAlign: 'center' }}>no data</td>
+                                                <td style={{ textAlign: 'center' }}>{loading ? "Loading..." : 'No data'}</td>
                                             </tr>
                                         </>}
                                 </table>

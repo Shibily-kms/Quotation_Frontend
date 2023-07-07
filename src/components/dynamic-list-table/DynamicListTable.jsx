@@ -2,15 +2,24 @@ import React, { useEffect, useState } from 'react'
 import './dynamic-list-table.scss'
 import { createRandomId } from '../../assets/js/help-functions'
 import { BsTrash3 } from 'react-icons/bs'
+import { toast } from 'react-toastify'
 
-function DynamicListTable({ data, setData, input, multi, type }) {
+function DynamicListTable({ data, setData, total, setTotal, input, multi, type }) {
     const [inputs, setInputs] = useState([])
     const [choose, setChoose] = useState({})
     const [brandInput, setBrandInput] = useState([])
 
     useEffect(() => {
-        setInputs(input)
-    }, [input])
+        let markInput = input.map((one) => {
+            const matching = data.find((element) => element.item === one.item)
+            if (matching) {
+                return { ...one, use: true }
+            }
+            return one
+        })
+        setInputs(markInput)
+
+    }, [input, data])
 
     const handleChange = (e) => {
 
@@ -35,6 +44,10 @@ function DynamicListTable({ data, setData, input, multi, type }) {
     const handleSubmit = () => {
 
         if (choose?.item) {
+            if (multi && !choose?.brand) {
+                toast.error('Must choose a brand')
+                return;
+            }
             setData([...data, { id: createRandomId(4), ...choose }])
             setInputs((prev) => prev.map((obj) => {
                 if (obj.item === choose.item) {
@@ -44,12 +57,21 @@ function DynamicListTable({ data, setData, input, multi, type }) {
             }))
             setChoose({})
             setBrandInput([])
+            if (choose?.price) {
+                setTotal(total + choose?.price)
+            }
         }
     }
 
     const removeList = (item) => {
         setData((state) => state.filter((value) => {
-            return value.item !== item
+            if (value.item === item) {
+                if (value?.price) {
+                    setTotal(state.length > 1 ? total - value?.price : 0)
+                }
+                return false
+            }
+            return true
         }))
         setInputs((prev) => prev.map((obj) => {
 
@@ -58,6 +80,11 @@ function DynamicListTable({ data, setData, input, multi, type }) {
             }
             return obj;
         }))
+
+    }
+
+    const handleChangeTotal = (e) => {
+        setTotal(Number(e.target.value))
     }
 
     return (
@@ -69,7 +96,7 @@ function DynamicListTable({ data, setData, input, multi, type }) {
                             <option value={''}>{inputs?.[0] ? 'Choose...' : 'Loading...'}</option>
                             {inputs?.[0] ? <>
                                 {inputs.map((value) => {
-                                    if (!value?.use && value?.brands.length > 0) {
+                                    if (!value?.use && value?.brands?.length > 0) {
                                         return <option key={value.item} value={value.item}>{value.item}</option>
                                     } else if (!value?.use && value?.price) {
                                         return <option key={value.item} value={value.item}>{value.item}</option>
@@ -82,7 +109,7 @@ function DynamicListTable({ data, setData, input, multi, type }) {
                     </div>
 
                     {multi && <div className="nor-input-div">
-                        <select id={`brand${brandInput?.[0]?.brand}`} name="brand" required onChange={handleChange} >
+                        <select id={`brand${brandInput?.[0]?.brand + type}`} name="brand" required onChange={handleChange} >
                             <option value={''}>Choose...</option>
                             {brandInput?.[0] ? <>
                                 {brandInput.map((value) => {
@@ -90,7 +117,7 @@ function DynamicListTable({ data, setData, input, multi, type }) {
                                 })}
                             </> : ''}
                         </select>
-                        <label htmlFor={`brand${brandInput?.[0]?.brand}`}>Brand</label>
+                        <label htmlFor={`brand${brandInput?.[0]?.brand + type}`}>Brand</label>
                     </div>}
 
 
@@ -110,6 +137,14 @@ function DynamicListTable({ data, setData, input, multi, type }) {
                                 <td><span onClick={() => removeList(value.item)}><BsTrash3 /></span></td>
                             </tr>
                         })}
+                        {!multi &&
+                            <tr>
+                                <td></td>
+                                <td className='total'>TOTAL</td>
+                                <td><input type='number' className='total-input' value={total} onChange={handleChangeTotal} /></td>
+                                <td></td>
+                            </tr>
+                        }
                     </table>
                 </div>
                 : <div className="table-div mob">

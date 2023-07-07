@@ -8,32 +8,32 @@ function FromTo({ customer }) {
             flexDirection: 'row',
             justifyContent: 'space-between',
             margin: '8px 0',
-            marginBottom:'12px'
+            marginBottom: '12px'
         },
         head: {
             fontWeight: 400,
             fontSize: '13px',
-            marginBottom:'7px'
+            marginBottom: '7px'
         },
-        text:{
-            marginBottom:'2px'
+        text: {
+            marginBottom: '2px'
         }
     })
     return (
         <View style={styles.parent}>
             <View style={{ textAlign: 'left' }}>
-                <Text style={styles.head}>Quatation From,</Text>
+                <Text style={styles.head}>Quotation From,</Text>
                 <Text style={styles.text}>Alliance Water Solutions</Text>
                 <Text style={styles.text}>Chalingad PO</Text>
                 <Text style={styles.text}>Kaipamangalam, Thrissur</Text>
                 <Text style={styles.text}>Pin code: 680 681</Text>
             </View>
             <View style={{ textAlign: 'left' }}>
-                <Text style={styles.head}>Quatation To,</Text>
+                <Text style={styles.head}>Quotation To,</Text>
                 <Text style={styles.text}>{customer?.name}</Text>
                 <Text style={styles.text}>{customer?.address}</Text>
-                <Text style={styles.text}>{customer?.place}, {customer?.post} (P.O)</Text>
-                <Text style={styles.text}>{customer?.dt} Dt. - {customer?.pin}</Text>
+                <Text style={styles.text}>{customer?.place && `${customer?.place},`} {customer?.post && `${customer?.post} (P.O)`}</Text>
+                <Text style={styles.text}>{customer?.dt && `${customer?.dt} Dt. `} {customer?.pin && `- ${customer?.pin}`}</Text>
                 <Text style={styles.text}>Mobile : {customer?.mobile}</Text>
             </View>
         </View>

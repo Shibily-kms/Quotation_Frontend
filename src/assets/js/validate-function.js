@@ -1,4 +1,7 @@
 function form1Validate(data, type) {
+    console.log(data?.vfs_report?.site
+        , data?.vfs_report?.usage, data?.vfs_report?.inlet
+        , data?.vfs_report?.outlet, data?.vfs_report?.bathroom_in_top);
     if (data.customer.pin.length < 6) {
         return { status: false, message: 'Add 6 pin numbers' }
     } else if (data.customer.mobile.length < 10) {
@@ -11,44 +14,23 @@ function form1Validate(data, type) {
         || !data?.pws_report?.usage || !data?.pws_report?.iMode
         || !data?.pws_report?.water_point || !data?.pws_report?.plug_point)
     ) {
-        return { status: false, message: 'Fill PWS Report Feilds' }
-    } else if ((type === 'whole-house' || type === 'wh-and-purifier') && (!data?.vfws_report?.site
-        || !data?.vfws_report?.usage || !data?.vfws_report?.inlet
-        || !data?.vfws_report?.outlet || !data?.vfws_report?.bathroom_in_top)
+        return { status: false, message: 'Fill PWS Report Fields' }
+    } else if ((type === 'whole-house' || type === 'wh-and-purifier') && (!data?.vfs_report?.site
+        || !data?.vfs_report?.usage || !data?.vfs_report?.inlet
+        || !data?.vfs_report?.outlet )
     ) {
-        return { status: false, message: 'Fill VFWS Report Feilds' }
+        return { status: false, message: 'Fill VFS Report Fields' }
     } else {
         return { status: true }
     }
 }
 
-function form2Validate(data, type) {
-   
-    if (data?.preferred_solution?.length < 1 || !data?.preferred_solution) {
-        return { status: false, message: 'Select Preferred Solutions' }
-    } else if (data?.cust_preferred_solution?.length < 1 || !data?.cust_preferred_solution) {
-        return { status: false, message: 'Select Custormer Preferred Solutions' }
-    }
-    if (type === 'purifier' || type === 'wh-and-purifier') {
-        if (data?.purifier_component?.length < 1 || !data?.purifier_component) {
-            return { status: false, message: 'Select Any Purifier Components' }
-        }
-    }
-    if (type === 'whole-house' || type === 'wh-and-purifier') {
-        if (data?.materials?.length < 1 || !data?.materials) {
-            return { status: false, message: 'Select Any Materials' }
-        } else if (data?.vfs_component?.length < 1 || !data?.vfs_component) {
-            return { status: false, message: 'Select Any Vessel Component' }
-        }
-    }
-    return { status: true }
 
-}
 
 function form3Validate(data, fill) {
     if (data?.tac?.length < 1 || !data?.tac) {
         return { status: false, message: 'Add Terms and Conditions' }
-    } else if (!data?.sign?.customer || !data?.sign?.authorized) {
+    } else if (!data?.sign?.customer) {
         return { status: false, message: 'Add Signature' }
     } else if (!fill.one) {
         return { status: false, message: 'Section one required' }
@@ -59,4 +41,4 @@ function form3Validate(data, fill) {
     }
 }
 
-export { form1Validate, form2Validate, form3Validate }
+export { form1Validate, form3Validate }

@@ -20,7 +20,7 @@ function First_page() {
                 </div>
 
                 <div className="bottom">
-                    <div className="boader">
+                    <div className="boarder">
                         <div className="button-div">
                             <button onClick={() => navigate('/quotation')}>BUILD QUOTATION</button>
                         </div>

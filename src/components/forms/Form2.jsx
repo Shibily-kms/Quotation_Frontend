@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import './form.scss'
 import DynamicListTable from '../../components/dynamic-list-table/DynamicListTable'
 import { userAxios } from '../../config/axios'
-import { toast } from 'react-toastify'
-import { form2Validate } from '../../assets/js/validate-function'
 import { setQuotationInput, setFill } from '../../redux/features/quotationSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 
 function Form2({ type, setPage }) {
     const dispatch = useDispatch()
-    const { quotation } = useSelector((state) => state.inputData)
+    const { quotation, fill } = useSelector((state) => state.inputData)
     const [preferred, setPreferred] = useState(quotation?.preferred_solution || [])
+    const [psTotal, setPrTotal] = useState(quotation?.ps_total || 0)
+    const [cssTotal, setCssTotal] = useState(quotation?.css_total || 0)
     const [custPreferred, setCustPreferred] = useState(quotation?.cust_preferred_solution || [])
     const [materials, setMaterials] = useState(quotation?.materials || [])
     const [vfs, setVfs] = useState(quotation?.vfs_component || [])
@@ -24,18 +24,20 @@ function Form2({ type, setPage }) {
     // Preferred
     useEffect(() => {
         dispatch(setQuotationInput({
-            preferred_solution: preferred
+            preferred_solution: preferred,
+            ps_total: psTotal
         }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [preferred])
+    }, [preferred, psTotal])
 
     // custPreferred
     useEffect(() => {
         dispatch(setQuotationInput({
-            cust_preferred_solution: custPreferred
+            cust_preferred_solution: custPreferred,
+            css_total: cssTotal
         }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [custPreferred])
+    }, [custPreferred, cssTotal])
 
     // materials
     useEffect(() => {
@@ -70,38 +72,38 @@ function Form2({ type, setPage }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                let response1 = [], response2 = [];
+                let response1 = [];
+                let response2 = [];
                 if (type === 'purifier' || type === 'wh-and-purifier') {
-                    response1 = await userAxios.get('/purifier-solution-model');
-                    response1 = response1?.data?.items?.data ? response1?.data?.items?.data : []
+                    const purifierPromise = userAxios.get('/purifier-solution-model');
+                    response1 = (await purifierPromise)?.data?.items?.data || [];
                 }
                 if (type === 'whole-house' || type === 'wh-and-purifier') {
-                    response2 = await userAxios.get('/wh-solution-model');
-                    response2 = response2?.data?.items?.data ? response2?.data?.items?.data : []
+                    const whPromise = userAxios.get('/wh-solution-model');
+                    response2 = (await whPromise)?.data?.items?.data || [];
                 }
                 setSolutions([...response1, ...response2]);
+
                 if (type === 'whole-house' || type === 'wh-and-purifier') {
-                    const response3 = await userAxios.get('/vfs-materials');
-                    setMaterialsInput([...materialsInput, ...response3.data.items.data]);
-                }
-                if (type === 'whole-house' || type === 'wh-and-purifier') {
-                    const response4 = await userAxios.get('/vfs-component');
-                    setVfsInput([...vfsInput, ...response4.data.items.data]);
+                    const [materialsResponse, vfsResponse] = await Promise.all([
+                        userAxios.get('/vfs-materials'),
+                        userAxios.get('/vfs-component')
+                    ]);
+                    setMaterialsInput([...materialsInput, ...materialsResponse.data.items.data]);
+                    setVfsInput([...vfsInput, ...vfsResponse.data.items.data]);
                 }
                 if (type === 'purifier' || type === 'wh-and-purifier') {
-                    const response5 = await userAxios.get('/purifier-component');
-                    setPurifierInput(response5.data.items.data);
+                    const purifierResponse = await userAxios.get('/purifier-component');
+                    setPurifierInput(purifierResponse.data.items.data);
                 }
-
             } catch (error) {
-                // Handle any errors that occur during the API calls
                 console.error(error);
             }
         };
 
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
 
     // Handles
 
@@ -118,14 +120,8 @@ function Form2({ type, setPage }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const validate = form2Validate(quotation, type)
-
-        if (validate.status) {
             setPage(3)
             dispatch(setFill({ two: true }))
-        } else {
-            toast.error(validate.message)
-        }
     }
 
 
@@ -140,7 +136,8 @@ function Form2({ type, setPage }) {
                         <div className="header">
                             <h5>Preferred Solutions</h5>
                         </div>
-                        <DynamicListTable data={preferred} setData={setPreferred} input={solutions} multi={false} type={'preferred'} />
+                        <DynamicListTable data={preferred} setData={setPreferred} total={psTotal} setTotal={setPrTotal} input={solutions}
+                            setInput={setSolutions} multi={false} type={'preferred'} />
                     </div>
 
                     {/* Customer Selected */}
@@ -148,7 +145,8 @@ function Form2({ type, setPage }) {
                         <div className="header">
                             <h5>Customer Selected Solutions</h5>
                         </div>
-                        <DynamicListTable data={custPreferred} setData={setCustPreferred} input={solutions} multi={false} type={'customer'} />
+                        <DynamicListTable data={custPreferred} setData={setCustPreferred} total={cssTotal} setTotal={setCssTotal} input={solutions}
+                            setInput={setSolutions} multi={false} type={'customer'} />
                     </div>
 
                     {/* Material for VFS */}
@@ -157,7 +155,7 @@ function Form2({ type, setPage }) {
                             <div className="header">
                                 <h5>Materials In Vessel Filter</h5>
                             </div>
-                            <DynamicListTable data={materials} setData={setMaterials} input={materialsInput} multi={true} />
+                            <DynamicListTable data={materials} setData={setMaterials} input={materialsInput} multi={true} type={'material'} />
                         </div>
                     </> : ''}
                     {/* VFS Components*/}
@@ -166,7 +164,7 @@ function Form2({ type, setPage }) {
                             <div className="header">
                                 <h5>Vessel Filter Components</h5>
                             </div>
-                            <DynamicListTable data={vfs} setData={setVfs} input={vfsInput} multi={true} />
+                            <DynamicListTable data={vfs} setData={setVfs} input={vfsInput} multi={true} type={'vfs'} />
                         </div>
                     </> : ''}
                     {/* Purifier Components */}
@@ -175,7 +173,7 @@ function Form2({ type, setPage }) {
                             <div className="header">
                                 <h5>Purifier Components</h5>
                             </div>
-                            <DynamicListTable data={purifier} setData={setPurifier} input={purifierInput} multi={true} />
+                            <DynamicListTable data={purifier} setData={setPurifier} input={purifierInput} multi={true} type={'purifier'} />
                         </div>
                     </> : ''}
 
@@ -187,14 +185,14 @@ function Form2({ type, setPage }) {
                         <div className="forms">
                             {type === 'purifier' || type === 'wh-and-purifier' ? <>
                                 <div className="nor-input-div">
-                                    <input type="text" id='pws' name='pws' value={quotation?.warranty?.pws} required onChange={handleWarranty} />
+                                    <input type="text" id='pws' name='pws' value={quotation?.warranty?.pws} required={fill.validation ? true : false} onChange={handleWarranty} />
                                     <label htmlFor="pws">Purifier System</label>
                                 </div>
                             </> : ''}
                             {type === 'whole-house' || type === 'wh-and-purifier' ? <>
                                 <div className="nor-input-div">
-                                    <input type="text" id='vfws' name='vfws' value={quotation?.warranty?.vfws} required onChange={handleWarranty} />
-                                    <label htmlFor="vfws">Vessel Filtration System</label>
+                                    <input type="text" id='vfs' name='vfs' value={quotation?.warranty?.vfs} required={fill.validation ? true : false} onChange={handleWarranty} />
+                                    <label htmlFor="vfs">Vessel Filtration System</label>
                                 </div>
                             </> : ''}
 

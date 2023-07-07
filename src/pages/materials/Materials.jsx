@@ -21,9 +21,9 @@ function Materials() {
 
             <div className="section" style={{ marginTop: '20px' }}>
               <div className="title sub" >
-                <Title title={'Commen'} />
+                <Title title={'Common'} />
               </div>
-              <div className="boader">
+              <div className="boarder">
                 <div className="button-div">
                   <button onClick={() => navigate('/raw-materials/test-report-source')}>TEST REPORT SOURCE</button>
                 </div>
@@ -41,7 +41,7 @@ function Materials() {
               <div className="title sub" >
                 <Title title={'Purifier'} />
               </div>
-              <div className="boader">
+              <div className="boarder">
 
                 <div className="button-div">
                   <button onClick={() => navigate('/raw-materials/installation-mode')}>INSTALLATION MODES</button>
@@ -60,7 +60,7 @@ function Materials() {
               <div className="title sub" >
                 <Title title={'Whole House'} />
               </div>
-              <div className="boader">
+              <div className="boarder">
 
                 <div className="button-div">
                   <button onClick={() => navigate('/raw-materials/wh-solution-models')}>SOLUTION MODELS</button>

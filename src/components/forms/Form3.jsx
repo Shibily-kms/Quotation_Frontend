@@ -33,18 +33,46 @@ function Form3({ type, setPage }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true)
-        const validate = form3Validate(quotation, fill)
+
+        let validate = null
+        if (fill.validation) {
+            validate = form3Validate(quotation, fill)
+        } else {
+            validate = { status: true }
+        }
 
         if (validate.status) {
             dispatch(setFill({ three: true }))
-            userAxios.post('/quotation', quotation).then((response) => {
-                dispatch(reset())
-                navigate('/quotation', { state: response.data.quotation })
-                setLoading(false)
-            }).catch((error) => {
-                toast.error(error.response.data.message)
-                setLoading(false)
-            })
+            if (quotation?.index) {
+                // Update Quotation
+                userAxios.put('/quotation', quotation).then((response) => {
+                    dispatch(reset())
+                    navigate('/quotations-list')
+                    toast.success('Quotation updated !')
+                    setLoading(false)
+                }).catch((error) => {
+                    if (error?.response) {
+                        toast.error(error.response?.data?.message)
+                    } else {
+                        toast.error('Server Down!!!')
+                    }
+                    setLoading(false)
+                })
+            } else {
+                // Create Quotation
+                userAxios.post('/quotation', quotation).then((response) => {
+                    dispatch(reset())
+                    navigate('/quotation', { state: response.data.quotation })
+                    setLoading(false)
+                }).catch((error) => {
+                    if (error?.response) {
+                        toast.error(error.response?.data?.message)
+                    } else {
+                        toast.error('Server Down!!!')
+                    }
+                    setLoading(false)
+                })
+            }
 
         } else {
             setLoading(false)
@@ -67,18 +95,18 @@ function Form3({ type, setPage }) {
                         <div className="forms" style={{ marginTop: '15px' }}>
                             {type === 'purifier' || type === 'wh-and-purifier' ?
                                 <div className="nor-input-div">
-                                    <input type="number" step="0.1" id='purifier_max_usage' name='purifier_max_usage' value={quotation?.purifier_max_usage} required onChange={handleChange} />
+                                    <input type="number" step="0.1" id='purifier_max_usage' name='purifier_max_usage' value={quotation?.purifier_max_usage} required={fill.validation ? true : false} onChange={handleChange} />
                                     <label htmlFor="purifier_max_usage">Purifier Daily Usage (Liters / Day)</label>
                                 </div>
                                 : ''}
                             {type === 'whole-house' || type === 'wh-and-purifier' ?
                                 <div className="nor-input-div">
-                                    <input type="number" step="0.1" id='vfws_max_usage' name='vfws_max_usage' value={quotation?.vfws_max_usage} required onChange={handleChange} />
-                                    <label htmlFor="vfws_max_usage">VFWS Daily Usage (Liters / Day)</label>
+                                    <input type="number" step="0.1" id='vfs_max_usage' name='vfs_max_usage' value={quotation?.vfs_max_usage} required={fill.validation ? true : false} onChange={handleChange} />
+                                    <label htmlFor="vfs_max_usage">VFS Daily Usage (Liters / Day)</label>
                                 </div>
                                 : ""}
                             <div className="nor-input-div">
-                                <input type="date" id='expr_date' name='expr_date' value={quotation?.expr_date} required onChange={handleChange} />
+                                <input type="date" id='expr_date' name='expr_date' value={quotation?.expr_date} required={fill.validation ? true : false} onChange={handleChange} />
                                 <label htmlFor="expr_date">Quotation Expiry Date</label>
                             </div>
                         </div>
@@ -96,12 +124,6 @@ function Form3({ type, setPage }) {
                                 </div>
                                 <label htmlFor="">Customer Signature</label>
                             </div>
-                            <div className="sign-canvas-div">
-                                <div className="canvas-div">
-                                    <SignCanvas type={'authorized'} />
-                                </div>
-                                <label htmlFor="">Authorized Signature</label>
-                            </div>
                         </div>
                     </div>
 
@@ -109,9 +131,9 @@ function Form3({ type, setPage }) {
                     <div className="button-div">
                         <button type='button' onClick={() => setPage(2)} className='skip'>Previous</button>
                         {loading ?
-                            <button type='button' className='submit' >Submitting...</button>
+                            <button type='button' className='submit' >{quotation?.index ? 'Updating...' : "Submitting..."}</button>
                             :
-                            <button type='submit' className='submit' >Submit</button>
+                            <button type='submit' className='submit' >{quotation?.index ? 'Update' : "Submit"}</button>
                         }
                     </div>
                 </form>
