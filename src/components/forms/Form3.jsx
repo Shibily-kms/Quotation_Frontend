@@ -44,9 +44,11 @@ function Form3({ type, setPage }) {
         if (validate.status) {
             dispatch(setFill({ three: true }))
             if (quotation?.index) {
+                // Update Quotation
                 userAxios.put('/quotation', quotation).then((response) => {
                     dispatch(reset())
                     navigate('/quotations-list')
+                    toast.success('Quotation updated !')
                     setLoading(false)
                 }).catch((error) => {
                     if (error?.response) {
@@ -57,6 +59,7 @@ function Form3({ type, setPage }) {
                     setLoading(false)
                 })
             } else {
+                // Create Quotation
                 userAxios.post('/quotation', quotation).then((response) => {
                     dispatch(reset())
                     navigate('/quotation', { state: response.data.quotation })
