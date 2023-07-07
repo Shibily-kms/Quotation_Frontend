@@ -8,6 +8,7 @@ import TableModel from './components/TableModel';
 import ListModel from './components/ListModel';
 import './fonts/Fonts'
 import { createContent } from '../../assets/js/pdf-data-helper'
+import sealImage from '../../assets/images/seal.png'
 
 const styles = StyleSheet.create({
     w_body: {
@@ -37,6 +38,10 @@ const styles = StyleSheet.create({
     signature: {
         width: "120px",
         height: '50px'
+    },
+    seal: {
+        width: "100px",
+        height: '80px'
     },
     srlNo: {
         textAlign: 'right',
@@ -145,12 +150,14 @@ const BuildPdf = ({ data }) => {
                     {/* Signature */}
                     <View style={styles.w_body}>
                         <View style={styles.w_child}>
-                            <Image style={styles.signature} src={data?.sign?.customer?.url} />
+                            {data?.sign?.customer?.url ?
+                                <Image style={styles.signature} src={data?.sign?.customer?.url} />
+                                : ""}
                             <Text>Customer signature</Text>
                         </View>
                         <View style={styles.w_child}>
-                            <Image style={styles.signature} src={data?.sign?.authorized?.url} />
-                            <Text>Authorized signature</Text>
+                            <Image style={styles.seal} src={sealImage} />
+                            {/* <Text>Authorized signature</Text> */}
                         </View>
                     </View>
 
@@ -159,6 +166,7 @@ const BuildPdf = ({ data }) => {
                         <Text>{`Date    : ${data.visit_date}`}</Text>
                         <Text>{`Place   : Kaipamangalam`}</Text>
                     </View>
+
 
                 </View>
             </PageWrapper>

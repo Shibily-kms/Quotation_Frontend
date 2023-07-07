@@ -67,7 +67,6 @@ function DynamicListTable({ data, setData, total, setTotal, input, multi, type }
         setData((state) => state.filter((value) => {
             if (value.item === item) {
                 if (value?.price) {
-                    console.log(state.length);
                     setTotal(state.length > 1 ? total - value?.price : 0)
                 }
                 return false
