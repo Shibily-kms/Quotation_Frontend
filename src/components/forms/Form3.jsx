@@ -129,16 +129,16 @@ function Form3({ type, setPage }) {
 
 
                     <div className="button-div">
-                        <button type='button' onClick={() => setPage(2)} className='skip'>Previous</button>
+                        <button type='button' onClick={() => setPage(2)} className='skip'>Prev</button>
                         {loading ?
-                            <button type='button' className='submit' >{quotation?.index ? 'Updating...' : "Submitting..."}</button>
+                            <button button type='button' className='submit' >{quotation?.index ? 'Updating...' : "Submitting..."}</button>
                             :
                             <button type='submit' className='submit' >{quotation?.index ? 'Update' : "Submit"}</button>
                         }
                     </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 
