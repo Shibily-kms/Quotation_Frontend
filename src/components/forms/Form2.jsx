@@ -199,10 +199,8 @@ function Form2({ type, setPage }) {
                         </div>
                     </div>
 
-
-
                     <div className="button-div">
-                        <button type='button' onClick={() => setPage(1)} className='skip'>Previous</button>
+                        <button type='button' onClick={() => setPage(1)} className='skip'>Prev</button>
                         <button type='button' onClick={() => setPage(3)} className='skip'>Skip</button>
                         <button type='submit' className='next'>Next</button>
                     </div>
