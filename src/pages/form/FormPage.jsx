@@ -42,9 +42,9 @@ function FormPage() {
             setPage(1)
         }
 
-        if (location?.state?.type) {
+        if (location?.state?.type && !quotation?.index) {
             dispatch(setInitial(location.state))
-        } else if (quotation?.type !== type || quotation._id) {
+        } else if (quotation?.type !== type && !quotation._id) {
             dispatch(setInitial({
                 type,
                 visit_date: YYYYMMDDFormat(new Date())

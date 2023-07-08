@@ -19,12 +19,16 @@ function Form1({ type, setPage }) {
 
 
     useEffect(() => {
-        console.log(findings, quotation?.findings, 'findings');
         dispatch(setQuotationInput({ findings }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [findings])
 
     useEffect(() => {
+        setFindings(quotation?.findings || [])
+    }, [quotation])
+
+    useEffect(() => {
+
         const fetchData = async () => {
             try {
 
@@ -39,6 +43,7 @@ function Form1({ type, setPage }) {
 
                 const response4 = await userAxios.get('/installation-mode');
                 setIMode(response4.data.source.data);
+
             } catch (error) {
                 // Handle any errors that occur during the API calls
                 console.error(error);
@@ -290,9 +295,9 @@ function Form1({ type, setPage }) {
                                     <div className="nor-input-div">
                                         <select id="waterPoint" name="water_point" required={fill.validation ? true : false} onChange={handlePWSReport} >
                                             <option value={''}>Choose...</option>
-                                            <option selected={true == quotation?.pws_report?.water_point ? true : false}
+                                            <option selected={"true" === String(quotation?.pws_report?.water_point)}
                                                 value={true}>Yes</option>
-                                            <option selected={false == quotation?.pws_report?.water_point ? true : false}
+                                            <option selected={"false" === String(quotation?.pws_report?.water_point)}
                                                 value={false}>No</option>
                                         </select>
                                         <label htmlFor="waterPoint">Water Point</label>
@@ -301,9 +306,9 @@ function Form1({ type, setPage }) {
                                     <div className="nor-input-div">
                                         <select id="plugPoint" name="plug_point" required={fill.validation ? true : false} onChange={handlePWSReport} >
                                             <option value={''}>Choose...</option>
-                                            <option selected={true == quotation?.pws_report?.plug_point ? true : false}
+                                            <option selected={"true" === String(quotation?.pws_report?.plug_point)}
                                                 value={true}>Yes</option>
-                                            <option selected={false == quotation?.pws_report?.plug_point ? true : false}
+                                            <option selected={"false" === String(quotation?.pws_report?.plug_point)}
                                                 value={false}>No</option>
                                         </select>
                                         <label htmlFor="plugPoint">Plug Point</label>

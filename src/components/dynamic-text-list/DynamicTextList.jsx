@@ -20,9 +20,7 @@ function DynamicTextList({ data, setData }) {
     }
 
     const removeList = (id) => {
-        console.log(id);
         setData((state) => state.filter((value) => {
-            console.log((value.id || value._id) != id);
             return (value.id || value._id) != id
         }))
     }

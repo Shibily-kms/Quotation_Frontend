@@ -1,7 +1,4 @@
 function form1Validate(data, type) {
-    console.log(data?.vfs_report?.site
-        , data?.vfs_report?.usage, data?.vfs_report?.inlet
-        , data?.vfs_report?.outlet, data?.vfs_report?.bathroom_in_top);
     if (data.customer.pin.length < 6) {
         return { status: false, message: 'Add 6 pin numbers' }
     } else if (data.customer.mobile.length < 10) {
