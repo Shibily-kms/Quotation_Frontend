@@ -203,6 +203,14 @@ function Form1({ type, setPage }) {
                         </div>
                         <div className="forms">
                             <div className="nor-input-div">
+                                <select id="type-of" name="type_of" required={fill.validation ? true : false} onChange={handleTestReport} >
+                                    <option value={''}>Choose...</option>
+                                    <option selected={quotation?.test_report?.type_of === 'primary'} value='primary'> Primary test</option>
+                                    <option selected={quotation?.test_report?.type_of === 'lab'} value='lab'> Lab test</option>
+                                </select>
+                                <label htmlFor="type-of">Type</label>
+                            </div>
+                            <div className="nor-input-div">
                                 <select id="source" name="source" required={fill.validation ? true : false} onChange={handleTestReport} >
                                     <option value={''}>{source[0] ? 'Choose...' : 'Loading...'}</option>
                                     {source?.[0] ? <>
@@ -376,6 +384,7 @@ function Form1({ type, setPage }) {
                                             {["16", "24", "32", "40", "48", "56", "64", "72", "80", "88", "96", "104",
                                                 "112", "120", "128", "136", "144", "152", "160", "168", "176", "184", "192"]
                                                 .map((optn) => {
+                                                     // eslint-disable-next-line
                                                     return <option selected={optn == quotation?.vfs_report?.inlet ? true : false}
                                                         value={optn}>{optn} mm</option>
                                                 })}
@@ -389,6 +398,7 @@ function Form1({ type, setPage }) {
                                             {["16", "24", "32", "40", "48", "56", "64", "72", "80", "88", "96", "104",
                                                 "112", "120", "128", "136", "144", "152", "160", "168", "176", "184", "192"]
                                                 .map((optn) => {
+                                                     // eslint-disable-next-line
                                                     return <option selected={optn == quotation?.vfs_report?.outlet ? true : false}
                                                         value={optn}>{optn} mm</option>
                                                 })}
@@ -402,6 +412,7 @@ function Form1({ type, setPage }) {
                                             {[
                                                 "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
                                             ].map((optn) => {
+                                                 // eslint-disable-next-line
                                                 return <option selected={optn == quotation?.vfs_report?.bathroom_in_top ? true : false}
                                                     value={optn}>{optn}</option>
                                             })}

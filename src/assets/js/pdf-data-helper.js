@@ -13,7 +13,7 @@ function createContent(data) {
         prComponents: [],
         tac: []
     }
-    // Commen
+    // Common
     // water test report
     content.testReport.push({ a: 'Source', b: 'TDS', c: 'PH', d: 'IRON (as fe)', e: 'CALCIUM (as ca)' })
     content.testReport.push({
@@ -74,7 +74,7 @@ function createContent(data) {
 
     // Conditions
     if (data?.type === 'purifier') {
-        content.intro[0] = content.intro[0] + ` The quotation provided has been tailored specifically to address the needs identified in the primary water test report.`
+        content.intro[0] = content.intro[0] + ` The quotation provided has been tailored specifically to address the needs identified in the ${data?.test_report?.type_of || 'primary'} water test report.`
         content.intro.push(`Visit date: ${data.visit_date}`)
     }
 
@@ -101,7 +101,7 @@ function createContent(data) {
 
     if (data?.type === 'whole-house' || data?.type === 'wh-and-purifier') {
         // Intro
-        content.intro.push(`Our technician visited your location on ${data.visit_date}, and this quotation has been prepared based on the water conditions, daily water usage and plumbing situation. The quotation provided has been tailored specifically to address the needs identified in the primary water test report.`)
+        content.intro.push(`Our technician visited your location on ${data.visit_date}, and this quotation has been prepared based on the water conditions, daily water usage and plumbing situation. The quotation provided has been tailored specifically to address the needs identified in the ${data?.test_report?.type_of || 'primary'} water test report.`)
 
         // Work Site Report - WH
         let arr1 = [], arr2 = []
