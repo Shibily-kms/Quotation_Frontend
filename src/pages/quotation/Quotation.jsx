@@ -7,9 +7,11 @@ import { FiCheckCircle } from 'react-icons/fi'
 import { saveAs } from 'file-saver';
 import { pdf } from '@react-pdf/renderer';
 import BuildPdf from '../../components/build-pdf/BuildPdf';
+import { useSelector } from 'react-redux'
 
 function Quotation() {
     const navigate = useNavigate();
+    const { user } = useSelector((state) => state.userAuth)
     const [data, setData] = useState()
     const [loading, setLoading] = useState(false)
     const location = useLocation()
@@ -51,7 +53,7 @@ function Quotation() {
                         <h4>Quotation Submitted.</h4>
                         <div className="button-div">
                             <button onClick={downloadPDF}>{loading ? 'Loading...' : `Download`}</button>
-                            <button onClick={()=> navigate('/')}>Home</button>
+                            <button onClick={() => navigate(`/?id=${user._id}`)}>Home</button>
                         </div>
                     </div>
                 </div>
