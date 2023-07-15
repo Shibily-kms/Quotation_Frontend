@@ -8,7 +8,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { IoTrashOutline } from 'react-icons/io5';
 import { FiEdit2 } from 'react-icons/fi';
 import { userAxios } from '../../config/axios'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 
 function TestReport() {
     const [model, setModel] = useState(null)

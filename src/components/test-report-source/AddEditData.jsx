@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './addEditData.scss'
 import { userAxios } from '../../config/axios';
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 
 function AddEditData({ setData, setModel, current }) {
     const [value, setValue] = useState(current?.item || null)
