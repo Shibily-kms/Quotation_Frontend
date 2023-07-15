@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './dynamic-list-table.scss'
 import { createRandomId } from '../../assets/js/help-functions'
 import { BsTrash3 } from 'react-icons/bs'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 
 function DynamicListTable({ data, setData, total, setTotal, input, multi, type }) {
     const [inputs, setInputs] = useState([])

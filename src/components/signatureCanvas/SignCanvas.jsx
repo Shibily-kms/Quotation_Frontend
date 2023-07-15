@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import SignatureCanvas from 'react-signature-canvas';
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import './sign-canvas.scss'
 import { setQuotationInput } from '../../redux/features/quotationSlice'
 import { useDispatch, useSelector } from 'react-redux'

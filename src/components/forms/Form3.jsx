@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './form.scss';
 import DynamicTextList from '../dynamic-text-list/DynamicTextList';
 import { userAxios } from '../../config/axios'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import SignCanvas from '../signatureCanvas/SignCanvas';
 import { form3Validate } from '../../assets/js/validate-function';
 import { useNavigate } from 'react-router-dom';
