@@ -21,6 +21,7 @@ function DynamicTextList({ data, setData }) {
 
     const removeList = (id) => {
         setData((state) => state.filter((value) => {
+            // eslint-disable-next-line
             return (value.id || value._id) != id
         }))
     }

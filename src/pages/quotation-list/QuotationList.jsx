@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/header/Header'
 import Title from '../../components/title/Title';
-import { IoTrashOutline } from 'react-icons/io5';
+import { IoTrashOutline, IoTrashBin } from 'react-icons/io5';
 import { FiDownload, FiEdit2 } from 'react-icons/fi';
-import { BsThreeDots } from 'react-icons/bs';
+import { BiLoaderAlt } from 'react-icons/bi';
 import { userAxios } from '../../config/axios'
+// eslint-disable-next-line
 import { saveAs } from 'file-saver';
 import { pdf } from '@react-pdf/renderer';
 import BuildPdf from '../../components/build-pdf/BuildPdf';
 import { useNavigate } from 'react-router-dom'
+import IconWithMessage from '../../components/spinners/SpinWithMessage'
 
 function QuotationList() {
     const [data, setData] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [download, setDownload] = useState('')
+    const [loading, setLoading] = useState('')
     const navigate = useNavigate()
 
     const downloadPDF = async (data, index) => {
 
-        setDownload(index)
-
-        setDownload(index);
+        setLoading(index)
 
         const pdfDoc = (<BuildPdf data={data} />);
         const pdfBlob = await pdf(pdfDoc).toBlob();
@@ -68,25 +67,27 @@ function QuotationList() {
         }
 
 
-        setDownload('')
+        setLoading('')
     }
 
     useEffect(() => {
-        setLoading(true)
+        setLoading('getData')
         userAxios.get('/quotation').then((response) => {
             setData(response.data.data)
-            setLoading(false)
+            setLoading('')
         })
     }, [])
 
     const handleDelete = (slNo) => {
         let check = window.confirm('Are you delete quotation ?')
         if (check) {
+            setLoading(slNo)
             userAxios.delete(`/quotation?slno=${slNo}`).then((response) => {
                 if (response) {
                     setData((prev) => {
                         return prev.filter((obj) => obj.quotation_srl_no !== slNo)
                     })
+                    setLoading('')
                 }
             })
         }
@@ -112,8 +113,8 @@ function QuotationList() {
                         <div className="content">
 
                             <div className="table-div">
-                                <table id="list">
-                                    {data?.[0] ? <>
+                                {data?.[0] ? <>
+                                    <table id="list">
                                         <tr>
                                             <th>Idx No</th>
                                             <th>Name</th>
@@ -132,22 +133,24 @@ function QuotationList() {
                                                 <td>
                                                     <div>
                                                         <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value, index)}>
-                                                            {download === index ? <BsThreeDots /> : <FiDownload />}  </button>
+                                                            {loading === index ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiDownload />}   </button>
                                                         <button title='Edit' className="edit" onClick={() => handleEdit(value)}>
                                                             <FiEdit2 />  </button>
                                                         <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
-                                                            <IoTrashOutline /></button>
+                                                            {loading === value.quotation_srl_no ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
                                                     </div>
                                                 </td>
                                             </tr>
                                         })}
-                                    </>
-                                        : <>
-                                            <tr>
-                                                <td style={{ textAlign: 'center' }}>{loading ? "Loading..." : 'No data'}</td>
-                                            </tr>
-                                        </>}
-                                </table>
+                                    </table>
+                                </>
+                                    : <>
+                                        <div className='no-data'>
+                                            <IconWithMessage icon={loading !== 'getData' && <IoTrashBin />}
+                                                message={loading === 'getData' ? 'Loading...' : 'No Data'}
+                                                spin={loading === 'getData' ? true : false} />
+                                        </div>
+                                    </>}
                             </div>
                         </div>
                     </div>

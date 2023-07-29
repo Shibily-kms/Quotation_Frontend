@@ -5,15 +5,18 @@ import Model from '../model/Model'
 import AddEditData from './AddEditData'
 import '../test-report-source/testReport.scss';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { IoTrashOutline } from 'react-icons/io5';
+import { IoTrashOutline, IoTrashBin } from 'react-icons/io5';
 import { FiEdit2 } from 'react-icons/fi';
+import { BiLoaderAlt } from 'react-icons/bi'
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-hot-toast'
+import IconWithMessage from '../spinners/SpinWithMessage'
 
 function PurifierComponents() {
     const [model, setModel] = useState(null)
     const [pass, setPass] = useState(null)
     const [data, setData] = useState([])
+    const [loading, setLoading] = useState('')
 
     const handleAdd = () => {
         setModel('ADD NEW COMPONENTS')
@@ -28,18 +31,22 @@ function PurifierComponents() {
     const handleDelete = (current) => {
         let check = window.confirm('Delete This Item ?')
         if (check) {
+            setLoading(current.brandId)
             userAxios.delete(`/purifier-component?nameId=${current.nameId}&&brandId=${current.brandId}`).then(() => {
                 setData((state) => {
                     return state.filter((obj) => obj.brandId !== current.brandId)
                 })
+                setLoading('')
             }).catch((error) => {
                 toast.error(error.response.data.message)
+                setLoading('')
             })
         }
     }
 
 
     useEffect(() => {
+        setLoading('getData')
         userAxios.get('/purifier-component').then((response) => {
             response?.data?.data && setData((state) => {
                 let arr = []
@@ -53,6 +60,7 @@ function PurifierComponents() {
                 })
                 return arr;
             })
+            setLoading('')
         })
     }, [])
 
@@ -73,8 +81,8 @@ function PurifierComponents() {
                                 <button onClick={handleAdd}><AiOutlinePlus /> Add New</button>
                             </div>
                             <div className="table-div">
-                                <table id="list">
                                     {data?.[0] ? <>
+                                <table id="list">
                                         <tr>
                                             <th>Sl no</th>
                                             <th>Name</th>
@@ -91,18 +99,20 @@ function PurifierComponents() {
                                                         <button title='edit' className="edit" onClick={() => handleEdit(value)}>
                                                             <FiEdit2 /></button>
                                                         <button title='remove' className="delete" onClick={() => handleDelete(value)}>
-                                                            <IoTrashOutline /></button>
+                                                        {loading === value.brandId ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />} </button>
                                                     </div>
                                                 </td>
                                             </tr>
                                         })}
+                                </table>
                                     </>
                                         : <>
-                                            <tr>
-                                                <td style={{ textAlign: 'center' }}>no data</td>
-                                            </tr>
+                                             <div className='no-data'>
+                                            <IconWithMessage icon={loading !== 'getData' && <IoTrashBin />}
+                                                message={loading === 'getData' ? 'Loading...' : 'No Data'}
+                                                spin={loading === 'getData' ? true : false} />
+                                        </div>
                                         </>}
-                                </table>
                             </div>
                         </div>
                     </div>

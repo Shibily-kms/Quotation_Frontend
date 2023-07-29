@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import '../test-report-source/addEditData.scss'
 import { userAxios } from '../../config/axios';
 import { toast } from 'react-hot-toast'
+import { BiLoaderAlt } from 'react-icons/bi'
 
 function AddEditData({ setData, setModel, current }) {
     const [value, setValue] = useState({ name: current?.name || null, brand: current?.brand || null })
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (e) => {
         if (!(current && e.target.name === 'name')) {
@@ -18,6 +20,7 @@ function AddEditData({ setData, setModel, current }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (current) {
+            setLoading(true)
             userAxios.put('/vfs-component', { nameId: current.nameId, brandId: current.brandId, ...value }).then((response) => {
                 setData((state) => {
                     return state.map((obj) => {
@@ -31,10 +34,13 @@ function AddEditData({ setData, setModel, current }) {
                     })
                 })
                 setModel(null)
+                setLoading(false)
             }).catch((error) => {
                 toast.error(error.response.data.message)
+                setLoading(false)
             })
         } else {
+            setLoading(true)
             userAxios.post('/vfs-component', value).then((response) => {
                 setData((state) => {
                     let obj = {
@@ -46,8 +52,10 @@ function AddEditData({ setData, setModel, current }) {
                     return [...state, obj]
                 })
                 setModel(null)
+                setLoading(false)
             }).catch((error) => {
                 toast.error(error.response.data.message)
+                setLoading(false)
             })
         }
 
@@ -66,7 +74,7 @@ function AddEditData({ setData, setModel, current }) {
                         <input type="text" name='brand' id='brand' value={value?.brand} required onChange={handleChange} />
                     </div>
                     <div className="button-div">
-                        <button type='submit'>Submit</button>
+                    <button type='submit'>{loading ? <span className='loading-icon'><BiLoaderAlt /></span> : "Submit"}</button>
                     </div>
                 </form>
             </div>

@@ -48,3 +48,21 @@ select {
     border: none;
     background: none;
 }
+
+.loading-icon {
+    svg {
+        margin-bottom: -1px;
+        animation: iconLoading 1.2s linear infinite;
+        -webkit-animation: iconLoading 1.2s linear infinite;
+    }
+
+    @keyframes iconLoading {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
