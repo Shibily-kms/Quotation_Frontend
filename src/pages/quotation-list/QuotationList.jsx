@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import './quotation-list.scss'
 import Header from '../../components/header/Header'
 import Title from '../../components/title/Title';
 import { IoTrashOutline, IoTrashBin } from 'react-icons/io5';
@@ -99,8 +100,21 @@ function QuotationList() {
         }
     }
 
+    const deFilter = (e) => {
+        setLoading('filter')
+        const regex = new RegExp(e.target.value, 'i');
+        // eslint-disable-next-line
+        const filteredData = data.map((item) => ({
+            ...item,
+            hide: !regex.test(item.customer.name) && !regex.test(item.enquiry_srl_no)
+                && !regex.test(item.quotation_srl_no) && !regex.test(item.type)
+        }))
+        setData(filteredData)
+        setLoading('')
+    }
+
     return (
-        <div className='solution-model'>
+        <div className='solution-model quotation-list'>
             <div>
                 <div className="header-div">
                     <Header />
@@ -109,6 +123,13 @@ function QuotationList() {
                     <div className="container">
                         <div className="title">
                             <Title header={'Quotation List'} />
+                        </div>
+                        <div className="filter-div">
+                            <div className="input-div">
+                                <input type="text" name='search' id='search' required onChange={deFilter} />
+                                <label htmlFor="search">Search</label>
+                                <div className="icon loading-icon">{loading === 'filter' && <BiLoaderAlt />}</div>
+                            </div>
                         </div>
                         <div className="content">
 
@@ -124,23 +145,25 @@ function QuotationList() {
                                             <th>Control</th>
                                         </tr>
                                         {data.map((value, index) => {
-                                            return <tr key={value._id}>
-                                                <td>{index + 1}</td>
-                                                <td>{value.customer.name}</td>
-                                                <td>{value.enquiry_srl_no}</td>
-                                                <td>{value.quotation_srl_no}</td>
-                                                <td>{value.type}</td>
-                                                <td>
-                                                    <div>
-                                                        <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value, index)}>
-                                                            {loading === index ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiDownload />}   </button>
-                                                        <button title='Edit' className="edit" onClick={() => handleEdit(value)}>
-                                                            <FiEdit2 />  </button>
-                                                        <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
-                                                            {loading === value.quotation_srl_no ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            if (!value?.hide) {
+                                                return <tr key={value._id}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{value.customer.name}</td>
+                                                    <td>{value.enquiry_srl_no}</td>
+                                                    <td>{value.quotation_srl_no}</td>
+                                                    <td>{value.type}</td>
+                                                    <td>
+                                                        <div>
+                                                            <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value, index)}>
+                                                                {loading === index ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiDownload />}   </button>
+                                                            <button title='Edit' className="edit" onClick={() => handleEdit(value)}>
+                                                                <FiEdit2 />  </button>
+                                                            <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
+                                                                {loading === value.quotation_srl_no ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
                                         })}
                                     </table>
                                 </>
