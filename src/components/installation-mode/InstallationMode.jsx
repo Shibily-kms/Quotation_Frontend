@@ -41,7 +41,7 @@ function InstallationMode() {
 
     useEffect(() => {
         userAxios.get('/installation-mode').then((response) => {
-            response?.data?.source && setData(response.data.source.data)
+            response?.data?.data && setData(response.data.data.data)
         })
     }, [])
 

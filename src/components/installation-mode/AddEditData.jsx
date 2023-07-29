@@ -32,7 +32,7 @@ function AddEditData({ setData, setModel, current }) {
         } else {
             userAxios.post('/installation-mode', { item: value }).then((response) => {
                 setData((state) => {
-                    return [...state, response.data.newValue]
+                    return [...state, response.data.data]
                 })
                 setModel(null)
             }).catch((error) => {

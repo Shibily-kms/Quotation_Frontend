@@ -38,10 +38,10 @@ function AddEditData({ setData, setModel, current }) {
             userAxios.post('/vfs-materials', value).then((response) => {
                 setData((state) => {
                     let obj = {
-                        nameId: response.data.newValue._id,
-                        name: response.data.newValue.item,
-                        brandId: response.data.newValue.brands[0]._id,
-                        brand: response.data.newValue.brands[0].brand
+                        nameId: response.data.data._id,
+                        name: response.data.data.item,
+                        brandId: response.data.data.brands[0]._id,
+                        brand: response.data.data.brands[0].brand
                     }
                     return [...state, obj]
                 })

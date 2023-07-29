@@ -74,7 +74,7 @@ function QuotationList() {
     useEffect(() => {
         setLoading(true)
         userAxios.get('/quotation').then((response) => {
-            setData(response.data.quotations)
+            setData(response.data.data)
             setLoading(false)
         })
     }, [])

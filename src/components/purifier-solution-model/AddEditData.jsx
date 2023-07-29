@@ -35,7 +35,7 @@ function AddEditData({ setData, setModel, current }) {
         } else {
             userAxios.post('/purifier-solution-model', value).then((response) => {
                 setData((state) => {
-                    return [...state, response.data.newValue]
+                    return [...state, response.data.data]
                 })
                 setModel(null)
             }).catch((error) => {

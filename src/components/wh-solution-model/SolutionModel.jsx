@@ -41,7 +41,7 @@ function SolutionModel() {
 
     useEffect(() => {
         userAxios.get('/wh-solution-model').then((response) => {
-            response?.data?.items && setData(response.data.items.data)
+            response?.data?.data && setData(response.data.data.data)
         })
     }, [])
 

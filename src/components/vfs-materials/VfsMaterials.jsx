@@ -42,9 +42,9 @@ function VfsMaterials
 
     useEffect(() => {
         userAxios.get('/vfs-materials').then((response) => {
-            response?.data?.items && setData((state) => {
+            response?.data?.data && setData((state) => {
                 let arr = []
-                response.data.items?.data.forEach((obj) => {
+                response.data.data?.data.forEach((obj) => {
                     obj?.brands.forEach((subObj) => {
                         arr.push({
                             nameId: obj._id, brandId: subObj._id,

@@ -41,7 +41,7 @@ function WorkSite() {
 
     useEffect(() => {
         userAxios.get('/work-sites').then((response) => {
-            response?.data?.source && setData(response.data.source.data)
+            response?.data?.data && setData(response.data.data.data)
         })
     }, [])
 

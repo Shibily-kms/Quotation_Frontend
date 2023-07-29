@@ -41,7 +41,7 @@ function WaterUsage() {
 
     useEffect(() => {
         userAxios.get('/water-usage').then((response) => {
-            response?.data?.source && setData(response.data.source.data)
+            response?.data?.data && setData(response.data.data.data)
         })
     }, [])
 

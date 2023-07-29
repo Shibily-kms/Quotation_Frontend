@@ -76,11 +76,11 @@ function Form2({ type, setPage }) {
                 let response2 = [];
                 if (type === 'purifier' || type === 'wh-and-purifier') {
                     const purifierPromise = userAxios.get('/purifier-solution-model');
-                    response1 = (await purifierPromise)?.data?.items?.data || [];
+                    response1 = (await purifierPromise)?.data?.data?.data || [];
                 }
                 if (type === 'whole-house' || type === 'wh-and-purifier') {
                     const whPromise = userAxios.get('/wh-solution-model');
-                    response2 = (await whPromise)?.data?.items?.data || [];
+                    response2 = (await whPromise)?.data?.data?.data || [];
                 }
                 setSolutions([...response1, ...response2]);
 
@@ -89,12 +89,12 @@ function Form2({ type, setPage }) {
                         userAxios.get('/vfs-materials'),
                         userAxios.get('/vfs-component')
                     ]);
-                    setMaterialsInput([...materialsInput, ...materialsResponse.data.items.data]);
-                    setVfsInput([...vfsInput, ...vfsResponse.data.items.data]);
+                    setMaterialsInput([...materialsInput, ...materialsResponse.data.data.data]);
+                    setVfsInput([...vfsInput, ...vfsResponse.data.data.data]);
                 }
                 if (type === 'purifier' || type === 'wh-and-purifier') {
                     const purifierResponse = await userAxios.get('/purifier-component');
-                    setPurifierInput(purifierResponse.data.items.data);
+                    setPurifierInput(purifierResponse.data.data.data);
                 }
             } catch (error) {
                 console.error(error);

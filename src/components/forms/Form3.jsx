@@ -62,7 +62,7 @@ function Form3({ type, setPage }) {
                 // Create Quotation
                 userAxios.post('/quotation', quotation).then((response) => {
                     dispatch(reset())
-                    navigate('/quotation', { state: response.data.quotation })
+                    navigate('/quotation', { state: response.data.data })
                     setLoading(false)
                 }).catch((error) => {
                     if (error?.response) {
