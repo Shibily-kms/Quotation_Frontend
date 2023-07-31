@@ -61,8 +61,8 @@ function VfsComponents
                 })
                 return arr;
             })
+            setLoading('')
         })
-        setLoading('')
     }, [])
 
 

@@ -223,19 +223,19 @@ function Form1({ type, setPage }) {
                                 <label htmlFor="source">Source</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='TDS' name='tds' value={quotation?.test_report?.tds} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <input type="text" id='TDS' name='tds' value={quotation?.test_report?.tds} required={fill.validation ? true : false} onChange={handleTestReport} />
                                 <label htmlFor="TDS">TDS (mg/L)</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='PH' name='ph' value={quotation?.test_report?.ph} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <input type="text" id='PH' name='ph' value={quotation?.test_report?.ph} required={fill.validation ? true : false} onChange={handleTestReport} />
                                 <label htmlFor="PH">PH (mg/L)</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='iron' name='fe' value={quotation?.test_report?.fe} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <input type="text" id='iron' name='fe' value={quotation?.test_report?.fe} required={fill.validation ? true : false} onChange={handleTestReport} />
                                 <label htmlFor="iron">Iron (mg/L)</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='calcium' name='ca' value={quotation?.test_report?.ca} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <input type="text" id='calcium' name='ca' value={quotation?.test_report?.ca} required={fill.validation ? true : false} onChange={handleTestReport} />
                                 <label htmlFor="calcium">Calcium (mg/L)</label>
                             </div>
 

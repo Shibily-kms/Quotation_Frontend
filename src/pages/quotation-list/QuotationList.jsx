@@ -12,63 +12,70 @@ import { pdf } from '@react-pdf/renderer';
 import BuildPdf from '../../components/build-pdf/BuildPdf';
 import { useNavigate } from 'react-router-dom'
 import IconWithMessage from '../../components/spinners/SpinWithMessage'
+import { toast } from 'react-hot-toast'
 
 function QuotationList() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState('')
     const navigate = useNavigate()
 
-    const downloadPDF = async (data, index) => {
+    const downloadPDF = (id, index) => {
 
         setLoading(index)
+        userAxios.get(`/quotation?id=${id}`).then(async (response) => {
+            const data = response.data.data
+            const pdfDoc = (<BuildPdf data={data} />);
+            const pdfBlob = await pdf(pdfDoc).toBlob();
 
-        const pdfDoc = (<BuildPdf data={data} />);
-        const pdfBlob = await pdf(pdfDoc).toBlob();
+            // Create a temporary URL for the PDF blob
+            const pdfUrl = URL.createObjectURL(pdfBlob);
 
-        // Create a temporary URL for the PDF blob
-        const pdfUrl = URL.createObjectURL(pdfBlob);
+            // Create an anchor element
+            const link = document.createElement('a');
+            link.href = pdfUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
 
-        // Create an anchor element
-        const link = document.createElement('a');
-        link.href = pdfUrl;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-
-        // Trigger the download programmatically
-        if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-            // For iPhone/iPad devices, use the 'click' event instead of 'download'
-            const clickEvent = new MouseEvent('click', {
-                view: window,
-                bubbles: true,
-                cancelable: false
-            });
-            link.dispatchEvent(clickEvent);
-            // } else if (navigator.userAgent.match(/Android/i)) {
-            //     // For Android devices, use the 'navigator.share()' API to trigger download
-            //     if (navigator.share) {
-            //         try {
-            //             await navigator.share({
-            //                 title: 'Download PDF',
-            //                 url: pdfUrl
-            //             });
-            //         } catch (error) {
-            //             // Handle any error that may occur during sharing
-            //             console.error('Sharing failed:', error);
-            //             // Fallback for older Android versions without share() support
-            //             window.open(pdfUrl, '_blank');
-            //         }
-            //     } else {
-            //         // Fallback for older Android versions without share() support
-            //         window.open(pdfUrl, '_blank');
-            //     }
-        } else {
-            // For other devices, set the 'download' attribute and click the link
-            link.download = `${data.quotation_srl_no}.pdf`;
-            link.click();
-        }
+            // Trigger the download programmatically
+            if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                // For iPhone/iPad devices, use the 'click' event instead of 'download'
+                const clickEvent = new MouseEvent('click', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: false
+                });
+                link.dispatchEvent(clickEvent);
+                // } else if (navigator.userAgent.match(/Android/i)) {
+                //     // For Android devices, use the 'navigator.share()' API to trigger download
+                //     if (navigator.share) {
+                //         try {
+                //             await navigator.share({
+                //                 title: 'Download PDF',
+                //                 url: pdfUrl
+                //             });
+                //         } catch (error) {
+                //             // Handle any error that may occur during sharing
+                //             console.error('Sharing failed:', error);
+                //             // Fallback for older Android versions without share() support
+                //             window.open(pdfUrl, '_blank');
+                //         }
+                //     } else {
+                //         // Fallback for older Android versions without share() support
+                //         window.open(pdfUrl, '_blank');
+                //     }
+            } else {
+                // For other devices, set the 'download' attribute and click the link
+                link.download = `${data.quotation_srl_no}.pdf`;
+                link.click();
+            }
 
 
-        setLoading('')
+            setLoading('')
+        }).catch(() => {
+            toast.error('Try now !')
+            setLoading('')
+        })
+
     }
 
     useEffect(() => {
@@ -94,9 +101,14 @@ function QuotationList() {
         }
     }
 
-    const handleEdit = (formData) => {
-        if (formData.type) {
-            navigate(`/quotation/${formData.type}`, { state: formData })
+    const handleEdit = (id) => {
+        if (id) {
+            setLoading(id)
+            userAxios.get(`/quotation?id=${id}`).then((response) => {
+                console.log(response.data.data);
+                navigate(`/quotation/${response?.data?.data?.type}`, { state: response?.data?.data })
+                setLoading('')
+            })
         }
     }
 
@@ -124,13 +136,15 @@ function QuotationList() {
                         <div className="title">
                             <Title header={'Quotation List'} />
                         </div>
-                        <div className="filter-div">
-                            <div className="input-div">
-                                <input type="text" name='search' id='search' required onChange={deFilter} />
-                                <label htmlFor="search">Search</label>
-                                <div className="icon loading-icon">{loading === 'filter' && <BiLoaderAlt />}</div>
+                        {data?.[0] &&
+                            <div className="filter-div">
+                                <div className="input-div">
+                                    <input type="text" name='search' id='search' required onChange={deFilter} />
+                                    <label htmlFor="search">Search</label>
+                                    <div className="icon loading-icon">{loading === 'filter' && <BiLoaderAlt />}</div>
+                                </div>
                             </div>
-                        </div>
+                        }
                         <div className="content">
 
                             <div className="table-div">
@@ -154,10 +168,10 @@ function QuotationList() {
                                                     <td>{value.type}</td>
                                                     <td>
                                                         <div>
-                                                            <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value, index)}>
+                                                            <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value._id, index)}>
                                                                 {loading === index ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiDownload />}   </button>
-                                                            <button title='Edit' className="edit" onClick={() => handleEdit(value)}>
-                                                                <FiEdit2 />  </button>
+                                                            <button title='Edit' className="edit" onClick={() => handleEdit(value._id)}>
+                                                                {loading === value._id ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiEdit2 />}  </button>
                                                             <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
                                                                 {loading === value.quotation_srl_no ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
                                                         </div>

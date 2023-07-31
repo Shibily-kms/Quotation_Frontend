@@ -3,11 +3,14 @@ import './dynamic-list-table.scss'
 import { createRandomId } from '../../assets/js/help-functions'
 import { BsTrash3 } from 'react-icons/bs'
 import { toast } from 'react-hot-toast'
+import { FiEdit2 } from 'react-icons/fi'
+import { IoClose } from 'react-icons/io5'
 
 function DynamicListTable({ data, setData, total, setTotal, input, multi, type }) {
     const [inputs, setInputs] = useState([])
     const [choose, setChoose] = useState({})
     const [brandInput, setBrandInput] = useState([])
+    const [doEdit, sedDoEdit] = useState(false)
 
     useEffect(() => {
         let markInput = input.map((one) => {
@@ -134,15 +137,16 @@ function DynamicListTable({ data, setData, total, setTotal, input, multi, type }
                                 <td>{index + 1} </td>
                                 <td>{value.item}</td>
                                 <td>{value?.brand || value?.price}</td>
-                                <td><span onClick={() => removeList(value.item)}><BsTrash3 /></span></td>
+                                <td ><span onClick={() => removeList(value.item)}><BsTrash3 /></span></td>
                             </tr>
                         })}
                         {!multi &&
                             <tr>
                                 <td></td>
                                 <td className='total'>TOTAL</td>
-                                <td><input type='number' className='total-input' value={total} onChange={handleChangeTotal} /></td>
-                                <td></td>
+                                <td><input type='number' readOnly={doEdit ? false : true} className={doEdit ? 'total-input' : 'total-input no-edit'}
+                                    value={total} onChange={handleChangeTotal} /></td>
+                                <td><span onClick={() => sedDoEdit(!doEdit)}>{doEdit ? <IoClose /> : <FiEdit2 />}</span></td>
                             </tr>
                         }
                     </table>
