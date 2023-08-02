@@ -5,16 +5,19 @@ import Model from '../model/Model'
 import AddEditData from './AddEditData'
 import '../test-report-source/testReport.scss';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { IoTrashOutline } from 'react-icons/io5';
+import { IoTrashOutline, IoTrashBin } from 'react-icons/io5';
 import { FiEdit2 } from 'react-icons/fi';
+import { BiLoaderAlt } from 'react-icons/bi'
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-hot-toast'
+import IconWithMessage from '../spinners/SpinWithMessage'
 
 function VfsComponents
-() {
+    () {
     const [model, setModel] = useState(null)
     const [pass, setPass] = useState(null)
     const [data, setData] = useState([])
+    const [loading, setLoading] = useState('')
 
     const handleAdd = () => {
         setModel('ADD NEW COMPONENTS')
@@ -29,22 +32,26 @@ function VfsComponents
     const handleDelete = (current) => {
         let check = window.confirm('Delete This Item ?')
         if (check) {
+            setLoading(current.brandId)
             userAxios.delete(`/vfs-component?nameId=${current.nameId}&&brandId=${current.brandId}`).then(() => {
                 setData((state) => {
                     return state.filter((obj) => obj.brandId !== current.brandId)
                 })
+                setLoading('')
             }).catch((error) => {
                 toast.error(error.response.data.message)
+                setLoading('')
             })
         }
     }
 
 
     useEffect(() => {
+        setLoading('getData')
         userAxios.get('/vfs-component').then((response) => {
-            response?.data?.items && setData((state) => {
+            response?.data?.data && setData((state) => {
                 let arr = []
-                response.data.items?.data.forEach((obj) => {
+                response.data.data?.data.forEach((obj) => {
                     obj?.brands.forEach((subObj) => {
                         arr.push({
                             nameId: obj._id, brandId: subObj._id,
@@ -54,6 +61,7 @@ function VfsComponents
                 })
                 return arr;
             })
+            setLoading('')
         })
     }, [])
 
@@ -74,8 +82,8 @@ function VfsComponents
                                 <button onClick={handleAdd}><AiOutlinePlus /> Add New</button>
                             </div>
                             <div className="table-div">
-                                <table id="list">
-                                    {data?.[0] ? <>
+                                {data?.[0] ? <>
+                                    <table id="list">
                                         <tr>
                                             <th>Sl no</th>
                                             <th>Name</th>
@@ -92,18 +100,20 @@ function VfsComponents
                                                         <button title='edit' className="edit" onClick={() => handleEdit(value)}>
                                                             <FiEdit2 /></button>
                                                         <button title='remove' className="delete" onClick={() => handleDelete(value)}>
-                                                            <IoTrashOutline /></button>
+                                                            {loading === value.brandId ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />} </button>
                                                     </div>
                                                 </td>
                                             </tr>
                                         })}
-                                    </>
-                                        : <>
-                                            <tr>
-                                                <td style={{ textAlign: 'center' }}>no data</td>
-                                            </tr>
-                                        </>}
-                                </table>
+                                    </table>
+                                </>
+                                    : <>
+                                        <div className='no-data'>
+                                            <IconWithMessage icon={loading !== 'getData' && <IoTrashBin />}
+                                                message={loading === 'getData' ? 'Loading...' : 'No Data'}
+                                                spin={loading === 'getData' ? true : false} />
+                                        </div>
+                                    </>}
                             </div>
                         </div>
                     </div>

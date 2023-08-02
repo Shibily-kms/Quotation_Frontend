@@ -33,16 +33,16 @@ function Form1({ type, setPage }) {
             try {
 
                 const response1 = await userAxios.get('/water-test-report-source');
-                setSource(response1.data.source.data);
+                setSource(response1.data.data.data);
 
                 const response2 = await userAxios.get('/work-sites');
-                setSite(response2.data.source.data);
+                setSite(response2.data.data.data);
 
                 const response3 = await userAxios.get('/water-usage');
-                setUsage(response3.data.source.data);
+                setUsage(response3.data.data.data);
 
                 const response4 = await userAxios.get('/installation-mode');
-                setIMode(response4.data.source.data);
+                setIMode(response4.data.data.data);
 
             } catch (error) {
                 // Handle any errors that occur during the API calls
@@ -223,19 +223,19 @@ function Form1({ type, setPage }) {
                                 <label htmlFor="source">Source</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='TDS' name='tds' value={quotation?.test_report?.tds} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <input type="text" id='TDS' name='tds' value={quotation?.test_report?.tds} required={fill.validation ? true : false} onChange={handleTestReport} />
                                 <label htmlFor="TDS">TDS (mg/L)</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='PH' name='ph' value={quotation?.test_report?.ph} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <input type="text" id='PH' name='ph' value={quotation?.test_report?.ph} required={fill.validation ? true : false} onChange={handleTestReport} />
                                 <label htmlFor="PH">PH (mg/L)</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='iron' name='fe' value={quotation?.test_report?.fe} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <input type="text" id='iron' name='fe' value={quotation?.test_report?.fe} required={fill.validation ? true : false} onChange={handleTestReport} />
                                 <label htmlFor="iron">Iron (mg/L)</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="number" step="0.1" id='calcium' name='ca' value={quotation?.test_report?.ca} required={fill.validation ? true : false} onChange={handleTestReport} />
+                                <input type="text" id='calcium' name='ca' value={quotation?.test_report?.ca} required={fill.validation ? true : false} onChange={handleTestReport} />
                                 <label htmlFor="calcium">Calcium (mg/L)</label>
                             </div>
 
@@ -384,7 +384,7 @@ function Form1({ type, setPage }) {
                                             {["16", "24", "32", "40", "48", "56", "64", "72", "80", "88", "96", "104",
                                                 "112", "120", "128", "136", "144", "152", "160", "168", "176", "184", "192"]
                                                 .map((optn) => {
-                                                     // eslint-disable-next-line
+                                                    // eslint-disable-next-line
                                                     return <option selected={optn == quotation?.vfs_report?.inlet ? true : false}
                                                         value={optn}>{optn} mm</option>
                                                 })}
@@ -398,7 +398,7 @@ function Form1({ type, setPage }) {
                                             {["16", "24", "32", "40", "48", "56", "64", "72", "80", "88", "96", "104",
                                                 "112", "120", "128", "136", "144", "152", "160", "168", "176", "184", "192"]
                                                 .map((optn) => {
-                                                     // eslint-disable-next-line
+                                                    // eslint-disable-next-line
                                                     return <option selected={optn == quotation?.vfs_report?.outlet ? true : false}
                                                         value={optn}>{optn} mm</option>
                                                 })}
@@ -412,7 +412,7 @@ function Form1({ type, setPage }) {
                                             {[
                                                 "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
                                             ].map((optn) => {
-                                                 // eslint-disable-next-line
+                                                // eslint-disable-next-line
                                                 return <option selected={optn == quotation?.vfs_report?.bathroom_in_top ? true : false}
                                                     value={optn}>{optn}</option>
                                             })}

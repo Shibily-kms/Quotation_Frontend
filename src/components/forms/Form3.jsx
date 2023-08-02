@@ -8,13 +8,14 @@ import { form3Validate } from '../../assets/js/validate-function';
 import { useNavigate } from 'react-router-dom';
 import { setQuotationInput, reset, setFill } from '../../redux/features/quotationSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import IconWithMessage from '../spinners/SpinWithMessage'
 
 function Form3({ type, setPage }) {
     const dispatch = useDispatch()
     const { quotation, fill } = useSelector((state) => state.inputData)
     const [tac, setTac] = useState(quotation?.tac || [])
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState('')
 
     useEffect(() => {
         dispatch(setQuotationInput({
@@ -32,7 +33,7 @@ function Form3({ type, setPage }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoading(true)
+        setLoading('Validating...')
 
         let validate = null
         if (fill.validation) {
@@ -45,37 +46,39 @@ function Form3({ type, setPage }) {
             dispatch(setFill({ three: true }))
             if (quotation?.index) {
                 // Update Quotation
+                setLoading('Updating...')
                 userAxios.put('/quotation', quotation).then((response) => {
                     dispatch(reset())
                     navigate('/quotations-list')
                     toast.success('Quotation updated !')
-                    setLoading(false)
+                    setLoading('')
                 }).catch((error) => {
                     if (error?.response) {
                         toast.error(error.response?.data?.message)
                     } else {
                         toast.error('Server Down!!!')
                     }
-                    setLoading(false)
+                    setLoading('')
                 })
             } else {
+                setLoading('Submiting...')
                 // Create Quotation
                 userAxios.post('/quotation', quotation).then((response) => {
                     dispatch(reset())
-                    navigate('/quotation', { state: response.data.quotation })
-                    setLoading(false)
+                    navigate('/quotation', { state: response.data.data })
+                    setLoading('')
                 }).catch((error) => {
                     if (error?.response) {
                         toast.error(error.response?.data?.message)
                     } else {
                         toast.error('Server Down!!!')
                     }
-                    setLoading(false)
+                    setLoading('')
                 })
             }
 
         } else {
-            setLoading(false)
+            setLoading('')
             toast.error(validate.message)
         }
     }
@@ -137,6 +140,13 @@ function Form3({ type, setPage }) {
                         }
                     </div>
                 </form>
+                {loading && 
+                <div className="loading-div">
+                    <div>
+                        <IconWithMessage message={loading}/>
+                    </div>
+                </div>
+                }
             </div >
         </div >
     )
