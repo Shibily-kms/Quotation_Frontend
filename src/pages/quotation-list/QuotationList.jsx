@@ -105,7 +105,6 @@ function QuotationList() {
         if (id) {
             setLoading(id)
             userAxios.get(`/quotation?id=${id}`).then((response) => {
-                console.log(response.data.data);
                 navigate(`/quotation/${response?.data?.data?.type}`, { state: response?.data?.data })
                 setLoading('')
             })
