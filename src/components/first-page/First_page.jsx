@@ -16,7 +16,7 @@ function First_page() {
             <div className="container">
                 <div className="title">
                     <Title designation={`Designation : ${user?.designation?.designation}`}
-                        username={`User name : ${user?.user_name}`} />
+                        username={`Full name : ${user?.first_name ? user?.first_name + ' ' + user?.last_name : user?.user_name}`} />
                 </div>
 
                 <div className="bottom">
