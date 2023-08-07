@@ -9,6 +9,7 @@ import ListModel from './components/ListModel';
 import './fonts/Fonts'
 import { createContent } from '../../assets/js/pdf-data-helper'
 import sealImage from '../../assets/images/seal.png'
+import demmiSign from '../../assets/images/demmiSign.png'
 
 const styles = StyleSheet.create({
     w_body: {
@@ -37,7 +38,8 @@ const styles = StyleSheet.create({
     },
     signature: {
         width: "120px",
-        height: '50px'
+        height: '50px',
+        marginTop: '30px'
     },
     seal: {
         width: "100px",
@@ -150,14 +152,12 @@ const BuildPdf = ({ data }) => {
                     {/* Signature */}
                     <View style={styles.w_body}>
                         <View style={styles.w_child}>
-                            {data?.sign?.customer?.url ?
-                                <Image style={styles.signature} src={data?.sign?.customer?.url} />
-                                : ""}
+                            <Image style={styles.signature} src={data?.sign?.customer?.url || demmiSign} />
                             <Text>Customer signature</Text>
                         </View>
                         <View style={styles.w_child}>
                             <Image style={styles.seal} src={sealImage} />
-                            {/* <Text>Authorized signature</Text> */}
+                            <Text>Authorized signature</Text>
                         </View>
                     </View>
 
