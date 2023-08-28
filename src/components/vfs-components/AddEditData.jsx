@@ -51,6 +51,7 @@ function AddEditData({ setData, setModel, current }) {
                     }
                     return [...state, obj]
                 })
+                toast.success('Item added')
                 setModel(null)
                 setLoading(false)
             }).catch((error) => {

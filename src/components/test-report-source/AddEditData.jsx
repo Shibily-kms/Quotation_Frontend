@@ -40,6 +40,7 @@ function AddEditData({ setData, setModel, current }) {
                 setData((state) => {
                     return [...state, response.data.data]
                 })
+                toast.success('Item added')
                 setModel(null)
                 setLoading(false)
             }).catch((error) => {

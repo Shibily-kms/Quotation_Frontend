@@ -17,6 +17,7 @@ import QuotationList from '../pages/quotation-list/QuotationList';
 import WhSolutionModel from '../components/wh-solution-model/SolutionModel'
 import VfsComponents from '../components/vfs-components/VfsComponents'
 import VfsMaterials from '../components/vfs-materials/VfsMaterials'
+import NotFound from '../components/404Page/NotFound';
 
 
 function User() {
@@ -43,16 +44,18 @@ function User() {
         <Routes>
             <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
             {/* Metirials */}
-            <Route path='/raw-materials' element={<PrivateRoute element={<Materials />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/test-report-source' element={<PrivateRoute element={<TestReport />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/work-site' element={<PrivateRoute element={<WorkSite />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/water-usage' element={<PrivateRoute element={<WaterUsage />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/installation-mode' element={<PrivateRoute element={<InstallationMode />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/purifier-solution-models' element={<PrivateRoute element={<PurifierSolutionModel />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/purifier-components' element={<PrivateRoute element={<PurifierComponents />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/wh-solution-models' element={<PrivateRoute element={<WhSolutionModel />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/vfs-components' element={<PrivateRoute element={<VfsComponents />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/raw-materials/vfs-materials' element={<PrivateRoute element={<VfsMaterials />} isAuthenticated={isAuthenticated} />} />
+            {user?.designation?.allow_origins?.includes('SalesPro') && <>
+                <Route path='/raw-materials' element={<PrivateRoute element={<Materials />} isAuthenticated={isAuthenticated} />} />
+                <Route path='/raw-materials/test-report-source' element={<PrivateRoute element={<TestReport />} isAuthenticated={isAuthenticated} />} />
+                <Route path='/raw-materials/work-site' element={<PrivateRoute element={<WorkSite />} isAuthenticated={isAuthenticated} />} />
+                <Route path='/raw-materials/water-usage' element={<PrivateRoute element={<WaterUsage />} isAuthenticated={isAuthenticated} />} />
+                <Route path='/raw-materials/installation-mode' element={<PrivateRoute element={<InstallationMode />} isAuthenticated={isAuthenticated} />} />
+                <Route path='/raw-materials/purifier-solution-models' element={<PrivateRoute element={<PurifierSolutionModel />} isAuthenticated={isAuthenticated} />} />
+                <Route path='/raw-materials/purifier-components' element={<PrivateRoute element={<PurifierComponents />} isAuthenticated={isAuthenticated} />} />
+                <Route path='/raw-materials/wh-solution-models' element={<PrivateRoute element={<WhSolutionModel />} isAuthenticated={isAuthenticated} />} />
+                <Route path='/raw-materials/vfs-components' element={<PrivateRoute element={<VfsComponents />} isAuthenticated={isAuthenticated} />} />
+                <Route path='/raw-materials/vfs-materials' element={<PrivateRoute element={<VfsMaterials />} isAuthenticated={isAuthenticated} />} />
+            </>}
 
             {/* Quotation */}
             <Route path='/quotation' element={<PrivateRoute element={<Quotation />} isAuthenticated={isAuthenticated} />} />
@@ -61,6 +64,8 @@ function User() {
             {/* Qutation List */}
             <Route path='/quotations-list' element={<PrivateRoute element={<QuotationList />} isAuthenticated={isAuthenticated} />} />
 
+            {/* 404 Route */}
+            <Route path="*" element={<NotFound />} />
 
         </Routes>
     )

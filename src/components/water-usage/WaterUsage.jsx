@@ -11,6 +11,7 @@ import { BiLoaderAlt } from 'react-icons/bi'
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-hot-toast'
 import IconWithMessage from '../spinners/SpinWithMessage'
+import TableFilter from '../../components/table-filter/TableFilter'
 
 function WaterUsage() {
     const [model, setModel] = useState(null)
@@ -66,32 +67,34 @@ function WaterUsage() {
                             <Title header={'WATER USAGES'} />
                         </div>
                         <div className="content">
-                            <div className="top">
-                                <button onClick={handleAdd}><AiOutlinePlus /> Add New</button>
-                            </div>
                             <div className="table-div">
                                 {data?.[0] ? <>
-                                    <table id="list">
-                                        <tr>
-                                            <th>Sl no</th>
-                                            <th>Usages</th>
-                                            <th>Control</th>
-                                        </tr>
-                                        {data.map((value, index) => {
-                                            return <tr key={value._id}>
-                                                <td>{index + 1}</td>
-                                                <td>{value.item}</td>
-                                                <td>
-                                                    <div>
-                                                        <button title='edit' className="edit" onClick={() => handleEdit(value)}>
-                                                            <FiEdit2 /></button>
-                                                        <button title='remove' className="delete" onClick={() => handleDelete(value)}>
-                                                            {loading === value._id ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        })}
-                                    </table>
+                                    <TableFilter srlNo={true} topRight={<button className='add-button' onClick={handleAdd}><AiOutlinePlus /> Add New</button>}>
+                                        <table id="list">
+                                            <thead>
+                                                <tr>
+                                                    <th>Usages</th>
+                                                    <th>Control</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {data.map((value, index) => {
+                                                    return <tr key={value._id}>
+
+                                                        <td>{value.item}</td>
+                                                        <td>
+                                                            <div>
+                                                                <button title='edit' className="edit" onClick={() => handleEdit(value)}>
+                                                                    <FiEdit2 /></button>
+                                                                <button title='remove' className="delete" onClick={() => handleDelete(value)}>
+                                                                    {loading === value._id ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </TableFilter>
                                 </>
                                     : <>
                                         <div className='no-data'>
