@@ -24,9 +24,10 @@ function First_page() {
                         <div className="button-div">
                             <button onClick={() => navigate('/quotation')}>BUILD QUOTATION</button>
                         </div>
-                        <div className="button-div">
-                            <button onClick={() => navigate('/raw-materials')}>ENTER RAW MATERIALS</button>
-                        </div>
+                        {user?.designation?.allow_origins?.includes('SalesPro') &&
+                            <div className="button-div">
+                                <button onClick={() => navigate('/raw-materials')}>ENTER RAW MATERIALS</button>
+                            </div>}
                         <div className="button-div">
                             <button onClick={() => navigate('/quotations-list')}>ALL QUOTATIONS</button>
                         </div>

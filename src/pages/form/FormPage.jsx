@@ -42,9 +42,9 @@ function FormPage() {
             setPage(1)
         }
 
-        if (location?.state?.type && !quotation?.index) {
+        if (location?.state?.type) {
             dispatch(setInitial(location.state))
-        } else if (quotation?.type !== type && !quotation._id) {
+        } else if (quotation?.type !== type) {
             dispatch(setInitial({
                 type,
                 visit_date: YYYYMMDDFormat(new Date())
@@ -52,7 +52,9 @@ function FormPage() {
         }
 
         return () => {
-            dispatch(reset())
+            if (location?.state?.type) {
+                dispatch(reset())
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

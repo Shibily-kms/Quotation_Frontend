@@ -12,11 +12,14 @@ import { pdf } from '@react-pdf/renderer';
 import BuildPdf from '../../components/build-pdf/BuildPdf';
 import { useNavigate } from 'react-router-dom'
 import IconWithMessage from '../../components/spinners/SpinWithMessage'
+import TableFilter from '../../components/table-filter/TableFilter'
 import { toast } from 'react-hot-toast'
+import { useSelector } from 'react-redux';
 
 function QuotationList() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState('')
+    const { user } = useSelector((state) => state.userAuth)
     const navigate = useNavigate()
 
     const downloadPDF = (id, index) => {
@@ -135,50 +138,48 @@ function QuotationList() {
                         <div className="title">
                             <Title header={'Quotation List'} />
                         </div>
-                        {data?.[0] &&
-                            <div className="filter-div">
-                                <div className="input-div">
-                                    <input type="text" name='search' id='search' required onChange={deFilter} />
-                                    <label htmlFor="search">Search</label>
-                                    <div className="icon loading-icon">{loading === 'filter' && <BiLoaderAlt />}</div>
-                                </div>
-                            </div>
-                        }
+
                         <div className="content">
 
                             <div className="table-div">
                                 {data?.[0] ? <>
-                                    <table id="list">
-                                        <tr>
-                                            <th>Idx No</th>
-                                            <th>Name</th>
-                                            <th>Enquiry Srl No</th>
-                                            <th>Qtn Srl No</th>
-                                            <th>Type</th>
-                                            <th>Control</th>
-                                        </tr>
-                                        {data.map((value, index) => {
-                                            if (!value?.hide) {
-                                                return <tr key={value._id}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{value.customer.name}</td>
-                                                    <td>{value.enquiry_srl_no}</td>
-                                                    <td>{value.quotation_srl_no}</td>
-                                                    <td>{value.type}</td>
-                                                    <td>
-                                                        <div>
-                                                            <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value._id, index)}>
-                                                                {loading === index ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiDownload />}   </button>
-                                                            <button title='Edit' className="edit" onClick={() => handleEdit(value._id)}>
-                                                                {loading === value._id ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiEdit2 />}  </button>
-                                                            <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
-                                                                {loading === value.quotation_srl_no ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
-                                                        </div>
-                                                    </td>
+                                    <TableFilter srlNo={true}>
+                                        <table id="list">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Enquiry Srl No</th>
+                                                    <th>Qtn Srl No</th>
+                                                    <th>Type</th>
+                                                    <th>Control</th>
                                                 </tr>
-                                            }
-                                        })}
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                {data.map((value, index) => {
+                                                    if (!value?.hide) {
+                                                        return <tr key={value._id}>
+                                                            <td>{value.customer.name}</td>
+                                                            <td>{value.enquiry_srl_no}</td>
+                                                            <td>{value.quotation_srl_no}</td>
+                                                            <td>{value.type}</td>
+                                                            <td>
+                                                                <div>
+                                                                    <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value._id, index)}>
+                                                                        {loading === index ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiDownload />}   </button>
+                                                                    {user?.designation?.allow_origins?.includes('SalesPro') && <>
+                                                                        <button title='Edit' className="edit" onClick={() => handleEdit(value._id)}>
+                                                                            {loading === value._id ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiEdit2 />}  </button>
+                                                                        <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
+                                                                            {loading === value.quotation_srl_no ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
+                                                                    </>}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </TableFilter>
                                 </>
                                     : <>
                                         <div className='no-data'>

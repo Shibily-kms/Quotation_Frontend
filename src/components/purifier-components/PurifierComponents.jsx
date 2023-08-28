@@ -11,6 +11,7 @@ import { BiLoaderAlt } from 'react-icons/bi'
 import { userAxios } from '../../config/axios'
 import { toast } from 'react-hot-toast'
 import IconWithMessage from '../spinners/SpinWithMessage'
+import TableFilter from '../../components/table-filter/TableFilter'
 
 function PurifierComponents() {
     const [model, setModel] = useState(null)
@@ -77,42 +78,43 @@ function PurifierComponents() {
                             <Title header={'PURIFIER COMPONENTS'} />
                         </div>
                         <div className="content">
-                            <div className="top">
-                                <button onClick={handleAdd}><AiOutlinePlus /> Add New</button>
-                            </div>
                             <div className="table-div">
-                                    {data?.[0] ? <>
-                                <table id="list">
-                                        <tr>
-                                            <th>Sl no</th>
-                                            <th>Name</th>
-                                            <th>Brand</th>
-                                            <th>Control</th>
-                                        </tr>
-                                        {data.map((value, index) => {
-                                            return <tr key={value.brandId}>
-                                                <td>{index + 1}</td>
-                                                <td>{value.name}</td>
-                                                <td>{value.brand}</td>
-                                                <td>
-                                                    <div>
-                                                        <button title='edit' className="edit" onClick={() => handleEdit(value)}>
-                                                            <FiEdit2 /></button>
-                                                        <button title='remove' className="delete" onClick={() => handleDelete(value)}>
-                                                        {loading === value.brandId ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />} </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        })}
-                                </table>
-                                    </>
-                                        : <>
-                                             <div className='no-data'>
+                                {data?.[0] ? <>
+                                    <TableFilter srlNo={true} topRight={<button className='add-button' onClick={handleAdd}><AiOutlinePlus /> Add New</button>}>
+                                        <table id="list">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Brand</th>
+                                                    <th>Control</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {data.map((value, index) => {
+                                                    return <tr key={value.brandId}>
+                                                        <td>{value.name}</td>
+                                                        <td>{value.brand}</td>
+                                                        <td>
+                                                            <div>
+                                                                <button title='edit' className="edit" onClick={() => handleEdit(value)}>
+                                                                    <FiEdit2 /></button>
+                                                                <button title='remove' className="delete" onClick={() => handleDelete(value)}>
+                                                                    {loading === value.brandId ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />} </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </TableFilter>
+                                </>
+                                    : <>
+                                        <div className='no-data'>
                                             <IconWithMessage icon={loading !== 'getData' && <IoTrashBin />}
                                                 message={loading === 'getData' ? 'Loading...' : 'No Data'}
                                                 spin={loading === 'getData' ? true : false} />
                                         </div>
-                                        </>}
+                                    </>}
                             </div>
                         </div>
                     </div>
