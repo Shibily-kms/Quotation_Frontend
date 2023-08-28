@@ -11,7 +11,7 @@ function Home() {
   useEffect(() => {
     const id = searchParams.get('id');
     if (!id && user._id) {
-      window.location.href = `http://localhost:3000?id=${user._id}`
+      window.location.href = `http://192.168.204.221:3000?id=${user._id}`
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -114,18 +114,7 @@ function QuotationList() {
         }
     }
 
-    const deFilter = (e) => {
-        setLoading('filter')
-        const regex = new RegExp(e.target.value, 'i');
-        // eslint-disable-next-line
-        const filteredData = data.map((item) => ({
-            ...item,
-            hide: !regex.test(item.customer.name) && !regex.test(item.enquiry_srl_no)
-                && !regex.test(item.quotation_srl_no) && !regex.test(item.type)
-        }))
-        setData(filteredData)
-        setLoading('')
-    }
+
 
     return (
         <div className='solution-model quotation-list'>
@@ -156,26 +145,25 @@ function QuotationList() {
                                             </thead>
                                             <tbody>
                                                 {data.map((value, index) => {
-                                                    if (!value?.hide) {
-                                                        return <tr key={value._id}>
-                                                            <td>{value.customer.name}</td>
-                                                            <td>{value.enquiry_srl_no}</td>
-                                                            <td>{value.quotation_srl_no}</td>
-                                                            <td>{value.type}</td>
-                                                            <td>
-                                                                <div>
-                                                                    <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value._id, index)}>
-                                                                        {loading === index ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiDownload />}   </button>
-                                                                    {user?.designation?.allow_origins?.includes('SalesPro') && <>
-                                                                        <button title='Edit' className="edit" onClick={() => handleEdit(value._id)}>
-                                                                            {loading === value._id ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiEdit2 />}  </button>
-                                                                        <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
-                                                                            {loading === value.quotation_srl_no ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
-                                                                    </>}
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    }
+                                                    return <tr key={value._id}>
+                                                        <td>{value.customer.name}</td>
+                                                        <td>{value.enquiry_srl_no}</td>
+                                                        <td>{value.quotation_srl_no}</td>
+                                                        <td>{value.type}</td>
+                                                        <td>
+                                                            <div>
+                                                                <button title='Download PDF' className="create pdf" onClick={() => downloadPDF(value._id, index)}>
+                                                                    {loading === index ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiDownload />}   </button>
+                                                                {user?.designation?.allow_origins?.includes('SalesPro') && <>
+                                                                    <button title='Edit' className="edit" onClick={() => handleEdit(value._id)}>
+                                                                        {loading === value._id ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiEdit2 />}  </button>
+                                                                    <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
+                                                                        {loading === value.quotation_srl_no ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
+                                                                </>}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
                                                 })}
                                             </tbody>
                                         </table>

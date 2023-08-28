@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import './table-filter.scss'
-import { FiSearch } from 'react-icons/fi'
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 
 
@@ -46,6 +45,7 @@ function TableFilter({ children, srlNo, topRight }) {
     useEffect(() => {
         setChildrenBody(children?.props?.children?.[1]?.props?.children)
         setTableBody(children?.props?.children?.[1]?.props?.children?.slice(rowCount * (page - 1), rowCount * page))
+        // eslint-disable-next-line
     }, [children])
 
     return (
