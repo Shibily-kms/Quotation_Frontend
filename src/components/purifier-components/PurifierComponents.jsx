@@ -62,6 +62,8 @@ function PurifierComponents() {
                 return arr;
             })
             setLoading('')
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
     }, [])
 

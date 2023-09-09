@@ -13,7 +13,7 @@ function Header() {
 
     const handleLogOut = () => {
         dispatch(logOut())
-        window.location.href = 'http://192.168.204.221:3001/'
+        window.location.href = 'http://localhost:3001/'
     }
 
     return (

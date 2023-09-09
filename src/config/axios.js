@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const baseSetup = {
     userAxios: axios.create({
-        baseURL: 'http://192.168.204.221:8001/',
+        baseURL: 'http://localhost:8001/',
         headers: {
             'Content-Type': 'application/json'
         }

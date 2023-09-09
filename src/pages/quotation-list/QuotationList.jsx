@@ -86,6 +86,8 @@ function QuotationList() {
         userAxios.get('/quotation').then((response) => {
             setData(response.data.data)
             setLoading('')
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
     }, [])
 
