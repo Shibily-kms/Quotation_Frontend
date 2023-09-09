@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 
 function Home() {
   const { user } = useSelector((state) => state.userAuth)
-  const [searchParams] = useSearchParams();
-  
+  const [searchParams, setSearchParams] = useSearchParams();
+
   useEffect(() => {
     const id = searchParams.get('id');
     if (!id && user._id) {

@@ -51,6 +51,8 @@ function InstallationMode() {
         userAxios.get('/installation-mode').then((response) => {
             response?.data?.data && setData(response.data.data.data)
             setLoading('')
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
     }, [])
 
