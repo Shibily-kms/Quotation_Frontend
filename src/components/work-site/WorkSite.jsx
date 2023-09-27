@@ -101,6 +101,7 @@ function WorkSite() {
                                             <IconWithMessage icon={loading !== 'getData' && <IoTrashBin />}
                                                 message={loading === 'getData' ? 'Loading...' : 'No Data'}
                                                 spin={loading === 'getData' ? true : false} />
+                                                  {loading !== 'getData' && <button className='add-button' onClick={handleAdd}><AiOutlinePlus /> Add New</button>}
                                         </div>
                                     </>}
                             </div>

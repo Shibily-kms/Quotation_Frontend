@@ -2,9 +2,6 @@ import React from 'react'
 import { Page, View, Image,  StyleSheet, } from '@react-pdf/renderer';
 import LetterHead from '../../../assets/images/letter_head.png'
 
-
-
-
 function PageWrapper({ children }) {
 
     const styles = StyleSheet.create({
@@ -14,7 +11,7 @@ function PageWrapper({ children }) {
             paddingLeft: '55pt',
             paddingRight: '55pt',
             fontSize: '12px',
-            fontFamily: 'Roboto',
+            fontFamily: ' AnekMalayalam',
             fontWeight: 300 
         },
         watermark: [{

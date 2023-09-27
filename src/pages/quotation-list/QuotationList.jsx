@@ -74,7 +74,7 @@ function QuotationList() {
 
 
             setLoading('')
-        }).catch(() => {
+        }).catch((error) => {
             toast.error('Try now !')
             setLoading('')
         })
