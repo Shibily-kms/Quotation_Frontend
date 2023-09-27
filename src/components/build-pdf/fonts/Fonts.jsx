@@ -1,20 +1,17 @@
 import { Font } from '@react-pdf/renderer';
-import RobotoLight from '../../../assets/fonts/RobotoCondensed-Light.ttf'
-import RobotoRegular from '../../../assets/fonts/RobotoCondensed-Regular.ttf'
-import RobotoBold from '../../../assets/fonts/RobotoCondensed-Bold.ttf'
 
-import NotoSerifLight from '../../../assets/fonts/NotoSerifMalayalam-Light.ttf'
-import NotoSerifRegular from '../../../assets/fonts/NotoSerifMalayalam-Regular.ttf'
-import NotoSerifBold from '../../../assets/fonts/NotoSerifMalayalam-Bold.ttf'
+import AnekMalayalamLight from '../../../assets/fonts/AnekMalayalam_SemiCondensed-Light.ttf'
+import AnekMalayalamRegular from '../../../assets/fonts/AnekMalayalam_SemiCondensed-Regular.ttf'
+import AnekMalayalamBold from '../../../assets/fonts/AnekMalayalam_SemiCondensed-Bold.ttf'
 
 
 Font.register({
-    family: 'NotoSerif',
+    family: ' AnekMalayalam',
     format: 'truetype',
     fonts: [
-        { src: NotoSerifLight, fontWeight: 300 },
-        { src: NotoSerifRegular, fontWeight: 400 },
-        { src: NotoSerifBold, fontWeight: 700 },
+        { src:  AnekMalayalamLight, fontWeight: 300 },
+        { src:  AnekMalayalamRegular, fontWeight: 400 },
+        { src:  AnekMalayalamBold, fontWeight: 700 },
 
     ],
 });
