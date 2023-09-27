@@ -33,7 +33,7 @@ function User() {
     useEffect(() => {
         const id = searchParams.get('id');
         if (!id && !user?._id) {
-            window.location.href = `http://localhost:3001/`
+            window.location.href = `http://localhost:3000/`
         } else if (id || user?._id) {
             dispatch(loginUser(id || user?._id))
         }
