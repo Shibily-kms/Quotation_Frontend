@@ -7,7 +7,7 @@ function form1Validate(data, type) {
         return { status: false, message: 'Choose Source' }
     } else if ((type === 'purifier' || type === 'wh-and-purifier') && (!data?.pws_report?.site
         || !data?.pws_report?.usage || !data?.pws_report?.iMode
-        || !data?.pws_report?.water_point || !data?.pws_report?.plug_point)
+        || !String(data?.pws_report?.water_point) || !String(data?.pws_report?.plug_point))
     ) {
         return { status: false, message: 'Fill PWS Report Fields' }
     } else if ((type === 'whole-house' || type === 'wh-and-purifier') && (!data?.vfs_report?.site

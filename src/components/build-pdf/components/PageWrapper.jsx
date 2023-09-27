@@ -14,7 +14,7 @@ function PageWrapper({ children }) {
             paddingLeft: '55pt',
             paddingRight: '55pt',
             fontSize: '12px',
-            fontFamily: 'Roboto',
+            fontFamily: 'NotoSerif',
             fontWeight: 300 
         },
         watermark: [{

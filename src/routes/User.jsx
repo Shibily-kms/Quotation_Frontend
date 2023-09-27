@@ -34,6 +34,7 @@ function User() {
         const id = searchParams.get('id');
         if (!id && !user?._id) {
             window.location.href = `http://localhost:3000/`
+           
         } else if (id || user?._id) {
             dispatch(loginUser(id || user?._id))
         }
@@ -43,7 +44,7 @@ function User() {
     return (
         <Routes>
             <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
-            {/* Metirials */}
+            {/* Materials */}
             {user?.designation?.allow_origins?.includes('SalesPro') && <>
                 <Route path='/raw-materials' element={<PrivateRoute element={<Materials />} isAuthenticated={isAuthenticated} />} />
                 <Route path='/raw-materials/test-report-source' element={<PrivateRoute element={<TestReport />} isAuthenticated={isAuthenticated} />} />
@@ -61,7 +62,7 @@ function User() {
             <Route path='/quotation' element={<PrivateRoute element={<Quotation />} isAuthenticated={isAuthenticated} />} />
             <Route path='/quotation/:type' element={<PrivateRoute element={<FormPage />} isAuthenticated={isAuthenticated} />} />
 
-            {/* Qutation List */}
+            {/* Quotation List */}
             <Route path='/quotations-list' element={<PrivateRoute element={<QuotationList />} isAuthenticated={isAuthenticated} />} />
 
             {/* 404 Route */}

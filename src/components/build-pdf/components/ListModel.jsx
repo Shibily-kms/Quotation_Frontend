@@ -1,5 +1,5 @@
 import React from 'react';
-import {  StyleSheet, Text, View } from '@react-pdf/renderer';
+import { StyleSheet, Text, View } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,14 +14,14 @@ const styles = StyleSheet.create({
   bullet: {
     width: 7,
     fontSize: 22,
-    position:'absolute',
+    position: 'absolute',
     left: '-15px',
-    top:'-5px'
+    top: '-5px'
   },
   text: {
     fontSize: 12,
-    textAlign:'justify',
-    lineHeight:'1.5px'
+    textAlign: 'justify',
+    lineHeight: '1.5px'
   },
 });
 
