@@ -13,7 +13,7 @@ const AdminPage = ({ titleArray, children }) => {
 
     const handleLogOut = () => {
         dispatch(logOut())
-        window.location.href = 'http://localhost:3000/'
+        window.location.href = 'http://staff.alliancedev.in'
     }
 
     return (

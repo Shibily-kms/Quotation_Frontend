@@ -52,7 +52,7 @@ export const userAuthSlice = createSlice({
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                window.location.href = 'http://localhost:3000/'
+                window.location.href = 'http://staff.alliancedev.in'
             });
     },
 })
