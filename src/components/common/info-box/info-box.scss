@@ -1,0 +1,49 @@
+.info-box-div {
+    display: grid;
+    grid-template-columns: 30px auto 30px;
+    width: 100%;
+    font-size: 14px;
+    padding: 5px 0px;
+    background-color: rgba(5, 134, 151, 0.24);
+    border-left: 3px rgb(5, 134, 151) solid;
+    color: rgb(5, 134, 151);
+
+    .left-div {
+        text-align: center;
+    }
+
+    .center-div {
+        h5 {
+            font-size: 13px;
+        }
+
+        p {
+            font-size: 12px;
+            font-weight: 600;
+            white-space: pre-line;
+        }
+    }
+
+    .right-div {
+
+        text-align: center;
+    }
+}
+
+.warning {
+    background-color: rgba(169, 98, 4, 0.192);
+    border-left: 3px rgb(169, 98, 4) solid;
+    color: rgb(169, 98, 4);
+}
+
+.success {
+    background-color: rgba(4, 169, 109, 0.226);
+    border-left: 3px rgb(4, 169, 109) solid;
+    color: rgb(4, 169, 109);
+}
+
+.error {
+    background-color: rgba(211, 49, 8, 0.212);
+    border-left: 3px rgb(211, 49, 8) solid;
+    color: rgb(211, 49, 8);
+}

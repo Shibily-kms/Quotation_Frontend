@@ -21,16 +21,26 @@ function First_page() {
 
                 <div className="bottom">
                     <div className="boarder">
-                        <div className="button-div">
-                            <button onClick={() => navigate('/quotation')}>BUILD QUOTATION</button>
-                        </div>
+                        {(user?.designation?.allow_origins?.includes('SalesPro') || user?.designation?.allow_origins?.includes('Sales')) &&
+                            <div className="button-div">
+                                <button onClick={() => navigate('/quotation')}>BUILD QUOTATION</button>
+                            </div>}
                         {user?.designation?.allow_origins?.includes('SalesPro') &&
                             <div className="button-div">
                                 <button onClick={() => navigate('/raw-materials')}>ENTER RAW MATERIALS</button>
                             </div>}
-                        <div className="button-div">
-                            <button onClick={() => navigate('/quotations-list')}>ALL QUOTATIONS</button>
-                        </div>
+                        {(user?.designation?.allow_origins?.includes('SalesPro') || user?.designation?.allow_origins?.includes('Sales')) &&
+                            <div className="button-div">
+                                <button onClick={() => navigate('/quotations-list')}>ALL QUOTATIONS</button>
+                            </div>}
+                        {user?.designation?.allow_origins?.includes('Installation') && <>
+                            <div className="button-div">
+                                <button onClick={() => navigate('/installation')}>INSTALLATION</button>
+                            </div>
+                            <div className="button-div">
+                                <button onClick={() => navigate('/re-installation')}>RE INSTALLATION</button>
+                            </div>
+                        </>}
                     </div>
                 </div>
             </div>

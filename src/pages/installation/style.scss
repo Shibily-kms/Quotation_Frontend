@@ -1,0 +1,76 @@
+@import '../../assets/scss/model.scss';
+@import '../../assets/scss/color.scss';
+
+
+.installation-div {
+    .container {
+        .bottom {
+            .boarder {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+
+                .form-border-div {
+                    width: 600px;
+                    max-width: 100%;
+
+                    .section-one-div {
+                        .button-div {
+                            display: flex;
+                            justify-content: flex-end;
+                            gap: 10px;
+
+                            button {
+                                @include normalButton();
+                                width: 100%;
+                                background-color: $edit_color;
+
+                                &:first-child {
+                                    background-color: $red_color;
+                                }
+                            }
+                        }
+                    }
+
+                    .section-three-div {
+                        margin-top: 20px;
+
+                        form {
+
+                            .info-one {
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                gap: 0 10px;
+                            }
+
+                            .radio-input-border-div {
+                                .radio-inputs {
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    gap: 0px 5px;
+                                }
+                            }
+
+                            h3 {
+                                margin-top: 15px;
+                            }
+                        }
+
+                        .button-div {
+                            display: flex;
+                            justify-content: flex-end;
+                            margin-top: 15px;
+
+                            button {
+                                @include normalButton();
+                                width: 100%;
+                                background-color: $green_color;
+                                font-weight: 700;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

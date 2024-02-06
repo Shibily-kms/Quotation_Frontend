@@ -1,0 +1,48 @@
+.spin-with-message {
+   
+    display: grid;
+    place-content: center;
+
+    .spinner-body {
+        padding: 15px 20px;
+        text-align: center;
+
+        .t-icon {
+
+            .load-div {
+                font-size: 40px;
+                color: rgb(92, 92, 92);
+            }
+
+            .spin-div {
+                svg {
+                    animation: iconLoading 1.5s linear infinite;
+                    -webkit-animation: iconLoading 1.5s linear infinite;
+                }
+
+                @keyframes iconLoading {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+            }
+
+            .message {
+                p {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: gray;
+                }
+            }
+
+        }
+
+        .bottom-div {
+            margin-top: 40px;
+        }
+    }
+}

@@ -1,0 +1,63 @@
+@import '../../../assets/scss/color.scss';
+@import '../../../assets/scss/model.scss';
+
+.page-boarder {
+    width: 100%;
+
+    .header-div {
+        z-index: 5;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 5%;
+            background-color: $primary_color;
+            color: white;
+            align-items: center;
+
+            .back-div {
+                button {
+                    background: none;
+                    border: none;
+                    font-size: 23px;
+                    color: white;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.253);
+                        border-radius: 10px;
+                        -webkit-border-radius: 10px;
+                        -moz-border-radius: 10px;
+                        -ms-border-radius: 10px;
+                        -o-border-radius: 10px;
+                        
+                    }
+                }
+            }
+
+            .left {
+                cursor: pointer;
+            }
+
+            .right {
+                button {
+                    @include normalButton();
+                    background-color: white;
+                    color: black;
+                }
+            }
+        }
+    }
+
+    .body-div {
+        .title-div {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid black;
+            padding: 5px 8px;
+            margin-bottom: 15px;
+        }
+
+
+    }
+}
