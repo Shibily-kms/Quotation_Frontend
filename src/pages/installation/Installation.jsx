@@ -108,8 +108,7 @@ function Installation() {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         setLoading('submit')
-
-        console.log(form)
+       
         userAxios.post('/setup/installation', form).then(() => {
             setForm({})
             setFind('')
@@ -209,7 +208,6 @@ function Installation() {
 
         if (e.target.name === 'wh_id') {
             const result = splitAtFirst(e.target.value, '_$$_')
-            console.log(result)
             setForm({
                 ...form,
                 wh_id: result[0],
