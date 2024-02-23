@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     position: 'absolute',
     left: '-15px',
-    top: '-5px'
+    top: '-8px'
   },
   text: {
     fontSize: 12,

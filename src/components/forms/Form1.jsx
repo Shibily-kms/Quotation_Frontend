@@ -235,8 +235,15 @@ function Form1({ type, setPage }) {
                                 <label htmlFor="iron">Iron (mg/L)</label>
                             </div>
                             <div className="nor-input-div">
-                                <input type="text" id='calcium' name='ca' value={quotation?.test_report?.ca} required={fill.validation ? true : false} onChange={handleTestReport} />
-                                <label htmlFor="calcium">Calcium (mg/L)</label>
+                                <select id="calcium" name="ca" required={fill.validation ? true : false} onChange={handleTestReport} >
+                                    <option value={''}>{source[0] ? 'Choose...' : 'Loading...'}</option>
+                                    {['normal', 'mild', 'high'].map((value) => {
+                                        return <option key={value} selected={value === quotation?.test_report?.ca ? true : false}
+                                            value={value}>{value}</option>
+                                    })}
+
+                                </select>
+                                <label htmlFor="calcium">Calcium</label>
                             </div>
 
                         </div>
@@ -381,13 +388,11 @@ function Form1({ type, setPage }) {
                                     <div className="nor-input-div">
                                         <select id="inlet" name="inlet" required={fill.validation ? true : false} onChange={handleVFSReport} >
                                             <option value={''}>Choose...</option>
-                                            {["16", "24", "32", "40", "48", "56", "64", "72", "80", "88", "96", "104",
-                                                "112", "120", "128", "136", "144", "152", "160", "168", "176", "184", "192"]
-                                                .map((optn) => {
-                                                    // eslint-disable-next-line
-                                                    return <option selected={optn == quotation?.vfs_report?.inlet ? true : false}
-                                                        value={optn}>{optn} mm</option>
-                                                })}
+                                            {["32", "40", "50", "63"].map((optn) => {
+                                                // eslint-disable-next-line
+                                                return <option selected={optn == quotation?.vfs_report?.inlet ? true : false}
+                                                    value={optn}>{optn} mm</option>
+                                            })}
                                         </select>
                                         <label htmlFor="inlet">Inlet</label>
                                     </div>
@@ -395,13 +400,11 @@ function Form1({ type, setPage }) {
                                     <div className="nor-input-div">
                                         <select id="outlet" name="outlet" required={fill.validation ? true : false} onChange={handleVFSReport} >
                                             <option value={''}>Choose...</option>
-                                            {["16", "24", "32", "40", "48", "56", "64", "72", "80", "88", "96", "104",
-                                                "112", "120", "128", "136", "144", "152", "160", "168", "176", "184", "192"]
-                                                .map((optn) => {
-                                                    // eslint-disable-next-line
-                                                    return <option selected={optn == quotation?.vfs_report?.outlet ? true : false}
-                                                        value={optn}>{optn} mm</option>
-                                                })}
+                                            {["32", "40", "50", "63"].map((optn) => {
+                                                // eslint-disable-next-line
+                                                return <option selected={optn == quotation?.vfs_report?.outlet ? true : false}
+                                                    value={optn}>{optn} mm</option>
+                                            })}
                                         </select>
                                         <label htmlFor="outlet">Outlet</label>
                                     </div>
@@ -418,6 +421,17 @@ function Form1({ type, setPage }) {
                                             })}
                                         </select>
                                         <label htmlFor="BRInTop">Bathroom In Top</label>
+                                    </div>
+                                    {/* Basement  */}
+                                    <div className="nor-input-div">
+                                        <select id="basement" name="basement" required={fill.validation ? true : false} onChange={handleVFSReport} >
+                                            <option value={''}>Choose...</option>
+                                            <option selected={"true" === String(quotation?.vfs_report?.basement)}
+                                                value={true}>Yes</option>
+                                            <option selected={"false" === String(quotation?.vfs_report?.basement)}
+                                                value={false}>No</option>
+                                        </select>
+                                        <label htmlFor="basement">Basement</label>
                                     </div>
                                 </div>
                             </div>

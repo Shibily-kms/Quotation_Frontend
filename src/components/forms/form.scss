@@ -129,6 +129,24 @@
                         white-space: nowrap;
                     }
                 }
+
+                .check-input-div {
+                    position: relative;
+                    width: 100%;
+                    margin: 2px 0;
+
+                    input {
+                        outline: none;
+                       
+                    }
+
+                    label {
+                        font-size: 13px;
+                        font-weight: 600;
+                        color: rgb(85, 85, 85);
+                        margin-left: 5px;
+                    }
+                }
             }
 
             @media screen and (max-width:800px) {

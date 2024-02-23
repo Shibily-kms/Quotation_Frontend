@@ -11,7 +11,7 @@ function FromTo({ customer }) {
             marginBottom: '12px'
         },
         head: {
-            fontWeight: 400,
+            fontWeight: 600,
             fontSize: '13px',
             marginBottom: '7px'
         },
