@@ -91,21 +91,6 @@ function QuotationList() {
         })
     }, [])
 
-    const handleDelete = (slNo) => {
-        let check = window.confirm('Are you delete quotation ?')
-        if (check) {
-            setLoading(slNo)
-            userAxios.delete(`/quotation?slno=${slNo}`).then((response) => {
-                if (response) {
-                    setData((prev) => {
-                        return prev.filter((obj) => obj.quotation_srl_no !== slNo)
-                    })
-                    setLoading('')
-                }
-            })
-        }
-    }
-
     const handleEdit = (id) => {
         if (id) {
             setLoading(id)
@@ -159,8 +144,6 @@ function QuotationList() {
                                                                 {user?.designation?.allow_origins?.includes('SalesPro') && <>
                                                                     <button title='Edit' className="edit" onClick={() => handleEdit(value._id)}>
                                                                         {loading === value._id ? <span className='loading-icon'><BiLoaderAlt /></span> : <FiEdit2 />}  </button>
-                                                                    <button title='remove' className="delete" onClick={() => handleDelete(value.quotation_srl_no)}>
-                                                                        {loading === value.quotation_srl_no ? <span className='loading-icon'><BiLoaderAlt /></span> : <IoTrashOutline />}</button>
                                                                 </>}
                                                             </div>
                                                         </td>

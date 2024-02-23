@@ -10,9 +10,9 @@ function PageWrapper({ children }) {
             paddingTop: '80pt',
             paddingLeft: '55pt',
             paddingRight: '55pt',
-            fontSize: '12px',
-            fontFamily: ' AnekMalayalam',
-            fontWeight: 300 
+            fontSize: '11px',
+            fontFamily: ' ArimaMalayalam',
+            fontWeight: 400 
         },
         watermark: [{
             position: 'absolute',

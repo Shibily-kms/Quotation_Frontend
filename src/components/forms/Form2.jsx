@@ -120,8 +120,8 @@ function Form2({ type, setPage }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-            setPage(3)
-            dispatch(setFill({ two: true }))
+        setPage(3)
+        dispatch(setFill({ two: true }))
     }
 
 
@@ -137,7 +137,7 @@ function Form2({ type, setPage }) {
                             <h5>Preferred Solutions</h5>
                         </div>
                         <DynamicListTable data={preferred} setData={setPreferred} total={psTotal} setTotal={setPrTotal} input={solutions}
-                            setInput={setSolutions} multi={false} type={'preferred'} />
+                            setInput={setSolutions} brandType={false} type={'preferred'} />
                     </div>
 
                     {/* Customer Selected */}
@@ -146,16 +146,27 @@ function Form2({ type, setPage }) {
                             <h5>Customer Selected Solutions</h5>
                         </div>
                         <DynamicListTable data={custPreferred} setData={setCustPreferred} total={cssTotal} setTotal={setCssTotal} input={solutions}
-                            setInput={setSolutions} multi={false} type={'customer'} />
-                    </div>
+                            setInput={setSolutions} brandType={false} type={'customer'} />
 
+
+                        {/* GST Include */}
+                        <div className="forms">
+                            <div className="check-input-div">
+                                <input type="checkbox" id='gst_include' name='gst_include' checked={quotation?.gst_include} onChange={() => dispatch(setQuotationInput({
+                                    ...quotation,
+                                    gst_include: !quotation?.gst_include
+                                }))} />
+                                <label htmlFor="gst_include" style={{ color: 'rebeccapurple' }}>Include GST in Preferred and Customer selected</label>
+                            </div>
+                        </div>
+                    </div>
                     {/* Material for VFS */}
                     {type === 'whole-house' || type === 'wh-and-purifier' ? <>
                         <div className="section-div">
                             <div className="header">
                                 <h5>Materials In Vessel Filter</h5>
                             </div>
-                            <DynamicListTable data={materials} setData={setMaterials} input={materialsInput} multi={true} type={'material'} />
+                            <DynamicListTable data={materials} setData={setMaterials} input={materialsInput} brandType={true} type={'material'} />
                         </div>
                     </> : ''}
                     {/* VFS Components*/}
@@ -164,7 +175,7 @@ function Form2({ type, setPage }) {
                             <div className="header">
                                 <h5>Vessel Filter Components</h5>
                             </div>
-                            <DynamicListTable data={vfs} setData={setVfs} input={vfsInput} multi={true} type={'vfs'} />
+                            <DynamicListTable data={vfs} setData={setVfs} input={vfsInput} brandType={true} type={'vfs'} />
                         </div>
                     </> : ''}
                     {/* Purifier Components */}
@@ -173,7 +184,7 @@ function Form2({ type, setPage }) {
                             <div className="header">
                                 <h5>Purifier Components</h5>
                             </div>
-                            <DynamicListTable data={purifier} setData={setPurifier} input={purifierInput} multi={true} type={'purifier'} />
+                            <DynamicListTable data={purifier} setData={setPurifier} input={purifierInput} brandType={true} type={'purifier'} />
                         </div>
                     </> : ''}
 

@@ -1,4 +1,5 @@
 function createContent(data) {
+
     let content = {
         intro: ['We appreciate the opportunity to serve you. At Alliance Water Solutions, we understand the importance of clean and safe water. Our commitment is to offer you the most suitable solutions that meet your requirements.'],
         testReport: [],
@@ -15,13 +16,13 @@ function createContent(data) {
     }
     // Common
     // water test report
-    content.testReport.push({ a: 'Source', b: 'TDS', c: 'PH', d: 'IRON (as fe)', e: 'CALCIUM (as ca)' })
+    content.testReport.push({ a: 'Source', b: 'TDS (mg/L)', c: 'PH (mg/L)', d: 'IRON (as fe) mg/L', e: 'CALCIUM & MAGNESIUM' })
     content.testReport.push({
         a: data?.test_report?.source,
-        b: data?.test_report?.tds ? `${data?.test_report?.tds} mg/L` : '-',
-        c: data?.test_report?.ph ? `${data?.test_report?.ph} mg/L` : '-',
-        d: data?.test_report?.fe ? `${data?.test_report?.fe} mg/L` : '-',
-        e: data?.test_report?.ca ? `${data?.test_report?.ca} mg/L` : '-',
+        b: data?.test_report?.tds ? `${data?.test_report?.tds}` : '-',
+        c: data?.test_report?.ph ? `${data?.test_report?.ph}` : '-',
+        d: data?.test_report?.fe ? `${data?.test_report?.fe}` : '-',
+        e: data?.test_report?.ca ? `${data?.test_report?.ca}` : '-',
     })
 
     // Findings
@@ -31,21 +32,21 @@ function createContent(data) {
 
     // Preferred
     let amount = 0;
-    content.preferred.push({ a: 'MODEL NAME', b: 'RATE' })
+    content.preferred.push({ a: 'MODEL NAME', b: 'RATE', c: 'QTY', d: 'TOTAL' })
     data.preferred_solution.forEach((obj) => {
-        content.preferred.push({ a: obj.item, b: obj.price })
-        amount = amount + obj.price
+        content.preferred.push({ a: obj.item, b: obj.price, c: (obj?.qty || 1), d: (obj?.qty || 1) * obj.price })
+        amount = amount + ((obj?.qty || 1) * obj.price)
     })
-    content.preferred.push({ a: 'TOTAL AMOUNT', b: amount > data?.ps_total ? `${data.ps_total} (with discount)` : data.ps_total || 0 })
+    content.preferred.push({ a: 'TOTAL AMOUNT', b: '', c: '', d: `${data.ps_total} \n ${data?.gst_include ? '(GST Included)' : amount > data?.ps_total ? "(With discount)" : ''}` })
 
-    // Preferred
+    // Customer selected
     let amount2 = 0;
-    content.customerSeleted.push({ a: 'MODEL NAME', b: 'RATE' })
+    content.customerSeleted.push({ a: 'MODEL NAME', b: 'RATE', c: 'QTY', d: 'TOTAL' })
     data.cust_preferred_solution.forEach((obj) => {
-        content.customerSeleted.push({ a: obj.item, b: obj.price })
-        amount2 = amount2 + obj.price
+        content.customerSeleted.push({ a: obj.item, b: obj.price, c: (obj?.qty || 1), d: (obj?.qty || 1) * obj.price })
+        amount2 = amount2 + ((obj?.qty || 1) * obj.price)
     })
-    content.customerSeleted.push({ a: 'TOTAL AMOUNT', b: amount2 > data?.css_total ? `${data.css_total} (with discount)` : data.css_total || 0 })
+    content.customerSeleted.push({ a: 'TOTAL AMOUNT', b: '', c: '', d: `${data.ps_total} \n ${data?.gst_include ? '(GST Included)' : amount > data?.ps_total ? "(With discount)" : ''}` })
 
     // TAC
     if (data?.type === 'whole-house' || data?.type === 'wh-and-purifier') {
@@ -61,7 +62,7 @@ function createContent(data) {
         content.tac.push(`To ensure optimal performance and minimize maintenance requirements, it is recommended that the vessel water filtration system can handle a maximum daily usage of up to ${data?.vfs_max_usage} liters per day.`)
     } else {
         /* 4*/
-        content.tac.push(`To ensure optimal performance and minimize maintenance requirements, it is recommended that the purifier is used for a maximum daily usage of ${data?.purifier_max_usage} liters per day. The whole house filter, on the other hand, can handle a maximum daily usage of up to ${data?.vfs_max_usage} liters per day.`)
+        content.tac.push(`To ensure optimal performance and minimize maintenance requirements, it is recommended that the purifier is used for a maximum daily usage of ${data?.purifier_max_usage} liters per day.The whole house filter, on the other hand, can handle a maximum daily usage of up to ${data?.vfs_max_usage} liters per day.`)
     }
     /* 5*/
     content.tac.push(`The company shall not be held responsible for any additional problems arising from the customer's failure to follow the company's suggestions and recommendations.`)
@@ -75,7 +76,7 @@ function createContent(data) {
     // Conditions
     if (data?.type === 'purifier') {
         content.intro[0] = content.intro[0] + ` The quotation provided has been tailored specifically to address the needs identified in the ${data?.test_report?.type_of || 'primary'} water test report.`
-        content.intro.push(`Visit date: ${data.visit_date}`)
+        content.intro.push(`Visit date: ${data.visit_date} `)
     }
 
     if (data?.type === 'purifier' || data?.type === 'wh-and-purifier') {
@@ -101,7 +102,7 @@ function createContent(data) {
 
     if (data?.type === 'whole-house' || data?.type === 'wh-and-purifier') {
         // Intro
-        content.intro.push(`Our technician visited your location on ${data.visit_date}, and this quotation has been prepared based on the water conditions, daily water usage and plumbing situation. The quotation provided has been tailored specifically to address the needs identified in the ${data?.test_report?.type_of || 'primary'} water test report.`)
+        content.intro.push(`Our technician visited your location on ${data.visit_date}, and this quotation has been prepared based on the water conditions, daily water usage and plumbing situation.The quotation provided has been tailored specifically to address the needs identified in the ${data?.test_report?.type_of || 'primary'} water test report.`)
 
         // Work Site Report - WH
         let arr1 = [], arr2 = []
@@ -113,12 +114,13 @@ function createContent(data) {
             d: data?.vfs_report?.motor_details,
             e: data?.vfs_report?.floor_details
         })
-        arr2.push({ a: 'FLOOR HEIGHT', b: 'INLET', c: 'OUTLET', d: 'BATHROOMS ON TOP', })
+        arr2.push({ a: 'FLOOR HEIGHT', b: 'INLET', c: 'OUTLET', d: 'BATHROOMS ON TOP', e: 'BASEMENT' })
         arr2.push({
             a: data?.vfs_report?.floor_hight ? `${data?.vfs_report?.floor_hight} feet` : '-',
             b: data?.vfs_report?.inlet ? `${data?.vfs_report?.inlet} mm` : '-',
             c: data?.vfs_report?.outlet ? `${data?.vfs_report?.outlet} mm` : '-',
-            d: data?.vfs_report?.bathroom_in_top
+            d: data?.vfs_report?.bathroom_in_top,
+            e: data?.vfs_report?.basement ? 'Yes' : 'No'
         })
         content.siteReportWH.push(arr1)
         content.siteReportWH.push(arr2)
