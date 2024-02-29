@@ -13,13 +13,18 @@ import demmiSign from '../../assets/images/demmiSign.png'
 
 const styles = StyleSheet.create({
     w_body: {
-        display: 'flex',
-        justifyContent: 'space-between',
         width: '100%',
-        flexDirection: 'row',
     },
     w_child: {
-        textAlign: 'left'
+        flexDirection: 'row',
+    },
+    w_text_1: {
+        width: '35%',
+        textAlign: 'justify',
+    },
+    w_text_2: {
+        width: '65%',
+        textAlign: 'justify',
     },
     w_star: {
         width: '100%',
@@ -35,6 +40,15 @@ const styles = StyleSheet.create({
         marginTop: '15px',
         fontWeight: 600,
         fontSize: '14px'
+    },
+    sign_body: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+        flexDirection: 'row',
+    },
+    sign_child: {
+        textAlign: 'left'
     },
     signature: {
         width: "120px",
@@ -55,6 +69,7 @@ const styles = StyleSheet.create({
 
 const BuildPdf = ({ data }) => {
     const content = createContent(data)
+ 
     return (
         <Document>
             <PageWrapper >
@@ -72,11 +87,13 @@ const BuildPdf = ({ data }) => {
                     <Heading text={'Additional Findings'} />
                     {content?.findings && <ListModel listArray={content?.findings} />}
 
+                    <Text break={((data.type === 'whole-house' || data.type === 'wh-and-purifier') && content?.findings?.length <= 3) ? true : false} />
+
                     {/* Work Site Report - WH */}
                     {data.type === 'whole-house' || data.type === 'wh-and-purifier' ? <>
                         <Heading text={data.type === 'whole-house' ? 'Work site Report' : 'Work site Report - Vessel Filter'} />
                         {content?.siteReportWH[0] && <TableModel data={content?.siteReportWH[0]} />}
-                        <Text break={data.type === 'whole-house' || data.type === 'wh-and-purifier' ? true : false} />
+
                         {content?.siteReportWH[1] && <TableModel data={content?.siteReportWH[1]} />}
                     </>
                         : ''}
@@ -100,23 +117,23 @@ const BuildPdf = ({ data }) => {
                     />
                     {content?.customerSeleted && <TableModel data={content?.customerSeleted} total={true} />}
 
-                    <Text break={data.type === 'wh-and-purifier' ? true : false} />
+                    {/* <Text break={data.type === 'wh-and-purifier' ? true : false} /> */}
 
                     {/* Warranty */}
                     <Heading text={'Warranty'} />
                     <View style={styles.w_body}>
                         <View style={styles.w_child}>
-                            {data.type === 'whole-house' || data.type === 'wh-and-purifier' ? <Text>Vessel Filtration System</Text> : ''}
-                            {data.type === 'purifier' || data.type === 'wh-and-purifier' ? <Text>RO Purifier</Text> : ''}
+                            {data.type === 'whole-house' || data.type === 'wh-and-purifier' ? <Text style={styles.w_text_1}>Vessel Filtration System</Text> : ''}
+                            {data.type === 'whole-house' || data.type === 'wh-and-purifier' ? <Text style={styles.w_text_2}>{data.warranty?.vfs}</Text> : ''}
                         </View>
                         <View style={styles.w_child}>
-                            {data.type === 'whole-house' || data.type === 'wh-and-purifier' ? <Text>{data.warranty?.vfs}</Text> : ''}
-                            {data.type === 'purifier' || data.type === 'wh-and-purifier' ? <Text>{data.warranty?.pws}</Text> : ''}
+                            {data.type === 'purifier' || data.type === 'wh-and-purifier' ? <Text style={styles.w_text_1}>RO Purifier</Text> : ''}
+                            {data.type === 'purifier' || data.type === 'wh-and-purifier' ? <Text style={styles.w_text_2}>{data.warranty?.pws}</Text> : ''}
                         </View>
                     </View>
                     <View style={styles.w_star}><Text>*T&C Apply.</Text></View>
 
-                    <Text break={data.type === 'whole-house' || data.type === 'purifier' ? true : false} />
+                    {/* <Text break={data.type === 'whole-house' || data.type === 'purifier' ? true : false} /> */}
 
                     {/* Materials and Component - WH */}
                     {data.type === 'whole-house' || data.type === 'wh-and-purifier' ? <>
@@ -129,7 +146,7 @@ const BuildPdf = ({ data }) => {
                     </>
                         : ''}
 
-                    <Text break={data.type === 'wh-and-purifier' ? true : false} />
+                    {/* <Text break={data.type === 'wh-and-purifier' ? true : false} /> */}
 
                     {/* Purifier Component */}
                     {data.type === 'purifier' || data.type === 'wh-and-purifier' ? <>
@@ -150,12 +167,12 @@ const BuildPdf = ({ data }) => {
                     </View>
 
                     {/* Signature */}
-                    <View style={styles.w_body}>
-                        <View style={styles.w_child}>
+                    <View style={styles.sign_body}>
+                        <View style={styles.sign_child}>
                             <Image style={styles.signature} src={data?.sign?.customer?.url || demmiSign} />
                             <Text>Customer signature</Text>
                         </View>
-                        <View style={styles.w_child}>
+                        <View style={styles.sign_child}>
                             <Image style={styles.seal} src={sealImage} />
                             <Text>Authorized signature</Text>
                         </View>
@@ -163,7 +180,7 @@ const BuildPdf = ({ data }) => {
 
                     {/* Date */}
                     <View style={{ marginTop: '15px' }}>
-                        <Text>{`Date    : ${data.visit_date}`}</Text>
+                        <Text>{`Date    : ${new Date(data.updatedAt).toDateString()}`}</Text>
                         <Text>{`Place   : Kaipamangalam`}</Text>
                     </View>
 

@@ -88,10 +88,10 @@ function FormPage() {
                                         <h5>{fill?.three ? <FaCheck /> : "3"}</h5>
                                     </div>
                                 </div>
-                                <div className="hide-validation">
+                                {/* <div className="hide-validation">
                                     <input type="checkbox" id='validation' checked={fill.validation ? false : true} onChange={handleValidationStatus} />
                                     <label htmlFor='validation' >Disable form validation</label>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="content">
                                 {page === 1 && <Form1 type={type} setPage={setPage} />}

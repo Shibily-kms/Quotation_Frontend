@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast'
 import { FiEdit2 } from 'react-icons/fi'
 import { IoClose } from 'react-icons/io5'
 
-function DynamicListTable({ data, setData, total, setTotal, input, multi, type }) {
+function DynamicListTable({ data, setData, total, setTotal, input, brandType, type }) {
     const [inputs, setInputs] = useState([])
     const [choose, setChoose] = useState({})
     const [brandInput, setBrandInput] = useState([])
@@ -30,24 +30,29 @@ function DynamicListTable({ data, setData, total, setTotal, input, multi, type }
 
         if (e.target.name === 'item') {
             chooses = inputs.filter((obj) => obj.item === e.target.value)
-            multi && setBrandInput(chooses[0].brands)
+            brandType && setBrandInput(chooses[0].brands)
         }
 
-        if (multi) {
+        if (brandType) {
             setChoose({ ...choose, [e.target.name]: e.target.value })
+        } else if (chooses) {
+            setChoose({
+                ...choose,
+                [e.target.name]: e.target.value,
+                price: chooses[0].price
+            })
         } else {
             setChoose({
-                item: e.target.value,
-                price: chooses[0].price
+                ...choose,
+                [e.target.name]: e.target.value
             })
         }
     }
 
 
     const handleSubmit = () => {
-
         if (choose?.item) {
-            if (multi && !choose?.brand) {
+            if (brandType && !choose?.brand) {
                 toast.error('Must choose a brand')
                 return;
             }
@@ -58,10 +63,10 @@ function DynamicListTable({ data, setData, total, setTotal, input, multi, type }
                 }
                 return obj
             }))
-            setChoose({})
+            setChoose({ qty: 1 })
             setBrandInput([])
             if (choose?.price) {
-                setTotal(total + choose?.price)
+                setTotal(total + (choose?.price * choose?.qty))
             }
         }
     }
@@ -70,7 +75,7 @@ function DynamicListTable({ data, setData, total, setTotal, input, multi, type }
         setData((state) => state.filter((value) => {
             if (value.item === item) {
                 if (value?.price) {
-                    setTotal(state.length > 1 ? total - value?.price : 0)
+                    setTotal(state.length > 1 ? total - value?.price * value.qty : 0)
                 }
                 return false
             }
@@ -108,10 +113,16 @@ function DynamicListTable({ data, setData, total, setTotal, input, multi, type }
                                 })}
                             </> : ''}
                         </select>
-                        <label htmlFor={`item${inputs?.[0]?.item + type}`}>{multi ? 'Name' : "Model Name"}</label>
+                        <label htmlFor={`item${inputs?.[0]?.item + type}`}>{brandType ? 'Name' : "Model Name"}</label>
                     </div>
 
-                    {multi && <div className="nor-input-div">
+                    {!brandType &&
+                        <div className="nor-input-div">
+                            <input type="number" id='qty' name='qty' value={choose?.qty} onChange={handleChange} required min={1} />
+                            <label htmlFor="qty">Quantity</label>
+                        </div>}
+
+                    {brandType && <div className="nor-input-div">
                         <select id={`brand${brandInput?.[0]?.brand + type}`} name="brand" required onChange={handleChange} >
                             <option value={''}>Choose...</option>
                             {brandInput?.[0] ? <>
@@ -136,14 +147,16 @@ function DynamicListTable({ data, setData, total, setTotal, input, multi, type }
                             return <tr>
                                 <td>{index + 1} </td>
                                 <td>{value.item}</td>
-                                <td>{value?.brand || value?.price}</td>
+                                <td>{value?.brand || `${value.qty} x ${value?.price}`}</td>
+                                {!brandType && <td>{`${value.qty * value?.price}`}</td>}
                                 <td ><span onClick={() => removeList(value.item)}><BsTrash3 /></span></td>
                             </tr>
                         })}
-                        {!multi &&
+                        {!brandType &&
                             <tr>
                                 <td></td>
                                 <td className='total'>TOTAL</td>
+                                <td className='total'></td>
                                 <td><input type='number' readOnly={doEdit ? false : true} className={doEdit ? 'total-input' : 'total-input no-edit'}
                                     value={total} onChange={handleChangeTotal} /></td>
                                 <td><span onClick={() => sedDoEdit(!doEdit)}>{doEdit ? <IoClose /> : <FiEdit2 />}</span></td>

@@ -18,7 +18,8 @@ import WhSolutionModel from '../components/wh-solution-model/SolutionModel'
 import VfsComponents from '../components/vfs-components/VfsComponents'
 import VfsMaterials from '../components/vfs-materials/VfsMaterials'
 import NotFound from '../components/404Page/NotFound';
-
+import Installation from '../pages/installation/Installation';
+import ReInstallation from '../pages/installation/ReInstallaton';
 
 function User() {
     const { user } = useSelector((state) => state.userAuth)
@@ -57,12 +58,25 @@ function User() {
                 <Route path='/raw-materials/vfs-materials' element={<PrivateRoute element={<VfsMaterials />} isAuthenticated={isAuthenticated} />} />
             </>}
 
-            {/* Quotation */}
-            <Route path='/quotation' element={<PrivateRoute element={<Quotation />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/quotation/:type' element={<PrivateRoute element={<FormPage />} isAuthenticated={isAuthenticated} />} />
+            {(user?.designation?.allow_origins?.includes('SalesPro') || user?.designation?.allow_origins?.includes('Sales')) &&
+                <>
+                    {/* Quotation */}
+                    <Route path='/quotation' element={<PrivateRoute element={<Quotation />} isAuthenticated={isAuthenticated} />} />
+                    <Route path='/quotation/:type' element={<PrivateRoute element={<FormPage />} isAuthenticated={isAuthenticated} />} />
 
-            {/* Quotation List */}
-            <Route path='/quotations-list' element={<PrivateRoute element={<QuotationList />} isAuthenticated={isAuthenticated} />} />
+                    {/* Quotation List */}
+                    <Route path='/quotations-list' element={<PrivateRoute element={<QuotationList />} isAuthenticated={isAuthenticated} />} />
+                </>
+            }
+
+            {/* Installation */}
+            {user?.designation?.allow_origins?.includes('Installation') &&
+                <>
+                    <Route path='/installation' element={<PrivateRoute element={<Installation />} isAuthenticated={isAuthenticated} />} />
+                    <Route path='/re-installation' element={<PrivateRoute element={<ReInstallation />} isAuthenticated={isAuthenticated} />} />
+                </>
+            }
+
 
             {/* 404 Route */}
             <Route path="*" element={<NotFound />} />

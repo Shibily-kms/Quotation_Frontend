@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
     tableHeader: {
         backgroundColor: '#f0f0f0',
-        fontWeight: 400,
+        fontWeight: 600,
         textAlign: 'center',
     },
     tableCell: {
@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     },
     tableFooter: {
         fontWeight: 700,
-        textAlign: 'center'
+        textAlign: 'center',
+        backgroundColor : '#919191'
     }
 });
 const TableModel = ({ data,  total }) => {
