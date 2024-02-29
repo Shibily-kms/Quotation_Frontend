@@ -13,7 +13,7 @@ function SinglePage({ titleArray, children }) {
 
     const handleLogOut = () => {
         dispatch(logOut())
-        window.location.href = 'http://staff.alliancedev.in'
+        window.location.href = 'http://staff.alliancewatersolutions.com'
     }
 
     return (

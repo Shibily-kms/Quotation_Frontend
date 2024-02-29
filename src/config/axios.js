@@ -3,25 +3,25 @@ import axios from 'axios'
 
 const baseSetup = {
     userAxios: axios.create({
-        baseURL: 'https://sales.api.alliancedev.in/',
+        baseURL: 'https://api.sales.alliancewatersolutions.com/',
         headers: {
             'Content-Type': 'application/json'
         }
     }),
     customerAxios: axios.create({
-        baseURL: 'https://controlnex.api.alliancedev.in/',
+        baseURL: 'https://api.controlnex.alliancewatersolutions.com/',
         headers: {
             'Content-Type': 'application/json'
         }
     }),
     purifierAxios: axios.create({
-        baseURL: 'https://purifierservice.api.alliancedev.in/',
+        baseURL: 'https://api.purifier.alliancewatersolutions.com/',
         headers: {
             'Content-Type': 'application/json'
         }
     }),
     wholeAxios: axios.create({
-        baseURL: 'https://whservice.api.alliancedev.in/',
+        baseURL: 'https://api.wholehouse.alliancewatersolutions.com/',
         headers: {
             'Content-Type': 'application/json'
         }
