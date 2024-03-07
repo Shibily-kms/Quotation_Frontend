@@ -37,7 +37,7 @@ function createContent(data) {
         content.preferred.push({ a: obj.item, b: obj.price, c: (obj?.qty || 1), d: (obj?.qty || 1) * obj.price })
         amount = amount + ((obj?.qty || 1) * obj.price)
     })
-    content.preferred.push({ a: 'TOTAL AMOUNT', b: '', c: '', d: `${data.ps_total} \n ${data?.gst_include ? '(GST Included)' : amount > data?.ps_total ? "(With discount)" : ''}` })
+    content.preferred.push({ a: 'TOTAL AMOUNT', b: '', c: '', d: `${data.ps_total}  ${data?.gst_include ? `\n (GST Included)` : amount > data?.ps_total ? `\n (With discount)` : ''}` })
 
     // Customer selected
     let amount2 = 0;
@@ -46,7 +46,7 @@ function createContent(data) {
         content.customerSeleted.push({ a: obj.item, b: obj.price, c: (obj?.qty || 1), d: (obj?.qty || 1) * obj.price })
         amount2 = amount2 + ((obj?.qty || 1) * obj.price)
     })
-    content.customerSeleted.push({ a: 'TOTAL AMOUNT', b: '', c: '', d: `${data.ps_total} \n ${data?.gst_include ? '(GST Included)' : amount > data?.ps_total ? "(With discount)" : ''}` })
+    content.customerSeleted.push({ a: 'TOTAL AMOUNT', b: '', c: '', d: `${data.css_total} ${data?.gst_include ? `\n (GST Included)` : amount > data?.css_total ? ` \n (With discount)` : ''}` })
 
     // TAC
     if (data?.type === 'whole-house' || data?.type === 'wh-and-purifier') {
