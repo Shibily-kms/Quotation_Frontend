@@ -59,6 +59,7 @@ function Form1({ type, setPage }) {
         dispatch(setFill({ one: false }))
         dispatch(setQuotationInput({ [e.target.name]: e.target.value }))
     }
+
     const handleQuotationTo = (e) => {
         dispatch(setFill({ one: false }))
         dispatch(setQuotationInput({
@@ -237,7 +238,7 @@ function Form1({ type, setPage }) {
                             <div className="nor-input-div">
                                 <select id="calcium" name="ca" required={fill.validation ? true : false} onChange={handleTestReport} >
                                     <option value={''}>{source[0] ? 'Choose...' : 'Loading...'}</option>
-                                    {['normal', 'mild', 'high'].map((value) => {
+                                    {['normal', 'mild', 'present', 'high'].map((value) => {
                                         return <option key={value} selected={value === quotation?.test_report?.ca ? true : false}
                                             value={value}>{value}</option>
                                     })}
