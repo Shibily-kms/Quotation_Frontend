@@ -12,6 +12,7 @@ import { BiLoaderAlt } from 'react-icons/bi'
 import { customerAxios, purifierAxios, userAxios, wholeAxios } from '../../config/axios'
 import { toast } from 'react-hot-toast'
 import { product_usages } from '../../assets/js/const-data'
+import { YYYYMMDDFormat } from '../../assets/js/help-functions'
 
 function Installation() {
     const navigate = useNavigate();
@@ -53,7 +54,7 @@ function Installation() {
                 zone_id: response.data.data?.zone_id,
                 purifier: response.data.data?.purifier_customer_status ? true : false,
                 whole_house: response.data.data?.wh_customer_status ? true : false,
-
+                installed_at: YYYYMMDDFormat(new Date())
             })
 
             customerAxios.get('/zone-list').then((res) => {
@@ -108,7 +109,7 @@ function Installation() {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         setLoading('submit')
-       
+
         userAxios.post('/setup/installation', form).then(() => {
             setForm({})
             setFind('')
@@ -265,12 +266,12 @@ function Installation() {
                                         <NormalInput label='Customer Id' name='cid' value={find} onChangeFun={(e) => setFind(e.target.value)} type={'number'} />
                                         <div className="button-div">
                                             <button type='button' onClick={resetData}>Reset</button>
-                                            {!form?.cid && <button>{loading === 'find' ? <span className='loading-icon'><BiLoaderAlt /></span> : 'Find'}</button>}
+                                            <button>{loading === 'find' ? <span className='loading-icon'><BiLoaderAlt /></span> : 'Find'}</button>
                                         </div>
                                     </form>
                                 </div>
                                 {form?.cid && <div className="section-three-div">
-                                    <h3>Customer Info</h3>
+                                    <h3>{form?.cid || ''} Customer Info</h3>
                                     <form action="" onSubmit={handleFormSubmit}>
                                         <div className="info-one">
                                             <NormalInput label='First name' name='first_name' value={form.first_name} onChangeFun={handleChange} />
@@ -301,6 +302,8 @@ function Installation() {
                                                 <h3>Installation Info</h3>
                                                 <SelectInput label='Mode of Installation' name='mode_of_installation' values={modes} firstOption={{ option: 'Choose', value: '' }}
                                                     onChangeFun={handleChange} />
+                                                <NormalInput label='Installation Date' type={'date'} name='installed_at' value={form?.installed_at} onChangeFun={handleChange} max={YYYYMMDDFormat(new Date())} />
+
 
                                                 <div className="radio-input-border-div">
                                                     <div className="sub-title"><h5>Type of product</h5></div>
