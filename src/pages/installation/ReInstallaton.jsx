@@ -273,22 +273,22 @@ function ReInstallation() {
                                         <div className="info-one">
                                             <NormalInput label='First name' name='first_name' value={form.first_name} onChangeFun={handleChange} />
                                             <NormalInput label='Last name' name='last_name' value={form.last_name} onChangeFun={handleChange} />
-                                            <NormalInput label='Address' name='address' value={form.address} onChangeFun={handleChange} />
-                                            <NormalInput label='Place' name='place' value={form.place} onChangeFun={handleChange} />
+                                            <NormalInput label='Address' name='address' value={form.address} onChangeFun={handleChange} isRequired={false}/>
+                                            <NormalInput label='Place' name='place' value={form.place} onChangeFun={handleChange} isRequired={false}/>
                                             <SelectInput label='State' name='state' values={states} firstOption={{ option: 'Choose', value: '' }}
                                                 onChangeFun={handleChange} />
                                             <SelectInput label='District' name='district' values={districts} firstOption={{ option: 'Choose', value: '' }}
                                                 onChangeFun={handleChange} />
                                             <SelectInput label='Post' name='post' values={posts} firstOption={{ option: 'Choose', value: '' }}
                                                 onChangeFun={handleChange} />
-                                            <NormalInput label='Pin code' name='pin_code' value={form.pin_code} type={'number'} onChangeFun={handleChange} />
-                                            <NormalInput label='Land mark' name='land_mark' value={form.land_mark} onChangeFun={handleChange} />
+                                            <NormalInput label='Pin code' name='pin_code' value={form.pin_code} type={'number'} onChangeFun={handleChange} isRequired={false}/>
+                                            <NormalInput label='Land mark' name='land_mark' value={form.land_mark} onChangeFun={handleChange} isRequired={false}/>
 
                                             <SelectInput label='Zone' name='zone_id' values={zoneList} firstOption={{ option: 'Choose', value: '' }}
                                                 onChangeFun={handleChange} />
                                             <NormalInput label='Contact (Primary)' name='contact1' value={form.contact1} type={'number'} onChangeFun={handleChange} />
                                             <NormalInput label='Contact (Secondary)' name='contact2' value={form.contact2} type={'number'} onChangeFun={handleChange} isRequired={false} />
-                                            <NormalInput label='Whatsapp' name='whatsapp1' value={form.whatsapp1} type={'number'} onChangeFun={handleChange} />
+                                            <NormalInput label='Whatsapp' name='whatsapp1' value={form.whatsapp1} type={'number'} onChangeFun={handleChange} isRequired={false}/>
 
                                         </div>
                                         {(!form?.purifier && !form?.whole_house)
