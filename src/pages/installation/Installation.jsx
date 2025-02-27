@@ -19,13 +19,11 @@ function Installation() {
     const [loading, setLoading] = useState('')
     const [find, setFind] = useState('')
     const [form, setForm] = useState({})
-    const [states, setStates] = useState([])
-    const [districts, setDistricts] = useState([])
-    const [posts, setPosts] = useState([])
-    const [zoneList, setZoneList] = useState([])
     const [purifierList, setPurifierList] = useState([])
     const [whList, setWHList] = useState([])
     const [purifierUsageList, setPurifierUsageList] = useState([])
+    const [cityList, setCityList] = useState([])
+    const [pinCodeList, setPinCodeList] = useState([])
 
 
     const modes = [
@@ -37,15 +35,14 @@ function Installation() {
         e.preventDefault();
         setLoading('find')
         customerAxios.get(`/profile?cid=${find}`).then((response) => {
-            setForm({
+            const customerData = {
                 cid: response.data.data.cid,
                 first_name: response.data.data?.first_name,
                 last_name: response.data.data?.last_name,
                 address: response.data.data.address?.address,
                 place: response.data.data.address?.place,
-                post: response.data.data.address?.post,
-                district: response.data.data.address?.district,
-                state: response.data.data.address?.state,
+                city_id: response.data.data.address?.city_id,
+                state: response.data.data.address?.state_name,
                 pin_code: response.data.data.address?.pin_code,
                 land_mark: response.data.data.address?.land_mark,
                 contact1: response.data.data?.contact1,
@@ -55,46 +52,19 @@ function Installation() {
                 purifier: response.data.data?.purifier_customer_status ? true : false,
                 whole_house: response.data.data?.wh_customer_status ? true : false,
                 installed_at: YYYYMMDDFormat(new Date())
+            }
+
+            setForm(customerData)
+
+            customerAxios.get('/l/area?branch_id=AWS').then((resCity) => {
+                setCityList(resCity?.data?.data || [])
+
+                const currentCity = resCity?.data?.data?.filter((obj) => obj?.city_id === customerData?.city_id)
+                setPinCodeList(currentCity?.[0]?.pin_codes || [])
+
+                setLoading("")
             })
 
-            customerAxios.get('/zone-list').then((res) => {
-                const zones = res?.data?.data || []
-                setZoneList(zones.map((obj) => ({ option: obj.zone, value: obj._id, selected: response.data.data?.zone_id === obj._id })))
-            })
-
-            customerAxios.get('/post-office-list').then((res) => {
-                let dtList = [], poList = []
-                // State
-                const stateList = (res?.data?.data || []).map((obj) => {
-                    if (obj.state === response?.data?.data?.address?.state) {
-                        dtList = obj.districts
-                        return { option: obj.state, value: obj.state, districts: obj.districts, selected: true }
-                    }
-                    return { option: obj.state, value: obj.state, districts: obj.districts, }
-                })
-                setStates([...stateList, { option: 'other', value: 'other' }])
-
-                // District
-                const districtList = dtList.map((obj) => {
-                    if (obj.name === response?.data?.data?.address?.district) {
-                        poList = obj.posts
-                        return { option: obj.name, value: obj.name, posts: obj.posts, selected: true }
-                    }
-                    return { option: obj.name, value: obj.name, posts: obj.posts }
-                })
-                setDistricts([...districtList, { option: 'other', value: 'other' }])
-
-                // Post
-                const postList = poList.map((obj) => {
-                    if (obj.name === response?.data?.data?.address?.post) {
-                        return { option: obj.name, value: obj.name, selected: true }
-                    }
-                    return { option: obj.name, value: obj.name }
-                })
-                setPosts([...postList, { option: 'other', value: 'other' }])
-
-                setLoading('')
-            })
         }).catch((error) => {
             toast.error(error.response.data.message)
             setLoading('')
@@ -130,59 +100,32 @@ function Installation() {
     }
 
     const handleChange = (e) => {
+
+        if (e.target.name === 'city') {
+            let selectedCity = null
+            cityList?.map((obj) => {
+                if (obj.city_id === e.target.value) {
+                    selectedCity = obj
+                }
+                return obj;
+            })
+
+            setForm({
+                ...form,
+                city: selectedCity?.city_name,
+                city_id: selectedCity?.city_id,
+                state: selectedCity?.state_name,
+                pin_code: '',
+            })
+            setPinCodeList(selectedCity?.pin_codes || [])
+
+            return;
+        }
+
         setForm({
             ...form,
             [e.target.name]: e.target.value
         })
-
-        if (e.target.name === 'state') {
-            states?.map((obj) => {
-                if (obj.option === e.target.value) {
-                    const dtList = (obj?.districts || [])?.map((dt) => ({ option: dt.name, value: dt.name, posts: dt.posts }))
-                    setDistricts([...dtList, { option: 'other', value: 'other' }])
-                }
-                return obj;
-            })
-
-            setForm({
-                ...form,
-                [e.target.name]: e.target.value,
-                district: null,
-                post: null
-            })
-        }
-
-        if (e.target.name === 'district') {
-            districts?.map((obj) => {
-                if (obj.option === e.target.value) {
-                    const postList = (obj?.posts || [])?.map((dt) => ({ option: dt.name, value: dt.name, pin: dt.pin_code }))
-                    setPosts([...postList, { option: 'other', value: 'other' }])
-                }
-                return obj
-            })
-
-            setForm({
-                ...form,
-                [e.target.name]: e.target.value,
-                post: null
-            })
-        }
-
-        if (e.target.name === 'post') {
-            let pin = null
-            posts?.map((obj) => {
-                if (obj.option === e.target.value) {
-                    pin = obj.pin
-                }
-                return obj;
-            })
-            setForm({
-                ...form,
-                [e.target.name]: e.target.value,
-                pin_code: pin || form?.pin_code
-            })
-
-        }
 
         if (e.target.name === 'product') {
             setForm({
@@ -274,24 +217,22 @@ function Installation() {
                                     <h3>{form?.cid || ''} Customer Info</h3>
                                     <form action="" onSubmit={handleFormSubmit}>
                                         <div className="info-one">
-                                            <NormalInput label='First name' name='first_name' value={form.first_name} onChangeFun={handleChange} />
-                                            <NormalInput label='Last name' name='last_name' value={form.last_name} onChangeFun={handleChange} />
-                                            <NormalInput label='Address' name='address' value={form.address} onChangeFun={handleChange} isRequired={false}/>
-                                            <NormalInput label='Place' name='place' value={form.place} onChangeFun={handleChange} isRequired={false}/>
-                                            <SelectInput label='State' name='state' values={states} firstOption={{ option: 'Choose', value: '' }}
-                                                onChangeFun={handleChange} />
-                                            <SelectInput label='District' name='district' values={districts} firstOption={{ option: 'Choose', value: '' }}
-                                                onChangeFun={handleChange} />
-                                            <SelectInput label='Post' name='post' values={posts} firstOption={{ option: 'Choose', value: '' }}
-                                                onChangeFun={handleChange} />
-                                            <NormalInput label='Pin code' name='pin_code' value={form.pin_code} type={'number'} onChangeFun={handleChange} isRequired={false}/>
-                                            <NormalInput label='Land mark' name='land_mark' value={form.land_mark} onChangeFun={handleChange} isRequired={false}/>
+                                            <NormalInput label='First name*' name='first_name' value={form.first_name} onChangeFun={handleChange} />
+                                            <NormalInput label='Last name*' name='last_name' value={form.last_name} onChangeFun={handleChange} />
+                                            <NormalInput label='Address' name='address' value={form.address} onChangeFun={handleChange} isRequired={false} />
+                                            <NormalInput label='Place' name='place' value={form.place} onChangeFun={handleChange} isRequired={false} />
+                                            <SelectInput label='City*' value={form?.city} name='city' onChangeFun={handleChange}
+                                                values={cityList?.map((obj) => ({ option: obj?.city_name, value: obj?.city_id, selected: obj?.city_id === form?.city_id }))}
+                                                firstOption={{ option: 'Choose...', value: '' }} isRequired={false} />
+                                            <NormalInput label='State*' value={form?.state} name='state' />
+                                            <SelectInput label='Pin code*' name='pin_code' onChangeFun={handleChange}
+                                                values={pinCodeList?.map((value) => ({ option: value, value, selected: value === form?.pin_code }))}
+                                                firstOption={{ option: 'Choose...', value: '' }} />
 
-                                            <SelectInput label='Zone' name='zone_id' values={zoneList} firstOption={{ option: 'Choose', value: '' }}
-                                                onChangeFun={handleChange} />
+                                            <NormalInput label='Land mark' name='land_mark' value={form.land_mark} onChangeFun={handleChange} isRequired={false} />
                                             <NormalInput label='Contact (Primary)' name='contact1' value={form.contact1} type={'number'} onChangeFun={handleChange} />
                                             <NormalInput label='Contact (Secondary)' name='contact2' value={form.contact2} type={'number'} onChangeFun={handleChange} isRequired={false} />
-                                            <NormalInput label='Whatsapp' name='whatsapp1' value={form.whatsapp1} type={'number'} onChangeFun={handleChange} isRequired={false}/>
+                                            <NormalInput label='Whatsapp' name='whatsapp1' value={form.whatsapp1} type={'number'} onChangeFun={handleChange} isRequired={false} />
 
                                         </div>
                                         {(form?.purifier && form?.whole_house)
@@ -303,7 +244,6 @@ function Installation() {
                                                 <SelectInput label='Mode of Installation' name='mode_of_installation' values={modes} firstOption={{ option: 'Choose', value: '' }}
                                                     onChangeFun={handleChange} />
                                                 <NormalInput label='Installation Date' type={'date'} name='installed_at' value={form?.installed_at} onChangeFun={handleChange} max={YYYYMMDDFormat(new Date())} />
-
 
                                                 <div className="radio-input-border-div">
                                                     <div className="sub-title"><h5>Type of product</h5></div>
