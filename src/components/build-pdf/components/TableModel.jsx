@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
     tableFooter: {
         fontWeight: 700,
         textAlign: 'center',
-        backgroundColor : '#bdbdbd'
+        backgroundColor: '#bdbdbd'
     }
 });
-const TableModel = ({ data,  total }) => {
+const TableModel = ({ data, total }) => {
     return (
 
         <View style={styles.table} >
