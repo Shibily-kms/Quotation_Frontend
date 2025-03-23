@@ -182,10 +182,10 @@ function Installation() {
     }
 
     useEffect(() => {
-        purifierAxios.get('/products?all=YES').then((response) => {
+        purifierAxios.get('/products').then((response) => {
             setPurifierList(response.data.data?.map((obj) => ({ option: `${obj.product_name} (${obj.product_category})`, value: `${obj._id}_$$_${obj.product_name} (${obj.product_category})` })))
         })
-        wholeAxios.get('/products?all=YES').then((response) => {
+        wholeAxios.get('/products').then((response) => {
             setWHList(response.data.data?.map((obj) => ({ option: `${obj.product_name}`, value: `${obj._id}_$$_${obj.product_name}` })))
         })
         setPurifierUsageList(product_usages.map((value) => ({ option: value, value: value })))
@@ -205,6 +205,7 @@ function Installation() {
                         <div className="boarder">
                             <div className="form-border-div">
                                 <div className="section-one-div">
+                                    <InfoBox type='warning' description={'Prospect related installation is not allowed here. please visit Sales v2 Installation App'} />
                                     <form action="" onSubmit={handleFindSubmit}>
                                         <NormalInput label='Customer Id' name='cid' value={find} onChangeFun={(e) => setFind(e.target.value)} type={'number'} />
                                         <div className="button-div">
