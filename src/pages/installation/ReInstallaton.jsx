@@ -181,10 +181,10 @@ function ReInstallation() {
     }
 
     useEffect(() => {
-        purifierAxios.get('/products?all=YES').then((response) => {
+        purifierAxios.get('/products').then((response) => {
             setPurifierList(response.data.data?.map((obj) => ({ option: `${obj.product_name} (${obj.product_category})`, value: `${obj._id}_$$_${obj.product_name} (${obj.product_category})` })))
         })
-        wholeAxios.get('/products?all=YES').then((response) => {
+        wholeAxios.get('/products').then((response) => {
             setWHList(response.data.data?.map((obj) => ({ option: `${obj.product_name}`, value: `${obj._id}_$$_${obj.product_name}` })))
         })
         setPurifierUsageList(product_usages.map((value) => ({ option: value, value: value })))
@@ -205,6 +205,7 @@ function ReInstallation() {
                             <div className="form-border-div">
                                 <div className="section-one-div">
                                     <form action="" onSubmit={handleFindSubmit}>
+                                        <InfoBox type='warning' description={'Prospect related re-installation is not allowed here. please visit Sales v2 re-installation App'} />
                                         <NormalInput label='Customer Id' name='cid' value={find} onChangeFun={(e) => setFind(e.target.value)} type={'number'} />
                                         <div className="button-div">
                                             <button type='button' onClick={resetData}>Reset</button>
@@ -248,7 +249,7 @@ function ReInstallation() {
                                                     <div className="radio-inputs">
                                                         {form?.purifier && <RadioInput label={"Purifier"} name={'product'} value={'purifier'} onChangeFun={handleChange} />}
                                                         {form?.whole_house && <RadioInput label={"WH Filter"} name={'product'} value={'wh_filter'} onChangeFun={handleChange} />}
-                                                        {(form?.purifier && form?.whole_house) && <RadioInput label={"Purifier & WH Filter"} name={'product'} value={'package'} onChangeFun={handleChange} />}
+                                                        {/* {(form?.purifier && form?.whole_house) && <RadioInput label={"Purifier & WH Filter"} name={'product'} value={'package'} onChangeFun={handleChange} />} */}
                                                     </div>
                                                     <div className="info-one">
                                                         {(form?.product === 'purifier' || form?.product === 'package') && <SelectInput label='Purifier Model' name='purifier_id' values={purifierList} firstOption={{ option: 'Choose', value: '' }}
